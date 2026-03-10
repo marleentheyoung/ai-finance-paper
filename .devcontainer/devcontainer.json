@@ -1,0 +1,105 @@
+{
+  // ── Identity ─────────────────────────────────────────────────────────────
+  "name": "ai-finance-paper",
+
+  // ── Build ─────────────────────────────────────────────────────────────────
+  // Build the image from the local Dockerfile rather than pulling a pre-built
+  // image, so all tooling versions are pinned and reproducible.
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+
+  // ── Workspace ─────────────────────────────────────────────────────────────
+  // Mount the repository root inside the container at the standard VS Code path.
+  "workspaceFolder": "/workspaces/ai-finance-paper",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/ai-finance-paper,type=bind,consistency=cached",
+
+  // ── Security isolation ────────────────────────────────────────────────────
+  // The container runs as the non-root `vscode` user provided by the base image.
+  // No privileged access, no host network, no extra capabilities.
+  // This is what makes it safe to run:
+  //   claude --allow-dangerously-skip-permissions
+  // The flag bypasses Claude Code's interactive permission prompts, but the
+  // container boundary itself prevents any action from escaping to the host.
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+
+  // ── Mounts ────────────────────────────────────────────────────────────────
+  // Persist the VS Code server extensions and bash history across rebuilds.
+  "mounts": [
+    "source=ai-finance-paper-vscode-extensions,target=/home/vscode/.vscode-server/extensions,type=volume",
+    "source=ai-finance-paper-bash-history,target=/home/vscode/.bash_history_vol,type=volume"
+  ],
+
+  // ── Environment variables ─────────────────────────────────────────────────
+  "remoteEnv": {
+    // Let Python scripts find the workspace root without hardcoding paths.
+    "PROJECT_ROOT": "/workspaces/ai-finance-paper",
+    // Prevent Python from writing .pyc files into the mounted source tree.
+    "PYTHONDONTWRITEBYTECODE": "1",
+    // Force unbuffered stdout/stderr so script output appears immediately.
+    "PYTHONUNBUFFERED": "1"
+  },
+
+  // ── VS Code extensions ────────────────────────────────────────────────────
+  // Installed automatically when the container is first created.
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",              // Python language support & debugger
+        "ms-python.vscode-pylance",      // Fast type checking via Pylance
+        "ms-toolsai.jupyter",            // Jupyter notebook support
+        "James-Yu.latex-workshop",       // LaTeX compilation and PDF preview
+        "GitHub.copilot",                // GitHub Copilot inline suggestions
+        "eamodio.gitlens"                // Enhanced git history and blame
+      ],
+      "settings": {
+        // Point the Python extension at the system interpreter inside the container.
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        // LaTeX Workshop: use latexmk as the build tool.
+        "latex-workshop.latex.tools": [
+          {
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+              "-pdf",
+              "-interaction=nonstopmode",
+              "-outdir=paper",
+              "%DOC%"
+            ]
+          }
+        ],
+        "latex-workshop.latex.recipes": [
+          {
+            "name": "latexmk",
+            "tools": ["latexmk"]
+          }
+        ],
+        // Show the integrated terminal in the project root by default.
+        "terminal.integrated.cwd": "/workspaces/ai-finance-paper"
+      }
+    }
+  },
+
+  // ── Post-create setup ─────────────────────────────────────────────────────
+  // Runs once after the container is built and the workspace is mounted.
+  // Verifies that the key tools are operational and installs any project-level
+  // Python dependencies declared in requirements.txt (if present).
+  "postCreateCommand": "bash -c '\
+    echo \"--- upgrading pip ---\" && pip install --upgrade pip && \
+    echo \"--- installing scientific stack ---\" && pip install --no-cache-dir numpy pandas sympy scipy matplotlib statsmodels && \
+    if [ -f requirements.txt ]; then echo \"--- installing requirements.txt ---\" && pip install -r requirements.txt; fi && \
+    echo \"--- verifying latexmk ---\" && latexmk --version | head -1 && \
+    echo \"--- verifying just ---\" && just --version && \
+    echo \"--- verifying uv ---\" && uv --version && \
+    echo \"--- container ready ---\"'",
+
+  // ── Forward ports ─────────────────────────────────────────────────────────
+  // Uncomment if any script starts a local server (e.g. a Jupyter notebook).
+  // "forwardPorts": [8888],
+
+  // ── Lifecycle hooks ───────────────────────────────────────────────────────
+  // Keep bash history in the persistent volume so it survives rebuilds.
+  "postStartCommand": "bash -c 'ln -sf /home/vscode/.bash_history_vol/.bash_history /home/vscode/.bash_history 2>/dev/null || true'"
+}
