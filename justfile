@@ -7,21 +7,45 @@ default:
 
 # ── Environment ───────────────────────────────────────────────────────────────
 
-# Create a virtual environment and install dependencies
+# Create virtual environment, install dependencies, set up pre-commit hooks,
+# and create a local .env file from the example if one does not already exist.
 install:
-    @echo "Setting up Python virtual environment..."
-    python3 -m venv .venv
-    @echo "Activating environment and installing dependencies..."
-    .venv/bin/pip install --upgrade pip
-    @if [ -f requirements.txt ]; then \
-        .venv/bin/pip install -r requirements.txt; \
-    else \
-        echo "No requirements.txt found — skipping package install."; \
-    fi
+    @echo "--- creating virtual environment ---"
+    uv venv .venv
+    @echo "--- installing dependencies ---"
+    uv pip install -e ".[dev]"
+    @echo "--- installing pre-commit hooks ---"
+    .venv/bin/pre-commit install --install-hooks
+    @echo "--- creating .env from .env.example ---"
+    @if [ ! -f .env ]; then cp .env.example .env && echo ".env created — edit it to set your API keys."; \
+    else echo ".env already exists — skipping."; fi
+    @echo "--- done. Run 'just --list' to see available commands. ---"
+
+# ── Code quality ──────────────────────────────────────────────────────────────
+
+# Run linter, formatter check, and type checker across the codebase.
+check:
+    @echo "--- ruff lint ---"
+    .venv/bin/ruff check code/ workflow/ tests/
+    @echo "--- ruff format (check) ---"
+    .venv/bin/ruff format --check code/ workflow/ tests/
+    @echo "--- mypy ---"
+    .venv/bin/mypy code/ workflow/
+
+# Auto-fix formatting and lint issues in place.
+fmt:
+    .venv/bin/ruff format code/ workflow/ tests/
+    .venv/bin/ruff check --fix code/ workflow/ tests/
+
+# ── Tests ─────────────────────────────────────────────────────────────────────
+
+# Run the test suite.
+test:
+    .venv/bin/pytest
 
 # ── Agent Pipeline ────────────────────────────────────────────────────────────
 
-# Run the AI agent pipeline (Research Director → Theory → Literature → Writer → Referee)
+# Run the AI agent pipeline (Research Director → Theory → Literature → Empirical → Writer)
 agents:
     @echo "Running AI agent pipeline..."
     .venv/bin/python workflow/run_agents.py
@@ -34,21 +58,25 @@ data:
     .venv/bin/python code/download_data.py
 
 # Build the cleaned dataset from raw data
-dataset:
+dataset: data
     @echo "Building dataset..."
     .venv/bin/python code/build_dataset.py
 
 # Run regressions and generate figures
-empirics:
+empirics: dataset
     @echo "Running regressions..."
     .venv/bin/python code/run_regressions.py
     @echo "Generating figures..."
     .venv/bin/python code/generate_figures.py
 
+# Run the full empirical pipeline: data → dataset → empirics
+run-pipeline: empirics
+    @echo "Empirical pipeline complete."
+
 # ── Paper ─────────────────────────────────────────────────────────────────────
 
 # Compile the LaTeX paper to PDF using latexmk
-paper:
+render-paper:
     @echo "Compiling LaTeX paper..."
     latexmk -pdf -interaction=nonstopmode -outdir=paper paper/main.tex
 
@@ -61,5 +89,5 @@ clean:
 # ── Full Pipeline ─────────────────────────────────────────────────────────────
 
 # Run the complete research pipeline: agents → empirics → paper
-research: agents empirics paper
+research: agents run-pipeline render-paper
     @echo "Research pipeline complete."

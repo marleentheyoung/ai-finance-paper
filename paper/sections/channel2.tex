@@ -1,0 +1,101 @@
+% Section 5: Channel 2 -- Information Acquisition
+\label{sec:channel2}
+
+\subsection{Setup}
+
+Channel 2 extends the \citet{grossman1980} rational expectations framework with two information types differentiated by cross-sectional correlation. The fundamental is now $V \sim \mathcal{N}(\bar{v}, 1/\tau_v)$, distinct from the uniform $\theta$ of Channel 1; the two channels are unified by the signal correlation structure~\eqref{eq:noise-decomposition}, not by a common fundamental. Consider a risky asset with this fundamental value. Noise traders submit a random demand $u \sim \mathcal{N}(0, \sigma_u^2)$, independent of $V$ and all signals. A continuum of risk-averse agents (CARA utility with risk aversion $\gamma$) choose among three information states.
+
+\emph{AI-informed agents} (cost $c_{\text{AI}} \approx 0$) observe signals $s_i^A = V + \varepsilon_i^A$ where $\varepsilon_i^A = \sqrt{\rho}\,\eta + \sqrt{1-\rho}\,\xi_i^A$ as in~\eqref{eq:noise-decomposition}. Their signals have pairwise correlation $\rho$.
+
+\emph{Privately informed agents} (cost $c_P > 0$) observe signals $s_i^P = V + \zeta_i$ where $\zeta_i \sim \mathcal{N}(0, \sigma_P^2)$ is idiosyncratic and independent of $\eta$. Their signals have pairwise correlation zero.
+
+\emph{Uninformed agents} (cost 0) observe only the price.
+
+Let $\mu_I$ denote the endogenous fraction of agents acquiring private information and $\mu_A = 1 - \mu_I$ the fraction using AI. An equilibrium specifies a price function $P(Z)$, optimal demands, market clearing, and an indifference condition equating expected utility across information states.
+
+The information collapse result of Section~\ref{sec:model-collapse} applies directly. When $\mu_A$ agents each observe AI signals with pairwise correlation $\rho$, the effective precision of the aggregate AI signal about $V$ is $\tau_{\text{agg}}^A = 1/(\rho\sigma_s^2)$, independent of $\mu_A$ as $\mu_A N \to \infty$. The aggregate AI signal reveals $V + \sqrt{\rho}\,\eta$, not $V$. This information collapse underlies every result in this section.
+
+The existing literature models information tradeoffs in the temporal dimension \citep{dugast2018, farboodi2020}. Neither models the cross-sectional dimension, where $N$ agents processing the same AI output produce signals with pairwise correlation $\rho$ that collapses effective information content even though each signal is individually precise.
+
+\subsection{Trading Rents and the Holden-Subrahmanyam Effect}
+
+The \citet{holden1992} competition result applies directly: when multiple agents share signals with high pairwise correlation, competition drives trading rents toward zero. The expected trading profit per AI agent is
+
+\begin{equation}\label{eq:pi-ai}
+  \pi_A(\rho, \mu_A) = k_A \cdot \frac{\sqrt{1-\rho}}{\mu_A},
+\end{equation}
+where $k_A = \tau_s/(2\gamma\sigma_u)$ is a positive constant derived from the Grossman-Stiglitz framework, depending on signal precision $\tau_s$, risk aversion $\gamma$, and noise trader volatility $\sigma_u$.\footnote{In the standard Kyle-type model, $k_A = \tau_s/(2\gamma\sigma_u)$ and $k_P = \tau_P/(2\gamma\sigma_u)$, where $\tau_P = 1/\sigma_P^2$. These follow from the linear equilibrium demand schedules.} The key factor $\sqrt{1-\rho}$ captures idiosyncratic content: as $\rho \to 1$, the AI signal conveys no idiosyncratic information about $V$ beyond the common error $\eta$, and AI trading rents collapse to zero regardless of $\mu_A$. For privately informed agents, the standard \citet{grossman1980} profit is
+\begin{equation}\label{eq:pi-private}
+  \pi_P(\mu_I) = \frac{k_P}{\mu_I},
+\end{equation}
+where $k_P = \tau_P/(2\gamma\sigma_u)$ with $\tau_P = 1/\sigma_P^2$ the private signal precision. The contrast between~\eqref{eq:pi-ai} and~\eqref{eq:pi-private} is the key asymmetry: AI rents depend on $\rho$ while private rents do not, creating the substitution incentive that drives the equilibrium information fraction.
+
+\subsection{Equilibrium Information Fractions}
+
+The equilibrium indifference condition, incorporating crisis risk from Channel 1, equates the expected profit of private and AI information:
+\begin{equation}\label{eq:gs-indifference}
+  \pi_P(\mu_I^*) - \pi_A(\rho, 1-\mu_I^*) = \frac{c_P}{1 - \theta^*(\rho)},
+\end{equation}
+where $\theta^*(\rho)$ is the crisis threshold from Channel 1 and the denominator $1 - \theta^*$ is the probability that the bank survives (and private information has value).\footnote{In the standalone analysis, $\theta^*(\rho)$ uses exogenous $\rho$. In the amplification loop (Section~\ref{sec:amplification}), this generalises to $\theta^*(\rho_{\text{eff}})$ with $\rho_{\text{eff}} \geq \rho$ incorporating cross-channel feedback.} A higher crisis threshold raises the effective cost of private information, because the informed position has value only when the fundamental exceeds $\theta^*$.
+
+\begin{proposition}[Information Diversity Collapse]\label{prop:info-diversity}
+  In the extended Grossman-Stiglitz (1980) model with AI signals (cost $c_{\text{AI}} = 0$, pairwise correlation $\rho$) and private signals (cost $c_P > 0$, correlation 0):
+
+  \emph{(i) Within Channel 2 (standalone):} The equilibrium fraction of privately informed agents $\mu_I^*(\rho)$ is weakly increasing in $\rho$. As $\rho$ increases, AI trading rents collapse via~\eqref{eq:pi-ai}, making private information relatively more attractive and inducing substitution from AI to private signals.
+
+  \emph{(ii) With crisis risk (cross-channel):} When the crisis probability $\theta^*(\rho)$ from Channel 1 is incorporated in~\eqref{eq:gs-indifference}, the net effect on $\mu_I^*$ reverses sign for $\rho$ above a threshold: $d\mu_I^*/d\rho < 0$, because the crisis effect from Channel 1 dominates the within-channel substitution effect.
+
+  \emph{(iii) Information diversity collapse:} Regardless of the direction of $\mu_I^*(\rho)$, the effective number of independent information sources is
+  \begin{equation}\label{eq:ninfo-full}
+    N_{\text{info}}(\rho, \mu_I) = \mu_I N + \frac{(1-\mu_I) N}{1 + ((1-\mu_I)N-1)\rho},
+  \end{equation}
+  which is strictly decreasing in $\rho$ for any fixed $\mu_I$.
+
+  \prooflabel{Proof sketch.} Part (i): From the indifference condition $\pi_P(\mu_I^*) - c_P = \pi_A(\rho, 1-\mu_I^*)$. Since $d\pi_A/d\rho < 0$ (via $\sqrt{1-\rho}$ in~\eqref{eq:pi-ai}), the right-hand side falls in $\rho$. For equality to hold, $\pi_P$ must also fall, requiring $\mu_I^*$ to rise. Part (ii): Incorporating crisis risk, the indifference condition becomes $\pi_P - \pi_A = c_P/(1-\theta^*)$. Since $d\theta^*/d\rho > 0$ in the fragile region (Proposition~\ref{prop:crisis-nonmonotone}), the right-hand side rises in $\rho$, requiring a larger gap, achievable by lowering $\mu_I^*$. Part (iii): Direct computation using the information collapse formula from Section~\ref{sec:model-collapse}. $\square$
+\end{proposition}
+
+Part (i) establishes the within-channel substitution: as AI signals become more correlated, agents substitute toward private information because AI rents collapse. Part (ii) shows that the cross-channel interaction reverses this conclusion: coordination risk from Channel 1 destroys the option value of private information precisely when the system is most fragile. Part (iii) is the key structural result: the effective number of independent information sources in~\eqref{eq:ninfo-full} falls with $\rho$ regardless of crisis risk.
+
+\subsection{Price Informativeness: FPE and RPE}
+
+\begin{proposition}[Price Informativeness]\label{prop:rpe}
+  In the extended Grossman-Stiglitz model:
+
+  \emph{(i) FPE:} Forecasting price efficiency $\mathrm{FPE}(\rho)$, which measures how well the price predicts $V$, is non-monotone in $\rho$. There exists $\rho_{\text{FPE}}^* \in (0,1)$ such that $\mathrm{FPE}$ is increasing for $\rho < \rho_{\text{FPE}}^*$ and decreasing for $\rho > \rho_{\text{FPE}}^*$.
+
+  \emph{(ii) RPE:} Revelatory price efficiency $\mathrm{RPE}(\rho)$, which measures the novel information the price reveals beyond the common AI signal, is
+  \begin{equation}\label{eq:rpe}
+    \mathrm{RPE}(\rho) = \frac{\left[\mu_I^*(\rho)\right]^2 \tau_P}{\gamma^2 \sigma_u^2} + \frac{(1-\mu_I^*(\rho))(1-\rho)\tau_s}{\gamma^2\sigma_u^2},
+  \end{equation}
+  where $\tau_s = 1/\sigma^2$ is the precision of each individual AI signal,
+  which is monotonically decreasing in $\rho$ for $c_P > 0$.
+
+  \emph{(iii) FPE-RPE divergence:} For $\rho \in (0, \rho_{\text{FPE}}^*)$, FPE improves while RPE is already declining. AI appears to improve price efficiency by the FPE measure while degrading the informativeness of prices for real investment decisions.
+
+  \prooflabel{Proof sketch.} Part (i): FPE $= \tau_{\text{price}}/(\tau_v + \tau_{\text{price}})$. At low $\rho$, cheap AI signals contribute diverse information, raising $\tau_{\text{price}}$. At high $\rho$, information collapse reduces the AI contribution faster than the private-information substitution can compensate, eventually lowering FPE. Part (ii): RPE is the novel information content of the price beyond what the common AI signal already reveals. The second term in~\eqref{eq:rpe} is strictly decreasing in $\rho$; the first term increases in $\mu_I$, but for $c_P > 0$ the fraction of private investors remains bounded (most agents prefer free AI to costly private research), so the second term's decline dominates. Part (iii): FPE measures total prediction accuracy including information already available via the common AI signal; RPE measures only the novel component. The divergence follows from the definitions. $\square$
+\end{proposition}
+
+The FPE-RPE divergence identifies a form of AI-induced price inefficiency invisible to standard metrics. A regulator measuring forecast accuracy observes improving performance for $\rho < \rho_{\text{FPE}}^*$ and concludes that AI adoption is welfare-enhancing. The conclusion is wrong: the price simultaneously reveals less novel fundamental information. A firm manager observing the market price learns about the common AI assessment, which she could obtain herself. She learns nothing new.
+
+\subsection{Goldstein-Yang Complementarity Breakdown}
+
+\citet{goldstein2015} show that information diversity creates strategic complementarities in acquisition: knowing one dimension of the fundamental makes other dimensions more valuable. The present channel shows that AI homogeneity reverses this mechanism.
+
+\begin{proposition}[Complementarity Breakdown]\label{prop:gy-breakdown}
+  In the multi-dimensional Goldstein-Yang (2015) framework, when AI homogenises one information dimension (agents receive signals about dimension $d_1$ with correlation $\rho$), the complementarity in information acquisition about dimension $d_2$ is
+  \begin{equation}\label{eq:gy-complementarity}
+    C_{\text{GY}}(\rho) = C_{\text{GY}}(0) \cdot \frac{1-\rho}{1-\rho+\rho k_{\text{GY}}},
+  \end{equation}
+  where $k_{\text{GY}} > 0$ is the Goldstein-Yang complementarity parameter. $C_{\text{GY}}(\rho)$ is strictly decreasing in $\rho$ and approaches zero as $\rho \to 1$.
+
+  \prooflabel{Proof sketch.} When all agents share AI signals about $d_1$ with correlation $\rho$, information collapse reduces $C_{\text{GY}}$ in proportion to the effective number of independent $d_1$ sources, $N/(1+(N-1)\rho) \to 1/\rho$ as $N \to \infty$. $\square$
+\end{proposition}
+
+The intuition is direct. The declining complementarity in~\eqref{eq:gy-complementarity} reflects that when AI homogenises one dimension of a company's fundamentals, agents behave as if that dimension is known, eliminating the incentive to investigate complementary dimensions. The result is an information monoculture: a wide variety of questions are answered by the same model using the same data.
+
+Channel 2 establishes that rising $\rho$ degrades the information ecosystem. Prices look more accurate by standard metrics but reveal less that is genuinely new. The complementarity that sustains a diverse information market breaks down.
+
+But information loss alone does not explain why liquidity vanishes. A market with uninformative prices can still function if enough independent market makers stand ready to absorb order flow. Channel 3 shows that shared AI calibration collapses the effective number of independent liquidity providers, creating the conditions for simultaneous withdrawal.
+% --- Clarity pass complete: 2026-03-10 ---
+% --- Flow pass complete: 2026-03-11 ---
+% --- Technical audit complete: 2026-03-11 ---

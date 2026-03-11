@@ -1,10 +1,28 @@
-\documentclass{article}
+\documentclass[12pt]{article}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{natbib}
 \usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{hyperref}
 
-\title{AI-Assisted Finance Research Paper}
+\geometry{margin=1in}
+\doublespacing
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\newtheorem{assumption}{Assumption}
+
+\newcommand{\prooflabel}[1]{\emph{#1}}
+\newcommand{\partlabel}[1]{\emph{#1}}
+
+\title{AI Signal Homogeneity and Systemic Financial Fragility:\\
+A Three-Channel Amplification Model}
 \author{Author Name}
 \date{\today}
 
@@ -13,7 +31,7 @@
 \maketitle
 
 \begin{abstract}
-This paper template supports AI-assisted financial economics research, from theory development to empirical validation.
+When financial institutions rely on the same AI models, their private signals become correlated, and three fragility channels activate simultaneously: coordination failure among depositors, collapse of information diversity in prices, and correlated withdrawal by market makers. We parameterise AI signal homogeneity by a single cross-sectional correlation $\rho$ and characterise equilibrium fragility thresholds in each channel within a unified framework. The central result is that the integrated system's compound fragility threshold $\rho^*$ lies strictly below every individual channel threshold, creating a safety illusion in which each channel appears stable while the system is already fragile. Cross-channel amplification arises because correlated liquidity withdrawal raises effective signal correlation, which raises crisis probability, which destroys the incentive to acquire private information, completing a positive feedback loop. A diversity mandate bounding institutional AI model similarity below $\rho^*$ corrects the resulting prisoner's dilemma and restores systemic stability.
 \end{abstract}
 
 \section{Introduction}
@@ -22,8 +40,23 @@ This paper template supports AI-assisted financial economics research, from theo
 \section{Literature Review}
 \input{sections/literature}
 
-\section{Model}
+\section{Model Primitives}
 \input{sections/model}
+
+\section{Channel 1: Coordination Failure}
+\input{sections/channel1}
+
+\section{Channel 2: Information Acquisition Collapse}
+\input{sections/channel2}
+
+\section{Channel 3: Correlated Liquidity Withdrawal}
+\input{sections/channel3}
+
+\section{Amplification Loop and the Safety Illusion}
+\input{sections/amplification}
+
+\section{Extensions}
+\input{sections/extensions}
 
 \section{Empirical Motivation}
 \input{sections/empirics}
@@ -33,5 +66,8 @@ This paper template supports AI-assisted financial economics research, from theo
 
 \bibliographystyle{plainnat}
 \bibliography{references}
+
+\appendix
+\input{sections/appendix}
 
 \end{document}

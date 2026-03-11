@@ -1,2 +1,25 @@
-% Summarize findings and discuss implications.
-This section should restate the main results, note limitations, and suggest extensions for future research.
+% Section 10: Conclusion
+\label{sec:conclusion}
+
+\subsection{Summary of Results}
+
+This paper formalises the systemic risk consequences of AI model homogeneity through a single primitive, the cross-sectional signal correlation $\rho$. Rising $\rho$ activates coordination failure (a non-monotone crisis threshold with a uniqueness boundary), information acquisition collapse (monotonically declining revelatory price efficiency), and correlated liquidity withdrawal (an effective independence count $N_{\text{eff}}(\rho)$ that collapses to one). The centrepiece result is that the integrated system bifurcates at $\rho^* < \min(\rho_1^*, \rho_2^*, \rho_3^*)$, creating a safety illusion in which every single-channel assessment is favourable while the compound system is already fragile. The cross-channel amplification arises because each channel's output feeds into the next: liquidity withdrawal raises effective signal correlation, which raises crisis probability, which destroys the incentive for private research, completing a positive feedback loop. Competitive AI adoption endogenously drives $\rho$ above $\rho^*$ through a prisoner's dilemma; a diversity mandate corrects this market failure.
+
+\subsection{Policy Implications}
+
+The safety illusion implies that stress tests evaluating coordination risk, information quality, and market liquidity separately will systematically underestimate systemic fragility when AI model homogeneity drives all three channels. Current macroprudential frameworks, organised around individual risk categories assessed independently, create a blind spot at moderate $\rho$ values.
+
+The diversity mandate provides a tractable regulatory instrument through model diversity requirements, correlation-based capital charges, or algorithmic transparency mandates. The threshold $\rho^*$ provides a calibration target. Since $\rho^{\text{NE}} > \rho^*$ when the prisoner's dilemma is operative, voluntary disclosure alone cannot produce the efficient outcome; mandatory diversity requirements are necessary. This advances the qualitative policy arguments of \citet{danielsson2022} by providing a formal equilibrium characterisation and a specific regulatory target.
+
+\subsection{Limitations}
+
+Four scope constraints apply. First, the model is static; a dynamic extension would characterise the optimal trajectory of $\rho$ and the timing of regulatory intervention. Second, $\rho$ is exogenous in the main model; the prisoner's dilemma extension endogenises it but does not capture strategic adoption dynamics over time. Third, the empirical section provides motivating evidence rather than causal identification; structural estimation of $\rho_1^*$, $\rho^{**}$, and $\rho^*$ is left for future work. Fourth, the model abstracts from network topology and balance sheet linkages \citep{acemoglu2015}; in practice, AI model homogeneity and network fragility compound.
+
+\subsection{Future Work}
+
+Three directions emerge. First, a dynamic model of evolving $\rho$ would characterise the equilibrium path of AI adoption and optimal regulatory timing. If convergence is gradual, the regulator has a window before $\rho$ crosses $\rho^*$; if discontinuous, pre-committed rules are necessary. Second, a model of architecture heterogeneity would endogenise the distribution of AI models in use, connecting the analysis to antitrust and competition policy for AI vendors. Third, extending the single-market model to a multi-market setting with cross-border capital flows would characterise conditions under which AI homogeneity creates correlated international crises.
+
+The unifying insight is that AI model homogeneity creates a compound fragility exceeding the sum of its parts. The current trajectory of financial AI, common data, common architectures, common outputs, is a trajectory toward higher $\rho$. Whether the financial system crosses $\rho^*$ is a question of regulatory design.
+% --- Clarity pass complete: 2026-03-11 ---
+% --- Flow pass complete: 2026-03-11 ---
+% --- Technical audit complete: 2026-03-11 ---
