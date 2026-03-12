@@ -583,3 +583,44 @@
   8. **PIPELINE_MAP.md** — Updated context file registry with new files; updated data flow diagrams; bumped to v4.
 - **Files modified:** `workflow/run_pipeline.sh`, `agents/research-director.md`, `agents/literature-guardian.md`, `agents/research-evaluator.md`, `PIPELINE_MAP.md`
 - **Open issues:** None from the audit remain. `sed -i` silent failure (§4 of audit) is mitigated by the broader error trapping but not individually verified per call — acceptable given the pipeline's overall structure.
+
+---
+
+### 2026-03-12 -- Research Director Mode 4: Revision Synthesis (Round 3)
+
+- **Milestone:** Consolidated 8 referee reports into a unified issue tracker and revision task queue.
+- **Actions completed:**
+  - Read all 8 referee reports: 3 specialist (A: Theory/Rigor, B: Presentation/Layout, C: Literature/Framing) and 5 general modes (general, method, narrative, relevance, connections).
+  - Identified 37 themes across reports; deduplicated aggressively (e.g., Assumption A1 flagged by 4 reports consolidated into one theme).
+  - Produced `workflow/consolidated_issues.md` with 38 themes, priority assignments, source report mappings, and resolution status for previously addressed items.
+  - Produced `workflow/task_queue.md` with 38 tasks: 5 P1 blocking (4 theory + 1 verification), 25 P2 important (3 theory + 22 paper-writer), 8 P3 minor.
+  - Identified 3 conflicts between referee recommendations and documented resolution strategies.
+  - Confirmed 18 prior tasks from Round 2 are resolved and do not need re-work.
+- **Key findings:**
+  - **4 P1 blocking issues remain:** (1) Assumption A1 needs formal verification for the GP binary-action case, not just a label; (2) saddle-node non-degeneracy conditions must be explicitly verified in Appendix B; (3) withdrawal correlation approximation must be stated as an assumption with error bound; (4) g_1 robustness must be verified for at least one alternative specification. All four are theory-builder tasks.
+  - **Largest P2 cluster is narrative:** 8 tasks to reduce redundancy across sections (introduction bloat, backward-looking summaries, D-U comparison consolidation, repeated amplification loop descriptions). Estimated ~1,000 words recoverable.
+  - **Citation gaps:** Extensions section has zero citations; amplification section has one. Both need economic positioning against existing literature.
+  - **Policy overclaiming:** "Mandatory diversity requirements are necessary" must be softened to "welfare-improving under stated conditions."
+  - **Testable implications:** The weakest relevance dimension. Need 2-3 specific predictions with identified data sources.
+  - All specialist referees recommend MINOR REVISION; all general modes recommend MAJOR REVISION. The gap reflects the general referee's higher bar on microfoundation (A1, A2) and relevance (testable implications, policy claims).
+- **Critical path:** T-01 through T-04 (theory, parallel) -> T-05 (verification) -> T-06/T-07 (dependent theory). Paper-writer tasks (T-09 through T-30) run on a parallel track.
+- **Open issues:** None at the planning level. Execution begins with Batch 1A.
+- **Next steps:** Theory Builder executes T-01 through T-04 in parallel. Paper Writer executes Batches 2B-2E in parallel. Model Verifier executes T-05 after Batch 1A completes.
+
+### 2026-03-12 -- Theory Builder Mode 2: P1 Verification Fixes (T-01 through T-04)
+
+- **Milestone:** Batch 1A P1 blocking issues resolved in context/model_equations.md.
+- **Actions completed:**
+  - **T-01 (A1 uniqueness transfer):** Rewrote Step 4 of Channel 1 derivation to resolve conflicting formulas (Hellwig sqrt(2pi) vs. Morris-Shin 1/(1+alpha^2)). Added GP Jacobian determinant analysis and numerical verification for 3 parameter configs. Strengthened Assumption A1 to reference Jacobian verification and Frankel-Morris-Payne (2003). Cleaned up Proposition 1b proof sketch.
+  - **T-02 (saddle-node non-degeneracy):** Replaced the self-contradictory saddle-node verification block with explicit verification of all 3 conditions (SN1-SN3). Provided correct derivation of dG/d(theta*) = det(J)/(dF_1/dx*) = 0. Added numerical verification of d^2G/d(theta*)^2 = -4.02. Derived C in the square-root expansion.
+  - **T-03 (withdrawal correlation):** Introduced formal Assumption A3 (median-threshold approximation). Added tetrachoric correlation formula and error bounds. Verified N_eff monotonicity/convexity survive exact treatment. Noted approximation is conservative.
+  - **T-04 (g_1 robustness):** Added robustness analysis for g_1^alpha family (alpha in {0.5, 1, 2}). Proved bifurcation inequality analytically via h-divergence argument. Computed rho*/rho_1* for each alpha. Stated formal robustness conditions (R1)-(R4).
+  - **Cleanup:** Removed all "Wait --", "Hmm", "Let me reconsider" working notes from Channels 2 and 3 derivations.
+  - **Changelog:** Appended verification fixes changelog at bottom of model_equations.md.
+- **Key findings:**
+  - The Morris-Shin (2003) formula rho_1* = 1/(1+alpha_SC^2) is confirmed correct for the GP binary-action game; the Hellwig formula applies only to continuous-action games.
+  - The saddle-node self-contradiction was a presentation error, not a mathematical error: the naive scalar G conflates two equations; the correct implicit-function-theorem reduction gives dG/d(theta*) = 0.
+  - The withdrawal correlation approximation error is small (bounded by rho^3/6 at median), and N_eff qualitative properties are robust to exact tetrachoric treatment.
+  - The bifurcation result rho* < min(rho_i*) is robust to concave, linear, and convex g_1 specifications.
+- **Open issues:** T-05 (Model Verifier independent verification) should now proceed. T-06 and T-07 depend on T-01 and T-02 respectively.
+- **Next steps:** Model Verifier executes T-05 to independently verify the four fixes.

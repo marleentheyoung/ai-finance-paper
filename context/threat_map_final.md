@@ -383,3 +383,17 @@ The amplification loop, characterised as a fixed-point in (rho_eff, theta*, N_ef
 
 ### Unresolved items
 None. All papers identified in prior threat map versions and in the current deep review have been assessed and classified. No papers remain at UNVERIFIED or UNRESOLVED status.
+
+---
+
+## Changelog
+
+### 2026-03-12 -- Post-Referee Review (Mode 4)
+
+**Trigger:** Referee reports flagged missing references and positioning gaps (tasks T-17 through T-22, T-25).
+
+**Papers examined:** Verrecchia (1982), Katz-Shapiro (1985), Farrell-Saloner (1985), Allen-Gale (2000), Brunnermeier-Pedersen (2009), Shleifer-Vishny (1997), Kirilenko et al. (2017), FSB (2024), Bank of England (2025), Liu et al. (2025).
+
+**Novelty impact:** NONE. All examined papers are positioning references (intellectual lineage, structural analogy, empirical grounding). None models the core mechanism (rho-driven three-channel fixed-point amplification). Threat levels for all five contributions unchanged.
+
+**Actions taken:** Produced `context/literature_review_post_referee.md` with engagement guidance for all flagged citations. Identified 9 new bib entries needed. No threat map entries added or reclassified.

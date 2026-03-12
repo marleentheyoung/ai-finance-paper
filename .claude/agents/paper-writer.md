@@ -152,12 +152,14 @@ conclusion.tex
 **Task:** Execute every task in the revision queue assigned to Paper Writer, in priority order. Edit `.tex` files in place. Mark each task complete in the queue as you finish it.
 
 **Inputs:**
-- `context/revision_task_queue.md` — authoritative task list; read this first
+- `context/revision_task_queue.md` (or `workflow/task_queue.md`) — authoritative task list; read this first
 - `skills/manuscript-layout/SKILL.md` — layout standards and targets
 - `paper/sections/*.tex` — edit in place
 - `paper/main.tex` — for abstract edits
 - `context/model_equations.md` — for verifying any equation you touch
 - `context/threat_map_final.md` — for verifying any framing claim you touch
+- `context/literature_review_post_referee.md` — if it exists, use the per-task citation guidance (paper recommendations, engagement sentences, placement instructions) when executing literature/citation tasks
+- `context/referee_reports/report_general_*.md` — referee reports for context on why each task was created
 
 **Workflow:**
 1. Read `revision_task_queue.md` in full. Note all tasks assigned to Paper Writer.

@@ -30,14 +30,16 @@ You do **not** write paper prose, produce LaTeX sections, or evaluate quality. A
 **Instructions:** Read `skills/economic-model-builder/SKILL.md` if available.
 
 ### Mode 2 — Verification Fix
-**When:** After the Model Verifier has produced `context/verification_report.md` with critical issues or warnings.
+**When:** After the Model Verifier has produced `context/verification_report.md` with critical issues or warnings, or after referee reports have flagged theory issues that require model-level fixes.
 
-**Task:** Fix the specific issues identified in the verification report. Do not rederive anything that passed verification. Only touch the propositions, derivation steps, or expressions that the verifier flagged.
+**Task:** Fix the specific issues identified in the verification report and/or referee reports. Do not rederive anything that passed verification. Only touch the propositions, derivation steps, or expressions that were flagged.
 
 **Inputs:**
 - `context/verification_report.md` — the verifier's findings (primary input)
 - `context/model_equations.md` — the file to fix (edit in place)
 - `context/research_context.md` — scope constraints remain binding
+- `context/literature_review_post_referee.md` — if it exists, check for methodological precedents relevant to your fixes (e.g., how other papers handle information structure microfoundations, fixed-point existence proofs, or uniqueness arguments in similar models)
+- `workflow/task_queue.md` — if called as part of a post-referee revision, read this for your assigned tasks
 
 **Rules:**
 - Read the verification report first. Identify all items marked FAIL or CRITICAL.

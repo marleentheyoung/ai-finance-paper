@@ -30,7 +30,7 @@ The human or orchestrator will tell you which mode to run.
 ### Mode 1 — Plan Evaluation
 **When:** Inside the planning loop, after the Literature Guardian's targeted check.
 
-**Task:** Evaluate the plan across all seven criteria in `context/evaluation_criteria.md`. Produce a structured critique and numerical score. Flag critical risks. Do not suggest specific fixes.
+**Task:** Evaluate the plan across all eight criteria in `context/evaluation_criteria.md`. Produce a structured critique and numerical score. Flag critical risks. Do not suggest specific fixes.
 
 **Inputs:**
 - `context/research_plan.md`
@@ -63,9 +63,10 @@ Scores use a 1-5 integer scale as defined in `evaluation_criteria.md`. No half p
 | Expected Contribution   | X           | [concrete reasoning] |
 | Testability             | X           | [concrete reasoning] |
 | Scope Calibration       | X           | [concrete reasoning] |
+| Expository Economy      | X           | [concrete reasoning] |
 
 **Core floor (min of Novelty, Mechanism Clarity, Feasibility):** X
-**Mean (all seven):** X.X
+**Mean (all eight):** X.X
 **Overall score:** X.X  [formula: core_floor * 0.6 + mean_all * 0.4]
 **Hard failure triggered:** [None / state which condition]
 
@@ -121,7 +122,7 @@ The authoritative rubric is `context/evaluation_criteria.md`. Always read it bef
 
 **Canonical formula:**
 ```
-overall_score = min(novelty, mechanism_clarity, feasibility) * 0.6 + mean(all_seven) * 0.4
+overall_score = min(novelty, mechanism_clarity, feasibility) * 0.6 + mean(all_eight) * 0.4
 ```
 
 **Hard failures (force REJECT regardless of overall score):**
