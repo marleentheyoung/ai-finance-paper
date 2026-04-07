@@ -23,6 +23,82 @@ See [PIPELINE_MAP.md](PIPELINE_MAP.md) for the full architecture, flowcharts, an
 
 ---
 
+## Two Ways to Run the Pipeline
+
+There are two ways to use this pipeline, depending on whether you have a **Claude Pro/Max subscription** or an **Anthropic API key**. Both use [Claude Code](https://docs.anthropic.com/en/docs/claude-code) — the difference is how Claude Code is authenticated and how you invoke it.
+
+| | **Option A: Claude Code (Interactive)** | **Option B: Anthropic API (Headless)** |
+|---|---|---|
+| **What you need** | A Claude Pro or Max subscription | An Anthropic API key (`sk-ant-...`) |
+| **How it runs** | You open Claude Code in the terminal and run commands interactively, or paste prompts from the pipeline script | The `run_pipeline.sh` script calls `claude -p "..."` in headless mode — fully automated |
+| **Cost model** | Included in your subscription (subject to rate limits) | Pay-per-token via API credits ($5–30+ per full run) |
+| **Automation** | Manual — you drive each step | Fully automated — runs overnight unattended |
+| **Best for** | Exploring, iterating on individual phases, running Phase 4 QA | Full end-to-end runs, overnight batch execution |
+
+Both options require Docker, VS Code, and the Dev Containers extension (see [Prerequisites](#prerequisites) below). The devcontainer has Claude Code pre-installed.
+
+### Option A: Claude Code with a Subscription
+
+If you have a Claude Pro or Max subscription, Claude Code authenticates through your browser — no API key needed.
+
+1. Open the devcontainer (see [Quick Start](#quick-start) steps 1–2)
+2. In the devcontainer terminal, run:
+   ```bash
+   claude
+   ```
+3. On first launch, Claude Code will open a browser window to authenticate with your Claude account. Follow the prompts to log in.
+4. Once authenticated, you can run pipeline steps interactively. For example:
+   ```
+   # Inside the Claude Code session, paste prompts from run_pipeline.sh,
+   # or ask Claude directly:
+   > Read context/research_context.md, then run as the Literature Guardian
+   >   in Mode 1 (Quick Scan) following skills/literature-review-light/SKILL.md.
+   >   Produce threat_map_v1.md, threat_map.md, literature_constraints.md,
+   >   and search_log.md in context/.
+   ```
+5. You can also run Phase 4 (QA) this way, which requires interactive subagent dispatch — see [PIPELINE_MAP.md](PIPELINE_MAP.md#phase-4--pipeline-commands).
+
+> **Tip:** You can run the automated pipeline script with a subscription too — Claude Code's `claude -p` headless mode works with subscription auth. Just run `./workflow/run_pipeline.sh` as described in Option B. The only difference is rate limits may throttle long runs, whereas API keys have no rate limit (only cost).
+
+### Option B: Anthropic API Key (Headless)
+
+If you have an Anthropic API key, the pipeline runs fully automated via `claude -p` (headless mode). No browser login required.
+
+1. Get an API key from [console.anthropic.com](https://console.anthropic.com/) → **Settings > API Keys > Create Key**
+2. Export it in your shell profile so the devcontainer picks it up:
+   ```bash
+   # Add to ~/.zshrc (macOS) or ~/.bashrc (Linux):
+   export ANTHROPIC_API_KEY="sk-ant-your-key-here"
+   ```
+3. Restart your terminal (or `source ~/.zshrc`), then **open VS Code from that same terminal** so it inherits the environment variable:
+   ```bash
+   cd ai-finance-paper
+   code .
+   ```
+   > **Important:** Launching VS Code from the terminal (rather than from Finder/Start Menu/dock) ensures it inherits your shell's environment variables. If you open VS Code via the GUI, it may not see `ANTHROPIC_API_KEY`.
+4. Reopen in the devcontainer — the key is passed through automatically via `devcontainer.json`.
+5. Run the full pipeline:
+   ```bash
+   ./workflow/run_pipeline.sh
+   ```
+
+> **Alternative (`.env` file):** You can also set the key in the `.env` file in the project root:
+> ```bash
+> # .env
+> ANTHROPIC_API_KEY=sk-ant-your-actual-key-here
+> ```
+> This is less secure because Claude Code can read files in the project directory, meaning the key is visible in context during agent runs. Prefer the shell profile approach above when possible.
+
+> **Cost note:** The full pipeline makes 15–20 Claude API calls (each a substantial prompt with file context). Depending on model tier and paper complexity, a full run costs $5–30+ in API credits. You can resume from any phase if interrupted — see [Resuming a partial run](#resuming-a-partial-run).
+
+### Which should I use?
+
+- **Start with Option A** if you already have a Claude subscription. It lets you run steps one at a time, inspect intermediate outputs, and iterate without worrying about API costs.
+- **Use Option B** when you want a fully hands-off run (e.g., kick it off before bed and have a draft by morning), or if you don't have a Claude subscription.
+- **You can mix both.** For example, run Phases 1–3 overnight with the API, then do Phase 4 (QA) interactively with your subscription.
+
+---
+
 ## Prerequisites
 
 You need these installed on your machine **before** cloning the repo:
@@ -32,25 +108,9 @@ You need these installed on your machine **before** cloning the repo:
 | [Docker Desktop](https://docs.docker.com/get-docker/) | Runs the pipeline in an isolated container | Follow the link for your OS |
 | [VS Code](https://code.visualstudio.com/) | Opens the devcontainer environment | Download from the link |
 | [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) | Lets VS Code build and enter the Docker container | Install from VS Code Extensions tab (search "Dev Containers") |
-| Anthropic API key | Powers the Claude agents | See below |
+| Claude Pro/Max subscription **or** Anthropic API key | Powers the Claude agents | See [Two Ways to Run](#two-ways-to-run-the-pipeline) above |
 
 **Optional:** A GitHub personal access token (only if you want agents to interact with GitHub).
-
-### Getting an Anthropic API key
-
-1. Go to [console.anthropic.com](https://console.anthropic.com/) and sign in (or create an account)
-2. Navigate to **Settings > API Keys > Create Key**
-3. Copy the key — it starts with `sk-ant-...`
-4. Add it to your shell profile so the devcontainer can pick it up:
-
-```bash
-# Add this line to ~/.zshrc (macOS) or ~/.bashrc (Linux):
-export ANTHROPIC_API_KEY="sk-ant-your-key-here"
-```
-
-5. Restart your terminal or run `source ~/.zshrc` / `source ~/.bashrc`
-
-> **Cost note:** The full pipeline makes 15-20 Claude API calls (each a substantial prompt with file context). Depending on your model tier and paper complexity, a full run may cost $5-30+ in API credits. You can resume from any phase if a run is interrupted — see [Resuming a partial run](#resuming-a-partial-run).
 
 ---
 
@@ -80,16 +140,12 @@ just install
 
 This creates a Python virtual environment, installs all packages, and sets up pre-commit hooks. It also creates a `.env` file from the template if one doesn't exist yet.
 
-### 3. Set your API key inside the container
+### 3. Authenticate Claude Code
 
-Edit the `.env` file in the project root and paste your Anthropic API key:
+Choose based on your setup (see [Two Ways to Run](#two-ways-to-run-the-pipeline)):
 
-```bash
-# .env
-ANTHROPIC_API_KEY=sk-ant-your-actual-key-here
-```
-
-> **Alternative:** If you exported `ANTHROPIC_API_KEY` in your shell profile (Step 4 of "Getting an API key" above), the devcontainer passes it through automatically and you can skip this step.
+- **Subscription:** Run `claude` in the devcontainer terminal and follow the browser login prompt.
+- **API key:** Export `ANTHROPIC_API_KEY` in your host shell profile (e.g. `~/.zshrc`), then **open VS Code from that terminal** with `code .` so it inherits the variable. The devcontainer passes it through automatically. You can also set it in the `.env` file, but this is less secure — Claude Code can read project files, so the key would be visible in agent context. Prefer the shell profile approach.
 
 ### 4. Write your research idea
 
@@ -108,6 +164,8 @@ This is the only file you need to write. Everything else is generated by the pip
 
 ### 5. Run the pipeline
 
+**Automated (headless)** — works with either auth method:
+
 ```bash
 chmod +x workflow/run_pipeline.sh
 ./workflow/run_pipeline.sh
@@ -115,10 +173,18 @@ chmod +x workflow/run_pipeline.sh
 
 The pipeline runs autonomously. Progress is logged to the terminal and to `workflow/research-log.md`. It will:
 
-- Run Phases 1-3 end-to-end
+- Run Phases 1–3 end-to-end
 - Produce all intermediate artifacts in `context/`
 - Write the manuscript sections in `paper/sections/`
 - Stop if the Model Verifier flags critical issues (you'll see the error and can check `context/model_verifier_report.md`)
+
+**Interactive** — run steps manually in a Claude Code session:
+
+```bash
+claude
+```
+
+Then paste individual step prompts from `workflow/run_pipeline.sh`, or describe what you want in natural language. This is useful for iterating on a single phase or debugging.
 
 ### 6. Compile the paper
 
@@ -278,9 +344,12 @@ Make sure the [Dev Containers extension](https://marketplace.visualstudio.com/it
 
 ### Pipeline fails with "ANTHROPIC_API_KEY not set"
 
-Either:
+If using an API key:
 - Export it in your host shell profile **before** opening the devcontainer, or
 - Set it in the `.env` file inside the project root
+
+If using a Claude subscription:
+- Run `claude` interactively first to complete the browser login flow. Once authenticated, `claude -p` (headless mode) will use your subscription credentials automatically.
 
 ### Pipeline stops at Model Verifier with "FAIL"
 
