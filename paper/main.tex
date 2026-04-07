@@ -21,9 +21,10 @@
 \newcommand{\prooflabel}[1]{\emph{#1}}
 \newcommand{\partlabel}[1]{\emph{#1}}
 
-\title{AI Signal Homogeneity and Systemic Financial Fragility:\\
-A Three-Channel Amplification Model}
-\author{Author Name}
+% ── Fill in your paper details below ──────────────────────────────────────
+
+\title{[PAPER TITLE]}
+\author{[Author Name]}
 \date{\today}
 
 \begin{document}
@@ -31,43 +32,16 @@ A Three-Channel Amplification Model}
 \maketitle
 
 \begin{abstract}
-When financial institutions rely on the same AI models, their private signals become correlated, and three fragility channels activate simultaneously: coordination failure among depositors, collapse of information diversity in prices, and correlated withdrawal by market makers. We parameterise AI signal homogeneity by a single cross-sectional correlation $\rho$ and characterise equilibrium fragility thresholds in each channel within a unified framework. The central result is that the integrated system's compound fragility threshold $\rho^*$ lies strictly below every individual channel threshold, creating a safety illusion in which each channel appears stable while the system is already fragile. Cross-channel amplification arises because correlated liquidity withdrawal raises effective signal correlation, which raises crisis probability, which destroys the incentive to acquire private information, completing a positive feedback loop. A diversity mandate bounding institutional AI model similarity below $\rho^*$ corrects the resulting prisoner's dilemma and restores systemic stability.
+[Your abstract here — see skills/manuscript-layout/SKILL.md for the 5-sentence structure]
 \end{abstract}
 
-\section{Introduction}
-\input{sections/introduction}
-
-\section{Literature Review}
-\input{sections/literature}
-
-\section{Model Primitives}
-\input{sections/model}
-
-\section{Channel 1: Coordination Failure}
-\input{sections/channel1}
-
-\section{Channel 2: Information Acquisition Collapse}
-\input{sections/channel2}
-
-\section{Channel 3: Correlated Liquidity Withdrawal}
-\input{sections/channel3}
-
-\section{Amplification Loop and the Safety Illusion}
-\input{sections/amplification}
-
-\section{Extensions}
-\input{sections/extensions}
-
-\section{Empirical Motivation}
-\input{sections/empirics}
-
-\section{Conclusion}
-\input{sections/conclusion}
+% ── Sections ──────────────────────────────────────────────────────────────
+% Add \input{sections/...} lines as the Paper Writer produces each section.
+% Example:
+%   \section{Introduction}
+%   \input{sections/introduction}
 
 \bibliographystyle{plainnat}
 \bibliography{references}
-
-\appendix
-\input{sections/appendix}
 
 \end{document}

@@ -11,7 +11,7 @@ Check whether the current iteration of the research plan introduces claims, mech
 
 This skill runs inside the planning loop, potentially up to 5 times. Be efficient. Every search should have a reason.
 
-Calibrate all output to a finance PhD / top-journal standard. Cite by author-year. Reference specific propositions, theorems, and mechanisms.
+Calibrate all output to a PhD / top-journal standard. Cite by author-year. Reference specific propositions, theorems, and mechanisms.
 
 ---
 
@@ -34,7 +34,7 @@ Identify what is new or changed in this iteration of `research_plan.md`. Look fo
 
 - New contributions added or existing contributions reframed
 - New mechanisms or model components introduced
-- Changes to the amplification loop structure
+- Changes to the cross-mechanism interaction structure
 - New empirical strategies or identification arguments
 - Contributions that were sharpened in response to prior evaluator feedback
 
@@ -49,7 +49,7 @@ For each check target, search the literature. Use web search to find papers that
 Search strategy:
 
 - One targeted search per check target (not per channel — only search what changed)
-- If a check target refines an existing mechanism (e.g., tightens the differentiator for Channel 2), search for papers that occupy the narrower space the plan now claims
+- If a check target refines an existing mechanism (e.g., tightens the differentiator for a channel), search for papers that occupy the narrower space the plan now claims
 - If a check target introduces a new element (e.g., a policy extension, a new comparative static), search for that specific element
 - When a search surfaces a potentially threatening paper, fetch the abstract or introduction to assess mechanism-level overlap
 
@@ -110,7 +110,7 @@ Update `context/threat_map.md` in place. Do not rewrite the entire file. Make on
 
 Single file, updated in place: `context/threat_map.md`
 
-No other files are produced. The Literature Guardian Mode 2 does not write literature notes or reviews — those are Mode 3 outputs.
+No other files are produced. The targeted review does not write literature notes or reviews — those are deep review outputs.
 
 ---
 

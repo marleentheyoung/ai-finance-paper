@@ -1,13 +1,13 @@
 ---
 name: academic-writing
-description: Converts structured prose and research outputs into publication-ready LaTeX manuscript sections for a formal theory paper in financial economics. Use when drafting, revising, or formatting paper sections (.tex files), when converting context artifacts (literature_review.md, model_equations.md) into LaTeX, when checking that text matches quantitative results in tables or figures, or when ensuring manuscript consistency with JF/RFS/Econometrica conventions. Also use when asked to "write the introduction", "draft a section", "format for LaTeX", "check the manuscript", or "convert to tex". Do NOT use for literature analysis (use literature-review-deep), model derivation (use economic-model-builder), or evaluation/scoring (use referee-simulator).
+description: Converts structured prose and research outputs into publication-ready LaTeX manuscript sections for a formal theory paper. Use when drafting, revising, or formatting paper sections (.tex files), when converting context artifacts (literature_review.md, model_equations.md) into LaTeX, when checking that text matches quantitative results in tables or figures, or when ensuring manuscript consistency with top-journal conventions. Also use when asked to "write the introduction", "draft a section", "format for LaTeX", "check the manuscript", or "convert to tex". Do NOT use for literature analysis (use literature-review-deep), model derivation (use economic-model-builder), or evaluation/scoring (use self-critique).
 ---
 
 # Academic Writing Skill
 
 ## Purpose
 
-Produce publication-ready LaTeX manuscript sections for a formal theory paper targeting the Journal of Finance, Review of Financial Studies, or Econometrica. This skill is the final conversion layer: it takes structured prose and research outputs from upstream agents and produces `.tex` files that compile cleanly and meet top-journal conventions.
+Produce publication-ready LaTeX manuscript sections for a formal theory paper targeting a top-5 journal in the relevant field. This skill is the final conversion layer: it takes structured prose and research outputs from upstream agents and produces `.tex` files that compile cleanly and meet top-journal conventions.
 
 This skill does not perform research, derive models, or evaluate quality. It writes and formats.
 
@@ -37,17 +37,15 @@ Always start by reading `context/paper_structure.md`. This defines what each sec
 
 ### Step 2 — Identify the Section to Write
 
-Determine which section is requested. The expected paper structure is:
+Determine which section is requested. The expected paper structure is defined in `context/paper_structure.md`. A typical layout is:
 
 ```
 paper/sections/
 ├── introduction.tex
 ├── literature.tex
 ├── model.tex
-├── channel1.tex
-├── channel2.tex
-├── channel3.tex
-├── amplification.tex
+├── [section_name].tex    # one file per model component / channel
+├── ...
 ├── extensions.tex
 ├── empirics.tex
 └── conclusion.tex
@@ -72,8 +70,8 @@ Apply these rules before proceeding:
 **Section word-count targets (treat as hard ceilings, not aspirations):**
 - Introduction: 2,500–3,500 words
 - Literature review: 2,500–3,500 words
-- Each channel section: 1,500–2,500 words
-- Amplification: 1,500–2,000 words
+- Each model component section: 1,500–2,500 words
+- Integrating section (if any): 1,500–2,000 words
 - Empirics: 1,500–2,500 words
 - Conclusion: 800–1,200 words
 
@@ -96,8 +94,8 @@ Before finalising any section:
 **Source material:** `threat_map_final.md` (differentiators), `research_plan_final.md` (contributions), `research_context.md` (mechanism overview)
 
 **Structure:**
-1. Opening paragraph: the economic problem (AI homogeneity in financial markets)
-2. What this paper does: the three channels and their interaction, stated precisely
+1. Opening paragraph: the economic problem
+2. What this paper does: the model components and their interaction, stated precisely
 3. Main results: each contribution as a concrete finding (threshold, comparative static, or characterisation)
 4. Related literature: brief positioning (2-3 paragraphs), not a full review
 5. Paper organisation: one paragraph mapping sections
@@ -106,7 +104,7 @@ Before finalising any section:
 - State each contribution as a result, not a topic ("We show that..." not "We study...")
 - Engage the 2-3 closest threat papers by name with precise differentiators
 - Do not oversell; use "characterise", "show", "derive" rather than "prove" or "demonstrate conclusively"
-- The amplification loop must be framed as the core contribution
+- The integrating contribution (if any) must be framed as the core contribution
 
 ### Literature Review
 
@@ -120,25 +118,25 @@ Before finalising any section:
 - Do not add papers not in the source file
 - Do not change threat classifications or differentiator language
 
-### Model Sections (model.tex, channel1-3.tex, amplification.tex)
+### Model Sections (model.tex, [section_name].tex files)
 
 **Source material:** `context/model_equations.md`, `context/research_context.md`
 
 **Task:** Write the prose that surrounds the formal derivations. The equations and propositions come from the Theory Builder; this skill writes the setup, motivation, interpretation, and discussion around them.
 
-**Structure per channel section:**
-1. Setup and motivation (1-2 paragraphs): why this channel matters, what the foundational model is
+**Structure per component section:**
+1. Setup and motivation (1-2 paragraphs): why this component matters, what the foundational model is
 2. Model environment: agents, information, timing, written in prose with inline math
 3. Equilibrium definition
 4. Main result(s): stated as formal propositions in `\begin{proposition}...\end{proposition}`
-5. Comparative statics in $\rho$
-6. Discussion: economic interpretation, connection to the next channel
+5. Comparative statics in the key primitive
+6. Discussion: economic interpretation, connection to the next component
 
 **Rules:**
 - All equations in `align` or `equation` environments with `\label{eq:...}`
 - All propositions labelled `\label{prop:...}`
 - Notation must match `model_equations.md` exactly; do not rename variables
-- Use `\rho` consistently (never "rho" in prose)
+- Use LaTeX math commands consistently (never spell out variable names in prose where a math symbol is defined)
 - Interpret every mathematical result economically; no unexplained equations
 
 ### Extensions
@@ -147,7 +145,6 @@ Before finalising any section:
 
 **Rules:**
 - Frame as natural extensions, not afterthoughts
-- The prisoner's dilemma (endogenous $\rho$) and diversity mandate are the two expected extensions
 - Clearly separate from the main model; these are not core contributions
 
 ### Empirics
@@ -155,7 +152,7 @@ Before finalising any section:
 **Source material:** `research_plan_final.md`, `paper/figures/`, `paper/tables/`
 
 **Rules:**
-- Frame as motivating evidence, not causal identification
+- Frame as motivating evidence, not causal identification (unless the research design supports causal claims)
 - Every number in the text must match a table or figure exactly
 - Report statistics with appropriate precision (t-statistics to 2 decimals, coefficients to 3-4 significant figures)
 - Use `\input{}` to include tables generated by the Empirical Agent
@@ -164,8 +161,8 @@ Before finalising any section:
 
 **Rules:**
 - Restate contributions concisely (1 sentence each, not a paragraph rehash)
-- Policy implications: diversity mandates, regulatory design
-- Limitations: state the scope constraints from `research_context.md` Section 6 honestly
+- Policy implications: state concretely
+- Limitations: state the scope constraints from `research_context.md` honestly
 - Future work: 2-3 concrete directions, not vague gestures
 
 ---
@@ -187,16 +184,16 @@ These rules apply to all sections.
 
 ### Citations
 
-- `\citet{author2024}` when the author is the grammatical subject: "\citet{morris1998} show that..."
-- `\citep{author2024}` for parenthetical references: "...as shown in prior work \citep{morris1998}"
+- `\citet{author2024}` when the author is the grammatical subject: "\citet{smith2024} show that..."
+- `\citep{author2024}` for parenthetical references: "...as shown in prior work \citep{smith2024}"
 - `\citet{author2024a, author2024b}` for multiple in-text citations
-- Never write "Morris and Shin (1998)" manually; always use `\citet{}` or `\citep{}`
+- Never write author-year citations manually; always use `\citet{}` or `\citep{}`
 
 ### Mathematics
 
 - Display equations: `\begin{equation}...\end{equation}` for single equations, `\begin{align}...\end{align}` for multi-line
 - Every display equation gets a `\label{eq:descriptive-name}`
-- Inline math for short expressions: $\rho$, $\theta^*(\rho)$, $N_{\text{eff}}(\rho)$
+- Inline math for short expressions
 - Use `\text{}` inside math for subscript words: $c_{\text{P}}$ not $c_P$
 - Parentheses: `\left(` and `\right)` for expressions that vary in height
 - Operators: `\max`, `\min`, `\arg\max`, `\mathbb{E}` (never italic versions)

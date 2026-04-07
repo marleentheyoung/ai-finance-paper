@@ -25,7 +25,7 @@ peer-reviewed working paper using a multi-agent pipeline:
   - `context/` — research notes and model equations
   - `workflow/` — logs, runbooks, and orchestration
   - `data/` — raw and processed datasets (may be created at runtime)
-  - `agents/` — agent instruction files
+  - `.claude/agents/` — agent instruction files
   - `skills/` — skill definitions
 - Run Python scripts in `code/` via `python` or `just`
 - Compile the paper via `latexmk` or `just paper`
@@ -43,6 +43,6 @@ peer-reviewed working paper using a multi-agent pipeline:
 ## Coordination
 
 - Log major decisions and progress in `workflow/research-log.md`
-- Track open questions and critiques in `context/referee_reports/` and `context/evaluator_feedback.md`
+- Track open questions and critiques in `context/self_reviews/` and `context/evaluator_feedback.md`
 - Agents must not overwrite each other's outputs without reading them first
-- Always read the relevant `agents/<name>.md` before acting as that agent
+- Always read the relevant `.claude/agents/<name>.md` before acting as that agent

@@ -1,0 +1,85 @@
+% Section 3: Model Primitives
+\label{sec:model}
+\subsection{Signal Structure and the Rho Primitive}
+\label{sec:model-signal}
+
+The analysis centers on a single parameterisation of AI model homogeneity. Two distinct fundamentals appear in the model: $\theta \sim \mathrm{Uniform}[0,1]$ is the bank asset quality in Channel 1, and $V \sim \mathcal{N}(\bar{v}, 1/\tau_v)$ is the risky asset value in Channels 2 and 3. Both are model primitives for their respective settings; the channels are unified by the signal correlation structure, not by a common fundamental. Consider a continuum of agents, each forming beliefs about an underlying fundamental $\theta$. Each agent $i$ observes a signal of the form
+\begin{equation}\label{eq:signal-structure}
+  x_i = \theta + \varepsilon_i,
+\end{equation}
+where the noise term $\varepsilon_i$ admits the factor decomposition
+\begin{equation}\label{eq:noise-decomposition}
+  \varepsilon_i = \sqrt{\rho}\,\eta + \sqrt{1-\rho}\,\xi_i.
+\end{equation}
+Here $\eta \sim \mathcal{N}(0,\sigma^2)$ is a common AI model error shared by all AI-equipped agents, representing the correlated component introduced by a shared training corpus, shared architecture, or shared data vendor. The term $\xi_i \sim \mathcal{N}(0,\sigma^2)$ is idiosyncratic noise, independent across agents and independent of $\eta$ conditional on $\theta$. The parameter $\rho \in [0,1]$ is the paper's unifying primitive: it measures the fraction of signal variance attributable to the common AI component. We write $\tau_s \equiv 1/\sigma^2$ for the precision of each individual signal; this notation is used interchangeably with $\sigma^2$ throughout.
+
+The normalisation $\sigma_\eta^2 = \sigma_\xi^2 = \sigma^2$ ensures that the total signal variance $\mathrm{Var}(\varepsilon_i) = \sigma^2$ is independent of $\rho$. Changing $\rho$ redistributes noise between the common and idiosyncratic components without altering total signal precision $\tau \equiv 1/\sigma^2$. The cross-sectional correlation follows directly from~\eqref{eq:noise-decomposition}:
+\begin{equation}\label{eq:signal-correlation}
+  \mathrm{Corr}(\varepsilon_i, \varepsilon_j) = \rho \quad \text{for } i \neq j.
+\end{equation}
+The pairwise correlation in~\eqref{eq:signal-correlation} implies that at $\rho = 0$, signals are independent and the economy reduces to the heterogeneous-signal benchmark of \citet{morris1998}. At $\rho = 1$, every agent observes the same signal, and the information structure collapses to a single common observation.
+
+The interpretation of $\rho$ as a measure of AI model homogeneity is grounded in the empirical record. \citet{gu2020} document that diverse machine learning methods converge on the same dominant predictors of equity returns. \citet{kim2024} show that GPT-4 at temperature zero generates near-identical financial statement analyses, documenting the $\rho \to 1$ tendency. In the signal structure~\eqref{eq:noise-decomposition}, $\eta$ captures the common error that all AI-equipped agents inherit when they draw on the same training data or pre-trained model. This is the component that cannot be diversified away by adding agents, because all agents err in the same direction.
+
+\subsection{Agent Types and Information Choices}
+\label{sec:model-agents}
+
+The economy contains two types of agents. A fraction $\lambda \in (0,1)$ are AI-equipped agents who observe signals with the $\rho$-parameterised structure in~\eqref{eq:noise-decomposition} at near-zero cost. The remaining fraction $1-\lambda$ are traditional agents who observe purely idiosyncratic signals $x_i = \theta + \xi_i$ with $\xi_i \sim \mathcal{N}(0,\sigma^2)$, corresponding to the $\rho = 0$ case. A third group of agents, market makers, provide liquidity and are introduced in Section~\ref{sec:channel3}.
+
+Within the set of AI-equipped agents, an endogenous fraction $\mu_I \in [0,1]$ may also acquire a genuinely private signal $s_i^P = V + \zeta_i$, where $\zeta_i \sim \mathcal{N}(0,\sigma_P^2)$ is idiosyncratic and independent of $\eta$, at a fixed cost $c_P > 0$. The choice between the cheap but correlated AI signal and the costly but uncorrelated private signal drives Channel 2. It connects to Channels 1 and 3 through the amplification loop.
+
+The distinction between the extensive margin of AI penetration and the intensive margin of AI output homogeneity is discussed in Section~\ref{sec:literature}. Even a small fraction of agents sharing a single dominant model (low $\lambda$, high $\rho$) can activate the fragility mechanisms, while a large fraction using diverse AI models (high $\lambda$, low $\rho$) may not. The model has a two-period structure: at date 0, agents observe signals and choose actions; at date 1, payoffs realise.
+
+\subsection{Equilibrium Concepts}
+\label{sec:model-equil}
+
+The paper employs three equilibrium concepts, one per channel, unified by the $\rho$ parameterisation of the signal structure.
+
+In Channel 1 (Section~\ref{sec:channel1}), the equilibrium concept is a symmetric monotone Bayesian Nash equilibrium in threshold strategies, following \citet{goldstein2005}. An agent withdraws if and only if her signal falls below a threshold $x^*$; the crisis threshold $\theta^*(\rho)$ is the fundamental level at which the measure of withdrawing agents exactly equals the fundamental.
+
+In Channels 2 and 3 (Sections~\ref{sec:channel2} and~\ref{sec:channel3}), the equilibrium concept is a rational expectations equilibrium with endogenous information acquisition, in the tradition of \citet{grossman1980}. The price function aggregates information from all informed agents; the information acquisition decision is determined by indifference conditions that equate the marginal value of each information type to its cost.
+
+In the amplification loop of Section~\ref{sec:amplification}, the joint equilibrium is a fixed point of the composite operator $T$ mapping the state vector $(\rho_{\text{eff}}, \theta^*, N_{\text{eff}})$ into itself, as formalised in Proposition~\ref{prop:fixed-point-existence}.
+
+\subsection{Preliminary Result: Information Collapse}
+\label{sec:model-collapse}
+
+Before analysing each channel, we record a preliminary result on information collapse.
+
+\begin{lemma}[Information Collapse]\label{lem:info-collapse}
+When $N$ agents each observe signals with pairwise correlation $\rho > 0$, their aggregate information content is equivalent to that of $N_{\text{info}}(\rho)$ independent agents, where
+\begin{equation}\label{eq:ninfo}
+  N_{\text{info}}(\rho) = \frac{1}{\rho}
+\end{equation}
+in the limit $N \to \infty$.
+
+\prooflabel{Proof.} The Fisher information in the vector $(x_1, \ldots, x_N)$ about $\theta$ is computed using the inverse of the equicorrelation covariance matrix $\Sigma$ with diagonal entries $\sigma^2$ and off-diagonal entries $\rho\sigma^2$. As $N \to \infty$, the Fisher information converges to $1/(\rho\sigma^2)$, equal to that of $1/\rho$ independent signals with precision $1/\sigma^2$ each. $\square$
+\end{lemma}
+
+The information collapse property of Lemma~\ref{lem:info-collapse} is stark. By~\eqref{eq:ninfo}, regardless of $N$, the aggregate information content of $N$ AI-equipped agents equals that of $1/\rho$ independent agents. When $\rho = 1$, a thousand agents are equivalent to one. When $\rho = 0.5$, they are equivalent to two. This property drives the results in all three channels and provides the foundation for the effective-number constructs in Propositions~\ref{prop:neff} and~\ref{prop:rpe}.
+
+\subsubsection*{Notation Summary}
+
+Table~\ref{tab:notation} collects the precision and variance conventions used throughout the paper.
+
+\begin{table}[t]
+\caption{Precision and variance notation.\label{tab:notation}}
+\centering
+\begin{tabular}{lll}
+\hline
+Symbol & Definition & Role \\
+\hline
+$\tau \equiv \tau_s \equiv 1/\sigma^2$ & Individual signal precision & Total signal precision (Channels 1--3) \\
+$\tau_v \equiv 1/\sigma_V^2$ & Fundamental precision & Prior precision of $V$ (Channels 2--3) \\
+$\tau_P \equiv 1/\sigma_P^2$ & Private signal precision & Costly private signal (Channel 2) \\
+$\rho$ & Signal correlation & Fraction of variance from common AI error \\
+$\rho\sigma^2$ & Common noise variance & Variance of $\sqrt{\rho}\,\eta$ \\
+$(1-\rho)\sigma^2$ & Idiosyncratic noise variance & Variance of $\sqrt{1-\rho}\,\xi_i$ \\
+\hline
+\end{tabular}
+\end{table}
+
+The three channels analysed in the following sections are connected through this common signal structure. Each channel takes $\rho$ as input and produces a fragility threshold as output. Section~\ref{sec:channel1} shows how rising $\rho$ activates the Hellwig multiplicity mechanism in a global coordination game. Section~\ref{sec:channel2} shows how rising $\rho$ degrades revelatory price efficiency in the Grossman-Stiglitz framework. Section~\ref{sec:channel3} shows how rising $\rho$ concentrates effective market-making capacity in the Avellaneda-Stoikov framework. Individually, each threshold appears manageable. Together, as Section~\ref{sec:amplification} shows, they interact to produce a compound threshold that is strictly lower than any of them. We begin with the channel whose consequences are the most immediate: coordination failure.
+% --- Clarity pass complete: 2026-03-10 ---
+% --- Flow pass complete: 2026-03-11 ---
+% --- Technical audit complete: 2026-03-11 ---

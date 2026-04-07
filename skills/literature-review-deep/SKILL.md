@@ -11,7 +11,7 @@ Produce the definitive literature analysis for the paper. This skill runs once, 
 
 This is the most thorough pass. Every relevant paper must be accounted for. Every threat classification must be verified. Every differentiator must be stated precisely enough to survive referee scrutiny.
 
-Calibrate all output to JF / RFS / Econometrica standard. Cite by author-year. Reference specific propositions, theorems, and results.
+Calibrate all output to a top-journal standard. Cite by author-year. Reference specific propositions, theorems, and results.
 
 ---
 
@@ -36,7 +36,7 @@ Read the full threat map including all changelog entries. Identify:
 1. **Gaps in coverage**: channels or sub-mechanisms that were never properly searched. The targeted reviews only checked what changed per iteration — mechanisms that were stable across iterations may have received only the initial light scan.
 2. **Unverified entries**: any paper still flagged `[UNVERIFIED]`. These must be resolved.
 3. **Stale classifications**: papers classified early in the loop whose threat level may have changed given the final research plan (contributions may have been sharpened, dropped, or reframed).
-4. **Missing foundational papers**: check the final research plan's contributions against the five foundational literatures (global games, information economics, market microstructure, AI and finance, systemic risk). Are there canonical papers that should appear in the threat map but do not?
+4. **Missing foundational papers**: check the final research plan's contributions against the foundational literatures identified in `research_context.md`. Are there canonical papers that should appear in the threat map but do not?
 
 Produce an internal audit list of what needs to be searched, verified, or reclassified.
 
@@ -47,17 +47,17 @@ Conduct a comprehensive literature search to fill the gaps identified in Step 1.
 Search strategy:
 
 - Search each channel's mechanism space comprehensively, not just incrementally
-- Search for the amplification loop and cross-channel interaction specifically
-- Search for recent working papers (2023-present) that may have appeared since the initial scan
+- Search for the cross-mechanism interaction specifically
+- Search for recent working papers (last 2-3 years) that may have appeared since the initial scan
 - Search for survey papers and handbook chapters that might reference work the earlier scans missed
 - For every HIGH or MODERATE threat, fetch the paper's abstract and ideally the introduction or model section to verify mechanism-level overlap
 
 Minimum searches:
 
-- 2-3 per channel (coordination failure, information acquisition, market making)
-- 2-3 for the amplification loop / cross-channel interaction
-- 2-3 for AI and financial markets (empirical and applied)
-- 1-2 for systemic risk and macroprudential policy (connects to the diversity mandate extension)
+- 2-3 per channel (matching the channels defined in `research_context.md`)
+- 2-3 for the cross-mechanism interaction
+- 2-3 for the empirical / applied domain
+- 1-2 for any extensions or policy implications described in the research plan
 - 1-2 for any gap identified in the audit
 
 This is the last literature pass before the paper is written. Be thorough.
@@ -81,6 +81,8 @@ Every paper that appeared in any prior version of the threat map must appear her
 
 **Schema:**
 
+Use the channel names and mechanism labels from `research_context.md`.
+
 ```markdown
 # Threat Map — Final
 
@@ -93,7 +95,7 @@ Unresolved entries: [number, or "none"]
 
 ---
 
-## Channel 1 — Coordination Failure (Global Games + ρ)
+## [Mechanism Area 1] — Channel 1
 
 ### HIGH threat
 
@@ -112,28 +114,28 @@ Unresolved entries: [number, or "none"]
 
 ---
 
-## Channel 2 — Information Acquisition (Grossman-Stiglitz + ρ)
+## [Mechanism Area 2] — Channel 2
 [Same structure]
 
 ---
 
-## Channel 3 — Market Making (Correlated Liquidity Withdrawal)
+## [Mechanism Area 3] — Channel 3
 [Same structure]
 
 ---
 
-## Amplification Loop (Fixed-Point Interaction)
+## Cross-Mechanism Interaction ([CORE_CONTRIBUTION])
 [Same structure]
 
 ---
 
-## AI and Financial Markets (Empirical / Applied)
+## [Applied / Empirical Domain]
 [Same structure]
 
 ---
 
-## Extensions (Endogenous ρ / Diversity Mandate)
-[Same structure — include papers relevant to the prisoner's dilemma extension and policy implications]
+## Extensions
+[Same structure — include papers relevant to any extensions or policy implications in the research plan]
 
 ---
 
@@ -144,14 +146,14 @@ Unresolved entries: [number, or "none"]
 ### Channel-level summary
 | Channel | HIGH | MODERATE | Strongest differentiator |
 |---------|------|----------|------------------------|
-| 1 — Coordination | [n] | [n] | [one sentence] |
-| 2 — Information  | [n] | [n] | [one sentence] |
-| 3 — Market Making | [n] | [n] | [one sentence] |
-| Amplification Loop | [n] | [n] | [one sentence] |
+| [Mechanism Area 1] | [n] | [n] | [one sentence] |
+| [Mechanism Area 2] | [n] | [n] | [one sentence] |
+| [Mechanism Area 3] | [n] | [n] | [one sentence] |
+| Cross-Mechanism Interaction | [n] | [n] | [one sentence] |
 | Extensions | [n] | [n] | [one sentence] |
 
 ### Core contribution status
-[Is the amplification loop — the fixed-point in (ρ_eff, θ*, N_eff) — threatened? Definitive 3-5 sentence assessment.]
+[Is the cross-mechanism interaction — [CORE_CONTRIBUTION] — threatened? Definitive 3-5 sentence assessment.]
 
 ### Novelty verdict
 [For each numbered contribution in the final research plan, state: NOVEL / NOVEL WITH CAVEAT / AT RISK. One sentence of justification each.]
@@ -187,30 +189,32 @@ This is an analytical document, not a list of paper summaries. It must:
 1. **Position the paper** within the intersection of the relevant literatures
 2. **Build the case for the contribution** by showing what the literature has done and what it has not
 3. **Engage the closest threat papers** directly, with precise differentiators
-4. **Establish the gap** that the amplification loop fills
+4. **Establish the gap** that the cross-mechanism interaction fills
 
 **Structure:**
+
+Use the literature strands identified in `research_context.md` to define section headers. The generic template is:
 
 ```markdown
 # Literature Review
 
 ## Introduction to the literature landscape
-[2-3 paragraphs framing the three literatures the paper draws on and why their intersection is underexplored.]
+[2-3 paragraphs framing the literatures the paper draws on and why their intersection is underexplored.]
 
-## Coordination games and common knowledge
-[Review of Morris-Shin, Hellwig, Goldstein-Pauzner, Angeletos-Pavan, and related work. Establish what is known about the role of signal precision and public information in global games. Identify the gap: no paper parameterises signal correlation via AI model homogeneity.]
+## [LITERATURE_STRAND_1]
+[Review of foundational and recent work in the first literature strand relevant to Channel 1. Establish what is known about the mechanism this channel addresses. Identify the gap the project claims to fill.]
 
-## Information acquisition and price efficiency
-[Review of Grossman-Stiglitz, Holden-Subrahmanyam, Goldstein-Yang, Bond-Edmans-Goldstein, and related work. Establish the informational diversity mechanism. Identify the gap: existing extensions do not model the cross-sectional correlation structure induced by shared AI models.]
+## [LITERATURE_STRAND_2]
+[Review of foundational and recent work in the second literature strand relevant to Channel 2. Establish what is known. Identify the gap.]
 
-## Market microstructure and correlated liquidity
-[Review of Glosten-Milgrom, Kyle, Avellaneda-Stoikov, Greenwood-Thesmar, Brunnermeier-Pedersen, and related work. Establish the liquidity withdrawal mechanism. Identify the gap: no paper formalises N_eff(ρ) as an algorithmic similarity index.]
+## [LITERATURE_STRAND_3]
+[Review of foundational and recent work in the third literature strand relevant to Channel 3. Establish what is known. Identify the gap.]
 
-## AI and financial markets
-[Review of Gu-Kelly-Xiu, Kim-Muhn-Nikolaev, and related empirical/applied work. Establish the empirical basis for ρ → 1.]
+## [APPLIED_OR_EMPIRICAL_DOMAIN]
+[Review of empirical and applied work relevant to the project's setting. Establish the empirical basis for the project's assumptions.]
 
-## Cross-channel interaction and systemic risk
-[Review of Danielsson-Shin-Zigrand, Danielsson-Uthemann, and related systemic risk work. Establish that no paper characterises the joint fixed-point across coordination, information, and liquidity channels.]
+## Cross-mechanism interaction and [BROADER_THEME]
+[Review of work that connects multiple channels or addresses the broader theme (e.g., systemic risk, welfare, policy). Establish that no paper characterises the joint interaction across the channels this project unifies.]
 
 ## Summary of contributions relative to the literature
 [Concise restatement of each contribution and its precise differentiator from the closest threat paper.]
@@ -223,7 +227,7 @@ This is an analytical document, not a list of paper summaries. It must:
 - Differentiators must be stated at the mechanism level
 - No em-dashes
 - No bold paragraph headers within sections (use the section headers above, then write in paragraphs)
-- Tone and register of JFE, RFS, or Econometrica literature review sections
+- Tone and register of top-journal literature review sections
 - Length: approximately 2,000-3,000 words
 
 ---
@@ -263,5 +267,5 @@ Do not:
 - Write the literature review as a paper-by-paper summary ("X did this, Y did that") — it must be organised by intellectual contribution, building the case for the gap
 - Produce LaTeX output (that is the academic-writing skill's responsibility)
 - Drop papers from earlier threat map versions without explanation
-- Write differentiators as vague comparisons ("our paper is different because it focuses on AI") — state the formal mechanism that differs
+- Write differentiators as vague comparisons ("our paper is different because it focuses on X") — state the formal mechanism that differs
 - Exceed 3,000 words in the literature review — it must be tight enough to fit a theory paper, not a survey

@@ -1,4 +1,4 @@
-# justfile for AI-Finance Research Pipeline
+# justfile for Research Paper Pipeline
 # Run `just` to see available commands, `just <command>` to execute one.
 
 # Default: list available commands
@@ -45,9 +45,9 @@ test:
 
 # ── Agent Pipeline ────────────────────────────────────────────────────────────
 
-# Run the AI agent pipeline (Research Director → Theory → Literature → Empirical → Writer)
+# Run the agent pipeline (Research Director → Theory → Literature → Empirical → Writer)
 agents:
-    @echo "Running AI agent pipeline..."
+    @echo "Running agent pipeline..."
     .venv/bin/python workflow/run_agents.py
 
 # ── Empirical Pipeline ────────────────────────────────────────────────────────

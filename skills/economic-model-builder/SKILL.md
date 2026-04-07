@@ -46,10 +46,6 @@ Timing:
 
 Explicitly define signals and correlations.
 
-Example:
-
-ε_i = √ρ η + √(1−ρ) ξ_i
-
 Define:
 
 distribution of shocks
@@ -88,9 +84,6 @@ State formal results.
 
 Example:
 
-Proposition:
-An increase in signal correlation ρ reduces the effective number of independent liquidity providers.
-
 Provide intuition and proof sketches.
 
 ---
@@ -99,11 +92,7 @@ Provide intuition and proof sketches.
 
 Analyze how outcomes change with parameters.
 
-Focus especially on:
-
-signal correlation ρ
-information costs
-strategic complementarities
+Focus especially on key parameters identified in `context/research_context.md`.
 
 ---
 

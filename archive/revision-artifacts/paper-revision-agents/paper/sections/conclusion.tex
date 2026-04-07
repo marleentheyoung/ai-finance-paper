@@ -1,0 +1,24 @@
+% Section 10: Conclusion
+\label{sec:conclusion}
+
+\subsection{Summary}
+
+The central finding is that moderate AI signal correlation, well below the threshold of any individual fragility channel, is sufficient to destabilise the integrated financial system. The non-monotonicity of the crisis threshold generates a concrete testable prediction: as AI model overlap increases across financial institutions, crisis probability should first decrease then increase, tracing a hump-shaped path that peaks before full signal homogeneity is reached. This prediction distinguishes the model from accounts in which AI uniformly stabilises or uniformly destabilises markets.
+
+\subsection{Policy Implications}
+
+The safety illusion implies that stress tests evaluating coordination risk, information quality, and market liquidity separately will systematically underestimate systemic fragility when AI model homogeneity drives all three channels. Current macroprudential frameworks, organised around individual risk categories assessed independently, create a blind spot at moderate $\rho$ values.
+
+The diversity mandate provides a tractable regulatory instrument through model diversity requirements, correlation-based capital charges, or algorithmic transparency mandates. The threshold $\rho^*$ provides a calibration target. Since $\rho^{\text{NE}} > \rho^*$ when the prisoner's dilemma is operative, voluntary disclosure alone cannot produce the efficient outcome; diversity requirements that bound aggregate signal correlation below $\rho^*$ are welfare-improving under the stated conditions. The optimal regulatory instrument depends on observability and enforcement costs not modelled here.
+\subsection{Limitations}
+
+Four scope constraints apply. First, the model is static; a dynamic extension would characterise the optimal trajectory of $\rho$ and the timing of regulatory intervention. Second, $\rho$ is exogenous in the main model; the prisoner's dilemma extension endogenises it but does not capture strategic adoption dynamics over time. Third, the empirical section provides motivating evidence rather than causal identification; structural estimation of $\rho_1^*$, $\rho^{**}$, and $\rho^*$ is left for future work. Fourth, the model abstracts from network topology and balance sheet linkages. The network fragility results of \citet{acemoglu2015}, where dense interconnections absorb small shocks but amplify large ones, suggest that the compound threshold $\rho^*$ may depend on the network topology of financial institutions, a question we leave for future work. Fifth, the equicorrelation assumption (a single $\rho$ for all AI-equipped agents) is a significant simplification. In practice, $\rho$ varies across firms, models, and asset classes. A bimodal distribution of $\rho$ could produce fragility in a subset of agents even when the aggregate $\rho$ is below $\rho^*$. Sixth, agents do not learn about $\rho$ from prices. In a dynamic model, inference about the degree of signal correlation could alter equilibrium strategies.
+
+\subsection{Future Work}
+
+Three directions emerge. First, a dynamic model with $\rho_t$ following a diffusion process driven by AI adoption rates would predict whether the bifurcation threshold is approached gradually or crossed discontinuously. The key modelling choice is whether $\rho$ is a state variable (with inertia from training data overlap) or a control variable (adjustable through model selection). The testable prediction: if $\rho$ is a state variable, crisis risk increases with the persistence of AI model architectures. If convergence is gradual, the regulator has a window before $\rho$ crosses $\rho^*$; if discontinuous, pre-committed rules are necessary. Second, a model of architecture heterogeneity would endogenise the distribution of AI models in use, connecting the analysis to antitrust and competition policy for AI vendors. Third, extending the single-market model to a multi-market setting with cross-border capital flows would characterise conditions under which AI homogeneity creates correlated international crises.
+
+The unifying insight is that AI model homogeneity creates a compound fragility exceeding the sum of its parts. The current trajectory of financial AI, common data, common architectures, common outputs, is a trajectory toward higher $\rho$. Whether the financial system crosses $\rho^*$ is a question of regulatory design.
+% --- Clarity pass complete: 2026-03-11 ---
+% --- Flow pass complete: 2026-03-11 ---
+% --- Technical audit complete: 2026-03-11 ---

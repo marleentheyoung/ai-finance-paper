@@ -9,4 +9,3 @@ Pipeline orchestration, process logs, and human audit notes live here.
 ## Contents
 - `run_pipeline.sh` — overnight pipeline orchestration script
 - `research-log.md` — append-only process log (agents + pipeline write here)
-- `to-fix.md` — human audit of pipeline structural issues

@@ -136,7 +136,7 @@ if [[ "$START_PHASE" -le 1 ]]; then
     write_phase_state 1 "Literature Guardian M1" "Quick Scan"
 
     log "Running Literature Guardian Mode 1 (Quick Scan)..."
-    run_claude "Phase 1 — Literature Guardian M1" -p "You are running the ai-finance-paper pipeline Phase 1, step 1.
+    run_claude "Phase 1 — Literature Guardian M1" -p "You are running the research pipeline Phase 1, step 1.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_context.md.
 Use the literature-guardian agent in Mode 1 (Quick Scan).
@@ -149,7 +149,7 @@ Do not stop until all four files are written." $SKIP_PERMS
     write_phase_state 1 "Research Director M1" "Initial Plan"
 
     log "Running Research Director Mode 1 (Initial Plan)..."
-    run_claude "Phase 1 — Research Director M1" -p "You are running the ai-finance-paper pipeline Phase 1, step 2.
+    run_claude "Phase 1 — Research Director M1" -p "You are running the research pipeline Phase 1, step 2.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_context.md and context/threat_map_v1.md.
 Use the research-director agent in Mode 1 (Initial Research Plan).
@@ -217,21 +217,21 @@ if [[ "$START_PHASE" -le 2 ]]; then
 
         # Step 1: Research Director M2 — revise the plan
         log "  Research Director M2 (Plan Revision)..."
-        run_claude "Phase 2 iter $i — Research Director M2" -p "You are running the ai-finance-paper pipeline Phase 2, iteration $i, step 1.
+        run_claude "Phase 2 iter $i — Research Director M2" -p "You are running the research pipeline Phase 2, iteration $i, step 1.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan.md, context/threat_map.md, context/research_context.md.
 If context/evaluator_feedback.md exists, read it — this is the most recent evaluator feedback.
 Also read any prior archived feedback files to understand the full history of evaluator concerns: ${FEEDBACK_FILES:-none from prior iterations}.
 Use the research-director agent in Mode 2 (Plan Revision).
 Update context/research_plan.md in place with a changelog entry for iteration $i.
-Follow the conflict priority rule in agents/research-director.md if feedback and threats conflict.
+Follow the conflict priority rule in .claude/agents/research-director.md if feedback and threats conflict.
 $LOG_INSTRUCTION" $SKIP_PERMS
 
         write_phase_state 2 "Iteration $i" "Literature Guardian M2"
 
         # Step 2: Literature Guardian M2 — targeted check
         log "  Literature Guardian M2 (Targeted Check)..."
-        run_claude "Phase 2 iter $i — Literature Guardian M2" -p "You are running the ai-finance-paper pipeline Phase 2, iteration $i, step 2.
+        run_claude "Phase 2 iter $i — Literature Guardian M2" -p "You are running the research pipeline Phase 2, iteration $i, step 2.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan.md (just revised by the Director), context/threat_map.md, context/research_context.md, and context/literature_constraints.md.
 If context/search_log.md exists, read it to avoid repeating previous searches.
@@ -246,7 +246,7 @@ $LOG_INSTRUCTION" $SKIP_PERMS
 
         # Step 3: Research Evaluator M1 — score the plan
         log "  Research Evaluator M1 (Plan Evaluation)..."
-        run_claude "Phase 2 iter $i — Research Evaluator M1" -p "You are running the ai-finance-paper pipeline Phase 2, iteration $i, step 3.
+        run_claude "Phase 2 iter $i — Research Evaluator M1" -p "You are running the research pipeline Phase 2, iteration $i, step 3.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan.md, context/threat_map.md, context/research_context.md, and context/evaluation_criteria.md.
 Use the research-evaluator agent in Mode 1 (Plan Evaluation).
@@ -301,7 +301,7 @@ done
 write_phase_state 3 "Step 1" "Research Director M3 — Final Program"
 
 log "Step 1: Research Director Mode 3 (Final Program)..."
-run_claude "Phase 3 — Research Director M3" -p "You are running the ai-finance-paper pipeline Phase 3, step 1.
+run_claude "Phase 3 — Research Director M3" -p "You are running the research pipeline Phase 3, step 1.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan.md, context/threat_map.md, and context/research_context.md.
 Use the research-director agent in Mode 3 (Final Research Program).
@@ -311,7 +311,7 @@ $LOG_INSTRUCTION" $SKIP_PERMS
 write_phase_state 3 "Step 2" "Literature Guardian M3 — Deep Review"
 
 log "Step 2: Literature Guardian Mode 3 (Deep Review)..."
-run_claude "Phase 3 — Literature Guardian M3" -p "You are running the ai-finance-paper pipeline Phase 3, step 2.
+run_claude "Phase 3 — Literature Guardian M3" -p "You are running the research pipeline Phase 3, step 2.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_context.md, context/threat_map.md, context/novelty_claims.md.
 If context/literature_notes.md exists, read it too.
@@ -326,13 +326,13 @@ $LOG_INSTRUCTION" $SKIP_PERMS
 write_phase_state 3 "Step 3" "Theory Builder — Model Derivation"
 
 log "Step 3: Theory Builder (model derivation)..."
-run_claude "Phase 3 — Theory Builder" -p "You are running the ai-finance-paper pipeline Phase 3, step 3.
+run_claude "Phase 3 — Theory Builder" -p "You are running the research pipeline Phase 3, step 3.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan_final.md, context/task_queue.md, context/research_context.md.
 If context/model_equations.md exists and is non-empty, read it too.
 Use the theory-builder agent.
-Follow the 6-step workflow in agents/theory-builder.md.
-Work through each channel sequentially. Do not attempt the amplification loop until all three channels have closed equilibria.
+Follow the workflow in .claude/agents/theory-builder.md.
+Work through each model component sequentially. Do not attempt the integrating section until all components have closed equilibria.
 Write all output to context/model_equations.md.
 Include the Open Questions section even if everything closed cleanly.
 $LOG_INSTRUCTION" $SKIP_PERMS
@@ -340,10 +340,10 @@ $LOG_INSTRUCTION" $SKIP_PERMS
 write_phase_state 3 "Step 4" "Model Verifier — Completeness Check"
 
 log "Step 4: Model Verifier (completeness check)..."
-run_claude "Phase 3 — Model Verifier" -p "You are running the ai-finance-paper pipeline Phase 3, step 4.
+run_claude "Phase 3 — Model Verifier" -p "You are running the research pipeline Phase 3, step 4.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/model_equations.md, context/research_plan_final.md, context/research_context.md, and context/task_queue.md.
-Use the model-verifier agent as described in agents/model-verifier.md.
+Use the model-verifier agent as described in .claude/agents/model-verifier.md.
 Assess completeness, derivation integrity, and scope compliance.
 Write your verdict (PASS / CONDITIONAL PASS / FAIL) and full report to context/model_verifier_report.md.
 If CONDITIONAL PASS or FAIL, list every specific issue the Theory Builder must fix.
@@ -363,7 +363,7 @@ if [[ "$VERDICT" == *"CONDITIONAL"* ]]; then
     write_phase_state 3 "Step 4b" "Theory Builder — Correction Round"
 
     log "  Conditional pass — running Theory Builder correction round..."
-    run_claude "Phase 3 — Theory Builder correction" -p "You are running the ai-finance-paper pipeline Phase 3, Theory Builder correction round.
+    run_claude "Phase 3 — Theory Builder correction" -p "You are running the research pipeline Phase 3, Theory Builder correction round.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/model_verifier_report.md carefully — it contains specific issues you must fix.
 Read context/model_equations.md, context/research_plan_final.md, context/research_context.md.
@@ -374,7 +374,7 @@ $LOG_INSTRUCTION" $SKIP_PERMS
     write_phase_state 3 "Step 4c" "Model Verifier — Re-check"
 
     log "  Re-running Model Verifier after correction..."
-    run_claude "Phase 3 — Model Verifier re-check" -p "You are running the ai-finance-paper pipeline Phase 3, Model Verifier re-check.
+    run_claude "Phase 3 — Model Verifier re-check" -p "You are running the research pipeline Phase 3, Model Verifier re-check.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/model_equations.md, context/research_plan_final.md, context/research_context.md, and context/task_queue.md.
 Use the model-verifier agent. This is a re-check after a correction round.
@@ -394,18 +394,18 @@ fi
 write_phase_state 3 "Step 5" "Research Evaluator M2 — Output Evaluation"
 
 log "Step 5: Research Evaluator Mode 2 (Output Evaluation)..."
-run_claude "Phase 3 — Research Evaluator M2" -p "You are running the ai-finance-paper pipeline Phase 3, step 5.
+run_claude "Phase 3 — Research Evaluator M2" -p "You are running the research pipeline Phase 3, step 5.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan_final.md, context/threat_map_final.md, context/model_equations.md, and context/model_verifier_report.md.
 Use the research-evaluator agent in Mode 2 (Output Evaluation).
-Simulate a full JF/RFS/Econometrica referee report.
+Simulate a full referee report for the target venue.
 Write the full referee simulation to context/evaluator_feedback.md.
 $LOG_INSTRUCTION" $SKIP_PERMS
 
 write_phase_state 3 "Step 6" "Paper Writer — Academic Writing"
 
 log "Step 6: Paper Writer (Academic Writing)..."
-run_claude "Phase 3 — Paper Writer" -p "You are running the ai-finance-paper pipeline Phase 3, step 6.
+run_claude "Phase 3 — Paper Writer" -p "You are running the research pipeline Phase 3, step 6.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/paper_structure.md, context/literature_review.md, context/model_equations.md, and context/research_context.md.
 Read context/evaluator_feedback.md for referee concerns to address.
@@ -413,7 +413,7 @@ Read any existing paper/sections/*.tex files before writing.
 Use the academic-writing skill in skills/academic-writing/SKILL.md.
 Write all paper sections as .tex files in paper/sections/.
 Start with literature.tex (convert literature_review.md to LaTeX).
-Then write introduction.tex, model.tex, channel1.tex, channel2.tex, channel3.tex, amplification.tex, extensions.tex, empirics.tex, and conclusion.tex.
+Then write all remaining sections as defined in context/paper_structure.md.
 $LOG_INSTRUCTION" $SKIP_PERMS
 
 write_phase_state 3 "COMPLETE" "Pipeline finished successfully"

@@ -1,0 +1,75 @@
+% Section 9: Empirical Motivation
+\label{sec:empirics}
+
+\subsection{Motivating Evidence and Scope}
+
+This section provides motivating evidence for the three-channel fragility mechanism, not causal identification. The model's parameters, particularly the exogenous signal correlation $\rho$, are not directly observable. We construct proxies for $\rho$ from cross-sectional portfolio correlations and forecast revision correlations. We use the release of ChatGPT in November 2022 as a plausibly exogenous shock to AI adoption intensity. The evidence is interpreted as reduced-form support for the comparative statics predictions of the model, not as a structural estimate of the bifurcation threshold $\rho^*$.
+
+This framing reflects an important scope constraint. The ChatGPT release is primarily a consumer product; the mapping to institutional financial decision-making requires care. Institutional AI adoption began well before November 2022 and continued to evolve rapidly thereafter. The ChatGPT event provides a sharp, well-dated, and widely publicised marker of a shift in the salience of large language model capabilities. We argue that it created a discontinuous change in the adoption intentions and near-term deployment of AI tools by institutional investors and financial analysts. Consistent with this interpretation, \citet{kim2024} document near-identical GPT-4 analyses produced at near-zero cost for a broad range of financial tasks. This establishes that the technology was available for institutional use shortly after the ChatGPT release.
+
+\subsection{The Rho Proxy}
+
+The model's unifying primitive $\rho$ is the cross-sectional correlation of AI-generated financial signals. We construct two proxies.
+
+\emph{Proxy 1: Portfolio correlation from 13F filings.} Institutional holdings reported in 13F filings allow us to compute the cross-sectional correlation of portfolio changes across institutions within a quarter. An institution $i$'s normalised portfolio change vector $\Delta w_{it}$ (with components indexed by stock $j$) serves as a proxy for the information signal that institution $i$ received in quarter $t$. The pairwise correlation of $\Delta w_{it}$ and $\Delta w_{jt}$ across institutions captures the degree to which their information signals were aligned. Under the signal structure of~\eqref{eq:signal-structure}, two AI-equipped institutions with the same AI model would show portfolio changes aligned with $\eta$ (the common component), giving a high pairwise correlation consistent with high $\rho$.
+
+\emph{Proxy 2: Forecast revision correlation from I/B/E/S.} Analyst earnings forecast revisions provide a second proxy. When analysts revise their estimates in the same direction and by similar magnitudes at the same time, this is consistent with a common information shock $\eta$ driving their forecasts. We compute the cross-sectional correlation of revision events (direction and magnitude) for the same stock on the same date as a proxy for the common-signal component of analyst information.
+
+Both proxies are imperfect. Portfolio correlations reflect both information and risk-factor exposures; forecast revision correlations reflect both AI signals and macroeconomic news. The empirical analysis controls for common market factors, and the difference-in-differences design identifies changes in correlation relative to a control group.
+
+\subsection{Difference-in-Differences Design}
+
+We use the ChatGPT release (November 30, 2022) as an AI adoption shock. The treatment group consists of stocks with high ex-ante AI exposure. We define this as stocks where a high fraction of 13F-filing institutions are classified as quantitative or technology-intensive prior to November 2022. The control group consists of stocks with low AI exposure, primarily held by traditional fundamental investors. The key identifying assumption is that the treatment and control groups would have followed parallel trends in portfolio correlation and liquidity measures absent the ChatGPT release.
+
+The estimating equation for the portfolio correlation proxy is
+\begin{equation}\label{eq:did-correlation}
+  \hat{\rho}_{it} = \alpha_i + \delta_t + \beta \cdot \text{Post}_t \times \text{HighAI}_i + X_{it}'\gamma + \varepsilon_{it},
+\end{equation}
+where $\hat{\rho}_{it}$ is the average pairwise portfolio change correlation for stock $i$ in quarter $t$, $\text{Post}_t$ is an indicator for quarters after November 2022, $\text{HighAI}_i$ is the high-AI-exposure treatment indicator, and $X_{it}$ is a vector of controls (market capitalisation, book-to-market ratio, turnover, return volatility). The coefficient $\beta$ identifies the differential change in portfolio correlation for high-AI stocks relative to low-AI stocks following the ChatGPT release.
+
+An analogous specification for the liquidity proxy uses the quarterly bid-ask spread as the dependent variable:
+\begin{equation}\label{eq:did-liquidity}
+  \text{Spread}_{it} = \alpha_i + \delta_t + \beta_s \cdot \text{Post}_t \times \text{HighAI}_i + X_{it}'\gamma_s + \varepsilon_{it},
+\end{equation}
+where $\beta_s$ identifies the differential change in spreads for high-AI stocks following the ChatGPT release.
+
+\input{tables/correlation_did}
+
+Table~\ref{tab:correlation_did} presents the difference-in-differences estimates for portfolio correlation. The model predicts, from the comparative statics of Proposition~\ref{prop:info-diversity} and Proposition~\ref{prop:neff}, that the ChatGPT release should have raised portfolio correlation for high-AI-exposure stocks relative to low-AI-exposure stocks. The AI adoption shock raised the effective $\rho$ for institutions using the new technology.
+
+\input{tables/liquidity_did}
+
+Table~\ref{tab:liquidity_did} presents the difference-in-differences estimates for the bid-ask spread. The model predicts, from Proposition~\ref{prop:neff} and the spread formula~\eqref{eq:spread}, that higher $\rho$ should widen spreads for stocks with high AI coverage. Market makers for these stocks increasingly share common AI calibrations.
+
+\subsection{Descriptive Evidence on the Rho Proxy}
+
+\input{tables/rho_proxy_descriptive}
+
+Table~\ref{tab:rho_proxy_descriptive} presents descriptive statistics for both $\rho$ proxies before and after the ChatGPT release. The time series of average pairwise portfolio change correlations shows a visible increase in the treatment group following November 2022, consistent with the model's prediction that AI adoption raises $\rho$. The I/B/E/S forecast revision correlation proxy shows a similar pattern for high-coverage stocks.
+
+\subsection{Mapping Evidence to Model Predictions}
+
+The empirical evidence connects to the model's comparative statics in three ways.
+
+First, the increase in portfolio correlation for high-AI stocks is consistent with rising $\rho$ in the signal structure~\eqref{eq:signal-structure}. Institutions using the same AI tools produce more correlated investment decisions, consistent with the common component $\eta$ playing a larger role in their signals.
+
+Second, the widening of bid-ask spreads for high-AI stocks is consistent with the $N_{\text{eff}}(\rho)$ mechanism of Channel 3. As market makers calibrated on the same AI models become more correlated, the effective number of independent liquidity providers falls and spreads widen.
+
+Third, the simultaneous movement in both the correlation proxy and the liquidity proxy for the same stocks is consistent with the amplification loop of Section~\ref{sec:amplification}. The two channels are correlated because they share the common driver $\rho$.
+
+We do not claim causal identification of the bifurcation threshold $\rho^*$. The comparative statics provide directional support for the model's predictions: AI adoption raises signal correlation, and higher signal correlation widens spreads. Structural estimation of the model's parameters, including $\rho_1^*$, $\rho^{**}$, and $\rho^*$, is left for future work.
+
+\subsection{Testable Predictions}
+
+The model generates three specific predictions that can guide future empirical work.
+
+\emph{Prediction 1 (Non-monotone crisis probability).} As AI model overlap increases, measured by portfolio return correlation or forecast revision correlation across institutions, crisis probability should first decrease then increase. The non-monotonicity of Proposition~\ref{prop:crisis-nonmonotone} implies a hump-shaped relationship. This is testable via a panel regression of crisis indicators (bank CDS spreads, systemic risk measures such as CoVaR or SRISK) on a quadratic function of the $\rho$ proxy, using CRSP and 13F data. The distinguishing prediction relative to \citet{danielsson2025}, whose $\theta^*(\mu)$ is monotonically increasing, is the initial decline in crisis risk at low $\rho$.
+
+\emph{Prediction 2 (FPE-RPE divergence).} AI adoption should improve forecast accuracy (FPE) while reducing the information content of prices for real decisions (RPE). This is testable by comparing analyst forecast accuracy from I/B/E/S with real investment sensitivity to prices, following \citet{bond2012}. A declining ratio of investment-price sensitivity to forecast accuracy would signal increasing redundancy in price signals. Cross-sectional variation in AI adoption intensity across firms provides the identifying variation.
+
+\emph{Prediction 3 ($N_{\text{eff}}$ collapse).} Markets with higher AI penetration among market makers should exhibit higher bid-ask spread comovement, reflecting the reduction in effective independent liquidity providers. This is testable using TAQ data on bid-ask spreads and cross-sectional variation in algorithmic market-making share. The model predicts that the pairwise correlation of spread changes across market makers should be increasing in the degree of AI model overlap, with the relationship being convex (Proposition~\ref{prop:neff}).
+
+The motivating evidence reinforces the theoretical message. The channels we model are not hypothetical. Signal correlation is rising, liquidity diversification is falling, and these movements coincide with the acceleration of AI adoption. Section~\ref{sec:conclusion} draws the policy implications and identifies the most pressing directions for future research.
+% --- Clarity pass complete: 2026-03-11 ---
+% --- Flow pass complete: 2026-03-11 ---
+% --- Technical audit complete: 2026-03-11 ---
