@@ -12,51 +12,70 @@ begins. The output is an initial research plan informed by a literature scan and
 
 ## Flowchart
 
-```mermaid
-flowchart TD
-    START([Phase 1 Start]) --> READ_RC[Read<br/>research_context.md]
-
-    READ_RC --> LG_M1["<b>Literature Guardian M1</b><br/>Quick Scan<br/><i>Skill: literature-review/light</i>"]
-
-    LG_M1 --> |produces| TM_V1[threat_map_v1.md]
-    LG_M1 --> |produces| TM[threat_map.md]
-    LG_M1 --> |produces| LC[literature_constraints.md]
-    LG_M1 --> |produces| SL[search_log.md]
-
-    TM_V1 --> HUMAN{"<b>HUMAN CHECKPOINT</b><br/>Review threat map"}
-
-    HUMAN --> |add missing papers<br/>correct threat levels<br/>check aggregate assessment| DECISION{Changes<br/>needed?}
-
-    DECISION --> |yes| HF[Create<br/>human_feedback_phase1.md]
-    DECISION --> |no| RD_M1
-
-    HF --> RD_M1["<b>Research Director M1</b><br/>Initial Research Plan"]
-
-    %% RD M1 inputs
-    READ_RC --> RD_M1
-    TM_V1 --> RD_M1
-    LC --> RD_M1
-    HF -.-> |if present| RD_M1
-
-    RD_M1 --> |produces| RP[research_plan.md]
-
-    RP --> INIT["Initialise loop state<br/>Create loop_state.md<br/>Create archives/ directory"]
-
-    INIT --> EXIT([Phase 1 Complete<br/>→ Phase 2])
-
-    %% Styling
-    classDef agent fill:#4a90d9,stroke:#2c5f8a,color:#fff,font-weight:bold
-    classDef human fill:#e8a838,stroke:#b07d1a,color:#fff,font-weight:bold
-    classDef file fill:#f0f0f0,stroke:#999,color:#333
-    classDef start fill:#5cb85c,stroke:#3d8b3d,color:#fff
-    classDef decision fill:#e8a838,stroke:#b07d1a,color:#fff
-
-    class LG_M1,RD_M1 agent
-    class HUMAN human
-    class TM_V1,TM,LC,SL,HF,RP file
-    class START,EXIT start
-    class DECISION decision
 ```
+┌──────────────────────────────────────────────────────────┐
+│                   PHASE 1 — PRE-LOOP                     │
+│                                                          │
+│  Human provides research_context.md                      │
+│         │                                                │
+│         ▼                                                │
+│  ┌───────────────────────────────────────────────────┐   │
+│  │  Step 1.1: Literature Guardian [M1 — Quick Scan]  │   │
+│  │  Skill: literature-review/light (web search)      │   │
+│  │  Input:  context/research_context.md              │   │
+│  │  Outputs: literature/threat_map_v1.md  (archive)  │   │
+│  │           literature/threat_map.md     (loop copy) │  │
+│  │           literature/constraints.md   (initial)   │   │
+│  │           literature/search_log.md    (initial)   │   │
+│  └──────────────────────┬────────────────────────────┘   │
+│                         │                                │
+│                         ▼                                │
+│  ┌───────────────────────────────────────────────────┐   │
+│  │  Step 1.1b: HUMAN CHECKPOINT                      │   │
+│  │  Review threat_map_v1.md                          │   │
+│  │                                                   │   │
+│  │  Actions:                                         │   │
+│  │    - Add missing papers                           │   │
+│  │    - Correct misclassified threat levels          │   │
+│  │    - Check aggregate assessment                   │   │
+│  │    - Consider updating research_context.md        │   │
+│  │                                                   │   │
+│  │  Output (optional): human_feedback_phase1.md      │   │
+│  └──────────────────────┬────────────────────────────┘   │
+│                         │                                │
+│                         ▼                                │
+│  ┌───────────────────────────────────────────────────┐   │
+│  │  Step 1.2: Research Director [M1 — Initial Plan]  │   │
+│  │  Inputs: research_context.md                      │   │
+│  │          literature/threat_map_v1.md               │   │
+│  │          literature/constraints.md                │   │
+│  │          human_feedback_phase1.md (if present)    │   │
+│  │  Output: planning/research_plan.md               │   │
+│  └──────────────────────┬────────────────────────────┘   │
+│                         │                                │
+│                         ▼                                │
+│  ┌───────────────────────────────────────────────────┐   │
+│  │  Step 1.3: Initialise Loop State                  │   │
+│  │  Actor: pipeline script / human                   │   │
+│  │  Outputs: loop_state.md, archives/ directory      │   │
+│  └──────────────────────┬────────────────────────────┘   │
+│                         │                                │
+└─────────────────────────┼────────────────────────────────┘
+                          │
+                          ▼
+                    ── Phase 2 ──
+```
+
+---
+
+## Sequence Table
+
+| Step | Agent | Action | Key files written | Blocking dependencies |
+|------|-------|--------|-------------------|-----------------------|
+| 1.1 | Literature Guardian M1 | Quick scan for novelty threats | `threat_map_v1.md`, `threat_map.md`, `constraints.md`, `search_log.md` | None |
+| 1.1b | Human | Review threat map; optionally provide corrections | `human_feedback_phase1.md` (optional) | Step 1.1 |
+| 1.2 | Research Director M1 | Create initial research plan using threat map and gap analysis | `research_plan.md` | Steps 1.1, 1.1b |
+| 1.3 | Pipeline / Human | Initialise loop state tracker and archives directory | `loop_state.md`, `archives/` | Step 1.2 |
 
 ---
 
@@ -121,28 +140,34 @@ archives directory for storing evaluator feedback snapshots across iterations.
 
 ---
 
-## File flow summary
+## Data Flow Summary
 
 ```
-research_context.md ──────────────────────────────────┐
-                                                       │
-    ┌────────────────────── LG M1 ◄────────────────────┘
-    │
-    ├─► literature/threat_map_v1.md ──┬─► HUMAN CHECKPOINT
-    ├─► literature/threat_map.md      │        │
-    ├─► literature/constraints.md     │   human_feedback_phase1.md (optional)
-    └─► literature/search_log.md      │        │
-                                      │        │
-                                      ▼        ▼
-                                    RD M1 ◄── research_context.md
-                                      │       literature/constraints.md
-                                      │
-                                      └─► planning/research_plan.md
-                                                │
-                                                ▼
-                                          Initialise loop state
-                                          (loop_state.md, archives/)
-                                                │
-                                                ▼
-                                          ── Phase 2 ──
+  research_context.md
+         │
+         ▼
+  Literature Guardian M1 ──► literature/threat_map_v1.md
+                              literature/threat_map.md
+                              literature/constraints.md
+                              literature/search_log.md
+                                    │
+                                    ▼
+                            HUMAN CHECKPOINT
+                            (review threat map)
+                                    │
+                              human_feedback_phase1.md (optional)
+                                    │
+                                    ▼
+  research_context.md ──► Research Director M1 ◄── threat_map_v1.md
+  constraints.md ─────►          │                  human_feedback_phase1.md
+                                 │
+                                 ▼
+                          planning/research_plan.md
+                                 │
+                                 ▼
+                          Initialise loop state
+                          (loop_state.md, archives/)
+                                 │
+                                 ▼
+                           ── Phase 2 ──
 ```
