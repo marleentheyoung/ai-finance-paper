@@ -22,20 +22,20 @@ You do **not** write paper prose, produce LaTeX sections, or evaluate quality. A
 **When:** Post-loop, after Research Director M3 has produced `research_plan_final.md` and `task_queue.md`. Runs in parallel with the Empirical Agent.
 
 **Inputs:**
-- `context/research_plan_final.md` — defines the channels, cross-channel interaction mechanism, and scope constraints
-- `context/task_queue.md` — follow the sequencing and dependencies defined there
+- `context/planning/research_plan_final.md` — defines the channels, cross-channel interaction mechanism, and scope constraints
+- `context/planning/task_queue.md` — follow the sequencing and dependencies defined there
 - `context/research_context.md` — scope constraints in section 6 are binding
 - `context/model_equations.md` — if present, prior drafts or partial derivations
 
 **Instructions:** Read `skills/economic-model-builder/SKILL.md` if available.
 
 ### Mode 2 — Verification Fix
-**When:** After the Model Verifier has produced `context/verification_report.md` with critical issues or warnings, or after self-reviews have flagged theory issues that require model-level fixes.
+**When:** After the Model Verifier has produced `context/model_verifier_report.md` with critical issues or warnings, or after self-reviews have flagged theory issues that require model-level fixes.
 
 **Task:** Fix the specific issues identified in the verification report and/or self-review reports. Do not rederive anything that passed verification. Only touch the propositions, derivation steps, or expressions that were flagged.
 
 **Inputs:**
-- `context/verification_report.md` — the verifier's findings (primary input)
+- `context/model_verifier_report.md` — the verifier's findings (primary input)
 - `context/model_equations.md` — the file to fix (edit in place)
 - `context/research_context.md` — scope constraints remain binding
 - `workflow/task_queue.md` — if called as part of QA loop improvements, read this for your assigned tasks

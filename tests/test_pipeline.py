@@ -55,10 +55,10 @@ def test_no_generated_content_outside_archive():
     root = Path(__file__).resolve().parents[1]
     # These files should only exist in archive/, not in context/
     generated_files = [
-        "context/research_plan.md",
-        "context/threat_map.md",
+        "context/planning/research_plan.md",
+        "context/literature/threat_map.md",
         "context/model_equations.md",
-        "context/literature_review.md",
+        "context/literature/review.md",
     ]
     for f in generated_files:
         assert not (root / f).exists(), f"Generated file should be archived: {f}"

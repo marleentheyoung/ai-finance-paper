@@ -18,8 +18,8 @@ Calibrate all output to a PhD / top-journal standard. Cite by author-year. Refer
 Read before doing anything else:
 
 - `context/research_context.md` — the full research specification including the core contribution, theoretical channels, cross-mechanism interactions, and stated scope constraints
-- `context/literature_notes.md` — if present, any paper summaries already accumulated
-- `context/literature_constraints.md` — if present, constraints already identified
+- `context/literature/notes.md` — if present, any paper summaries already accumulated
+- `context/literature/constraints.md` — if present, constraints already identified
 
 Web search is permitted for papers that cannot be identified from the context files alone. Prefer targeted, specific searches (author + title or author + year) over broad topic searches. The goal is to fill gaps in coverage, not to build an exhaustive bibliography. When in doubt about a paper's mechanism, fetch its abstract before classifying it.
 
@@ -49,8 +49,8 @@ First, identify all papers already referenced across the context files.
 
 Sources to mine:
 - Papers explicitly cited in `research_context.md` (foundational papers and empirical motivation)
-- Papers listed in `context/literature_notes.md` (if present)
-- Any papers mentioned in `context/literature_constraints.md` (if present)
+- Papers listed in `context/literature/notes.md` (if present)
+- Any papers mentioned in `context/literature/constraints.md` (if present)
 
 For each mechanism area, compile the relevant papers already known:
 1. [Mechanism Area 1] (Channel 1)
@@ -86,11 +86,11 @@ After classifying all papers, make a brief overall assessment:
 
 Produce four files:
 
-**1. `context/threat_map_v1.md`** — the versioned initial threat map (permanent record of the starting state)
+**1. `context/literature/threat_map_v1.md`** — the versioned initial threat map (permanent record of the starting state)
 
-**2. `context/threat_map.md`** — identical copy of `threat_map_v1.md`. This is the file the targeted skill reads and updates in the loop. Writing it here avoids the need for an orchestrator rename step between Phase 1 and Phase 2.
+**2. `context/literature/threat_map.md`** — identical copy of `threat_map_v1.md`. This is the file the targeted skill reads and updates in the loop. Writing it here avoids the need for an orchestrator rename step between Phase 1 and Phase 2.
 
-**3. `context/literature_constraints.md`** — initial constraints file, using this schema:
+**3. `context/literature/constraints.md`** — initial constraints file, using this schema:
 
 ```markdown
 # Literature Constraints
@@ -115,7 +115,7 @@ Initial version produced from research_context.md and light scan.
 
 ---
 
-**`context/threat_map_v1.md` schema:**
+**`context/literature/threat_map_v1.md` schema:**
 
 Use exactly this schema, adapting channel names from `research_context.md`:
 
@@ -194,7 +194,7 @@ Coverage gaps: [mechanism areas with no papers on record]
 [List any papers classified as MODERATE or HIGH where the abstract was insufficient to make a definitive assessment. These will be checked in the targeted review.]
 ```
 
-**4. `context/search_log.md`** — a log of every search query run and every paper reviewed, so future iterations can avoid duplicate work. Use this schema:
+**4. `context/literature/search_log.md`** — a log of every search query run and every paper reviewed, so future iterations can avoid duplicate work. Use this schema:
 
 ```markdown
 # Search Log

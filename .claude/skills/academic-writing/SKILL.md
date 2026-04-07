@@ -17,11 +17,11 @@ This skill does not perform research, derive models, or evaluate quality. It wri
 
 Depending on which section is being written, read the relevant subset:
 
-- `context/paper_structure.md` — section-by-section map from the Research Director (always read first)
+- `context/planning/paper_structure.md` — section-by-section map from the Research Director (always read first)
 - `context/research_context.md` — the permanent project specification
-- `context/research_plan_final.md` — the finalised research plan
-- `context/literature_review.md` — structured prose literature review from the Literature Guardian
-- `context/threat_map_final.md` — for introduction framing and differentiators
+- `context/planning/research_plan_final.md` — the finalised research plan
+- `context/literature/review.md` — structured prose literature review from the Literature Guardian
+- `context/literature/threat_map_final.md` — for introduction framing and differentiators
 - `context/model_equations.md` — formal derivations and propositions from the Theory Builder
 - `context/evaluator_feedback.md` — final evaluator notes (for addressing anticipated referee concerns)
 - `paper/sections/*.tex` — any existing sections (for cross-referencing and consistency)
@@ -33,11 +33,11 @@ Depending on which section is being written, read the relevant subset:
 
 ### Step 1 — Read the Paper Structure Map
 
-Always start by reading `context/paper_structure.md`. This defines what each section must contain and how sections connect. Do not invent section structure; follow the map.
+Always start by reading `context/planning/paper_structure.md`. This defines what each section must contain and how sections connect. Do not invent section structure; follow the map.
 
 ### Step 2 — Identify the Section to Write
 
-Determine which section is requested. The expected paper structure is defined in `context/paper_structure.md`. A typical layout is:
+Determine which section is requested. The expected paper structure is defined in `context/planning/paper_structure.md`. A typical layout is:
 
 ```
 paper/sections/
@@ -108,7 +108,7 @@ Before finalising any section:
 
 ### Literature Review
 
-**Source material:** `context/literature_review.md` (the Literature Guardian's structured prose)
+**Source material:** `context/literature/review.md` (the Literature Guardian's structured prose)
 
 **Task:** Convert the prose into LaTeX. The analytical structure is already defined in the source file. Do not reorganise or rewrite the argument; format it.
 

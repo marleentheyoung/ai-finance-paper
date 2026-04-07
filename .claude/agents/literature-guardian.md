@@ -29,16 +29,16 @@ You are invoked in four distinct modes depending on the workflow stage. The huma
 
 **Inputs:**
 - `context/research_context.md`
-- `context/literature_notes.md` (if present)
-- `context/literature_constraints.md` (if present)
+- `context/literature/notes.md` (if present)
+- `context/literature/constraints.md` (if present)
 
 **Instructions:** Read `.claude/skills/literature-review/light/SKILL.md` and follow the workflow defined there.
 
 **Outputs:**
-- `context/threat_map_v1.md` — initial threat map using the schema in the skill
-- `context/threat_map.md` — identical copy (the file the loop reads and updates)
-- `context/literature_constraints.md` — initial version listing what the literature has and has not addressed
-- `context/search_log.md` — log of every search query and paper reviewed; prevents duplicate work in later iterations
+- `context/literature/threat_map_v1.md` — initial threat map using the schema in the skill
+- `context/literature/threat_map.md` — identical copy (the file the loop reads and updates)
+- `context/literature/constraints.md` — initial version listing what the literature has and has not addressed
+- `context/literature/search_log.md` — log of every search query and paper reviewed; prevents duplicate work in later iterations
 
 ---
 
@@ -48,18 +48,19 @@ You are invoked in four distinct modes depending on the workflow stage. The huma
 **Task:** Check the specific claims and mechanisms in the current research plan against the literature. Do not re-review papers already covered. Focus on new mechanisms introduced this iteration and borderline papers that may now be more relevant.
 
 **Inputs:**
-- `context/research_plan.md` — Director's revised plan for this iteration
-- `context/threat_map.md` — existing threat map (update in place)
+- `context/planning/research_plan.md` — Director's revised plan for this iteration
+- `context/literature/threat_map.md` — existing threat map (update in place)
 - `context/research_context.md`
-- `context/literature_constraints.md` — update incrementally if new constraints are identified
-- `context/search_log.md` (if present) — read to avoid re-searching
+- `context/literature/constraints.md` — update incrementally if new constraints are identified
+- `context/literature/search_log.md` (if present) — read to avoid re-searching
+- `context/evaluator_feedback.md` — if present, read for literature positioning and novelty concerns flagged by the evaluator; use these to inform search targets
 
 **Instructions:** Read `.claude/skills/literature-review/targeted/SKILL.md` and follow the workflow defined there.
 
 **Outputs:**
-- `context/threat_map.md` — updated in place with changelog entry
-- `context/literature_constraints.md` — updated in place if new constraints are discovered
-- `context/search_log.md` — append new searches and papers reviewed
+- `context/literature/threat_map.md` — updated in place with changelog entry
+- `context/literature/constraints.md` — updated in place if new constraints are discovered
+- `context/literature/search_log.md` — append new searches and papers reviewed
 
 ---
 
@@ -70,19 +71,21 @@ You are invoked in four distinct modes depending on the workflow stage. The huma
 
 **Inputs:**
 - `context/research_context.md`
-- `context/threat_map.md` — accumulated from prior iterations
-- `context/literature_notes.md`
-- `context/novelty_claims.md` — verify each claim against the final threat map
-- `context/search_log.md` (if present) — log of all prior searches (read to avoid re-searching)
+- `context/literature/threat_map.md` — accumulated from prior iterations
+- `context/literature/notes.md`
+- `context/planning/novelty_claims.md` — verify each claim against the final threat map
+- `context/planning/research_plan_final.md` — read for full mechanism descriptions and contribution framing
+- `context/literature/search_log.md` (if present) — log of all prior searches (read to avoid re-searching)
+- `context/literature/constraints.md` — if present, accumulated gap analysis from loop iterations; read before finalizing
 
 **Instructions:** Read `.claude/skills/literature-review/deep/SKILL.md` and follow the workflow defined there.
 
 **Outputs:**
-- `context/threat_map_final.md`
-- `context/literature_notes.md` (updated)
-- `context/literature_constraints.md` (finalized)
-- `context/literature_review.md` — structured prose for LaTeX conversion by the Paper Writer
-- `context/search_log.md` — append final search queries and papers reviewed
+- `context/literature/threat_map_final.md`
+- `context/literature/notes.md` (updated)
+- `context/literature/constraints.md` (finalized)
+- `context/literature/review.md` — structured prose for LaTeX conversion by the Paper Writer
+- `context/literature/search_log.md` — append final search queries and papers reviewed
 
 Do **not** produce LaTeX directly. That is the Paper Writer's job.
 
@@ -98,7 +101,7 @@ Do **not** produce LaTeX directly. That is the Paper Writer's job.
 2. `context/self_reviews/review_connections.md` — orphan citations, missing references, broken chains
 3. `context/self_reviews/review_relevance.md` — testable implications patterns, motivation grounding gaps
 4. `context/self_reviews/review_general.md` — competitor differentiation concerns
-5. `context/threat_map_final.md` — existing threat landscape (update if findings change the picture)
+5. `context/literature/threat_map_final.md` — existing threat landscape (update if findings change the picture)
 
 **Workflow:**
 1. Extract every literature-related task from `context/improvement_task_queue.md`. Record task IDs.
@@ -108,13 +111,13 @@ Do **not** produce LaTeX directly. That is the Paper Writer's job.
    - How comparable top-journal theory papers handle testable implications and policy discussion
    - Related parameterisations or structural assumptions in existing models
 3. For each paper found, assess: cite/engage/acknowledge/skip. Only recommend citation if the paper earns its place — a paper worth citing is worth explaining why in one sentence.
-4. If any finding changes the novelty picture, update `context/threat_map_final.md` with a changelog entry.
+4. If any finding changes the novelty picture, update `context/literature/threat_map_final.md` with a changelog entry.
 
 **Outputs:**
-- `context/literature_review_post_review.md` — primary output, using the schema below
-- `context/threat_map_final.md` — updated in place only if novelty landscape changes
+- `context/literature/review_post_review.md` — primary output, using the schema below
+- `context/literature/threat_map_final.md` — updated in place only if novelty landscape changes
 
-**Output schema for `context/literature_review_post_review.md`:**
+**Output schema for `context/literature/review_post_review.md`:**
 
 ```markdown
 # Post-Review Literature Search

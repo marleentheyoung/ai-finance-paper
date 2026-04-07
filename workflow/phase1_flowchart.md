@@ -69,7 +69,7 @@ flowchart TD
 | **Agent** | Literature Guardian, Mode 1 |
 | **Skill** | `.claude/skills/literature-review/light/SKILL.md` |
 | **Reads** | `context/research_context.md` |
-| **Produces** | `context/threat_map_v1.md`, `context/threat_map.md`, `context/literature_constraints.md`, `context/search_log.md` |
+| **Produces** | `context/literature/threat_map_v1.md`, `context/literature/threat_map.md`, `context/literature/constraints.md`, `context/literature/search_log.md` |
 
 The Literature Guardian scans the literature for papers related to the research
 idea. It classifies each paper as HIGH / MODERATE / LOW threat based on
@@ -81,7 +81,7 @@ the Research Director.
 | | |
 |---|---|
 | **Actor** | Human researcher |
-| **Reads** | `context/threat_map_v1.md` |
+| **Reads** | `context/literature/threat_map_v1.md` |
 | **Optionally produces** | `context/human_feedback_phase1.md` |
 
 The most important checkpoint in the pipeline. The human reviews the threat map
@@ -98,8 +98,8 @@ If corrections are needed, they go into `human_feedback_phase1.md`.
 | | |
 |---|---|
 | **Agent** | Research Director, Mode 1 |
-| **Reads** | `context/research_context.md`, `context/threat_map_v1.md`, `context/literature_constraints.md`, `context/human_feedback_phase1.md` (if present) |
-| **Produces** | `context/research_plan.md` |
+| **Reads** | `context/research_context.md`, `context/literature/threat_map_v1.md`, `context/literature/constraints.md`, `context/human_feedback_phase1.md` (if present) |
+| **Produces** | `context/planning/research_plan.md` |
 
 The Research Director creates the initial research plan. The plan uses the
 literature constraints (especially the gap analysis) to identify which
@@ -124,26 +124,25 @@ archives directory for storing evaluator feedback snapshots across iterations.
 ## File flow summary
 
 ```
-research_context.md ──────────────────────────────┐
-                                                   │
-    ┌──────────────────── LG M1 ◄──────────────────┘
+research_context.md ──────────────────────────────────┐
+                                                       │
+    ┌────────────────────── LG M1 ◄────────────────────┘
     │
-    ├─► threat_map_v1.md ──┬─► HUMAN CHECKPOINT
-    ├─► threat_map.md      │        │
-    ├─► literature_         │   human_feedback_phase1.md (optional)
-    │   constraints.md     │        │
-    └─► search_log.md      │        │
-                           │        │
-                           ▼        ▼
-                         RD M1 ◄── research_context.md
-                           │       literature_constraints.md
-                           │
-                           └─► research_plan.md
-                                    │
-                                    ▼
-                              Initialise loop state
-                              (loop_state.md, archives/)
-                                    │
-                                    ▼
-                              ── Phase 2 ──
+    ├─► literature/threat_map_v1.md ──┬─► HUMAN CHECKPOINT
+    ├─► literature/threat_map.md      │        │
+    ├─► literature/constraints.md     │   human_feedback_phase1.md (optional)
+    └─► literature/search_log.md      │        │
+                                      │        │
+                                      ▼        ▼
+                                    RD M1 ◄── research_context.md
+                                      │       literature/constraints.md
+                                      │
+                                      └─► planning/research_plan.md
+                                                │
+                                                ▼
+                                          Initialise loop state
+                                          (loop_state.md, archives/)
+                                                │
+                                                ▼
+                                          ── Phase 2 ──
 ```

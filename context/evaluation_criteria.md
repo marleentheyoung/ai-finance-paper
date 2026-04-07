@@ -39,7 +39,7 @@ All criteria use a 1–5 integer scale. No half points.
 
 ### 1. Novelty
 
-**What is being assessed:** Whether the proposed contributions are genuinely new relative to the threat papers in `context/threat_map.md` and the prior art listed in `context/research_context.md`. A contribution is novel only if no existing paper shares its **formal mechanism** — surface-level topic overlap is not sufficient to classify a contribution as redundant.
+**What is being assessed:** Whether the proposed contributions are genuinely new relative to the threat papers in `context/literature/threat_map.md` and the prior art listed in `context/research_context.md`. A contribution is novel only if no existing paper shares its **formal mechanism** — surface-level topic overlap is not sufficient to classify a contribution as redundant.
 
 **Checks:**
 - Does each contribution have a precise mechanism-level differentiator from the threat map?
@@ -237,36 +237,9 @@ When the decision is **REVISE**, the evaluator must output:
 
 ## Output Format
 
-The evaluator's output must follow this exact structure:
+The evaluator's full output schema — including Referee Simulation, Critical Risks, and Loop Recommendation sections — is defined in `.claude/agents/research-evaluator.md` under the Mode 1 evaluation report schema. That schema is canonical.
 
-```markdown
-## Evaluation
-
-| Criterion                | Score | Justification |
-|--------------------------|-------|---------------|
-| Novelty                  | X     | ...           |
-| Mechanism clarity        | X     | ...           |
-| Theoretical feasibility  | X     | ...           |
-| Literature positioning   | X     | ...           |
-| Expected contribution    | X     | ...           |
-| Testability              | X     | ...           |
-| Scope calibration        | X     | ...           |
-| Expository economy       | X     | ...           |
-
-**Core floor (min of novelty, mechanism clarity, feasibility):** X
-**Mean (all eight):** X.X
-**Overall score:** X.X
-**Decision:** ACCEPT / REVISE / REJECT
-**Hard failure triggered:** [None / state which condition]
-
-### Revision directives (if REVISE or REJECT)
-1. [Dimension]: [specific directive]. Target score: X.
-2. [Dimension]: [specific directive]. Target score: X.
-
-### Meta-check
-In one sentence, state why a reader should care about this paper's result.
-If you cannot write a compelling sentence, the plan needs revision regardless of numeric scores.
-```
+This file defines the rubric, scoring logic, and decision thresholds only.
 
 ---
 
@@ -275,4 +248,4 @@ If you cannot write a compelling sentence, the plan needs revision regardless of
 - The target venue is defined in `research_context.md`. Calibrate all scores to that standard, not a working paper or conference standard.
 - The scope constraints in `research_context.md` are **deliberate design choices**, not weaknesses. Do not penalise the plan for constraints that were intentionally adopted.
 - The integrating contribution (if any) is the paper's **non-negotiable core contribution**. A plan that does not clearly specify how it will be characterised cannot score above 3 on Expected Contribution.
-- If the threat map has not been populated (`context/threat_map.md` is empty), the Novelty score cannot exceed 3. Flag this explicitly.
+- If the threat map has not been populated (`context/literature/threat_map.md` is empty), the Novelty score cannot exceed 3. Flag this explicitly.

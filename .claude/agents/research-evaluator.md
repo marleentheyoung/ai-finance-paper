@@ -33,16 +33,22 @@ The human or orchestrator will tell you which mode to run.
 **Task:** Evaluate the plan across all eight criteria in `context/evaluation_criteria.md`. Produce a structured critique and numerical score. Flag critical risks. Do not suggest specific fixes.
 
 **Inputs:**
-- `context/research_plan.md`
-- `context/threat_map.md`
+- `context/planning/research_plan.md`
+- `context/literature/threat_map.md`
 - `context/research_context.md`
 - `context/evaluation_criteria.md` — **read this first; it is the authoritative rubric**
+- `context/literature/constraints.md` — if present, read for confirmed literature gaps that strengthen or weaken novelty claims
 
-**Instructions:** Read `skills/self-critique/SKILL.md` for the evaluation workflow.
+**Instructions:** Read `context/evaluation_criteria.md` first — it defines the rubric and scoring logic. Then follow the output schema below.
 
 **Outputs:**
 - `context/evaluator_feedback.md` — evaluation report (schema below)
-- `context/loop_state.md` — update the score field and iteration counter
+- `context/loop_state.md` — update these fields exactly:
+  - `iteration:` — set to the current iteration number
+  - `current_score:` — set to the computed overall score (one decimal place)
+  - `decision:` — set to ACCEPT, REVISE, or REJECT
+  - `status:` — set to `accepted` if ACCEPT, `rejected` if REJECT with hard failure, otherwise leave as `running`
+  - History table — append: `| {iteration} | {score} | {decision} |`
 
 **Evaluation report schema:**
 
@@ -57,13 +63,13 @@ Scores use a 1-5 integer scale as defined in `evaluation_criteria.md`. No half p
 | Criterion               | Score (1-5) | Justification |
 |-------------------------|-------------|---------------|
 | Novelty                 | X           | [concrete reasoning referencing specific plan elements] |
-| Mechanism Clarity       | X           | [concrete reasoning] |
-| Theoretical Feasibility | X           | [concrete reasoning] |
-| Literature Positioning  | X           | [concrete reasoning] |
-| Expected Contribution   | X           | [concrete reasoning] |
+| Mechanism clarity       | X           | [concrete reasoning] |
+| Theoretical feasibility | X           | [concrete reasoning] |
+| Literature positioning  | X           | [concrete reasoning] |
+| Expected contribution   | X           | [concrete reasoning] |
 | Testability             | X           | [concrete reasoning] |
-| Scope Calibration       | X           | [concrete reasoning] |
-| Expository Economy      | X           | [concrete reasoning] |
+| Scope calibration       | X           | [concrete reasoning] |
+| Expository economy      | X           | [concrete reasoning] |
 
 **Core floor (min of Novelty, Mechanism Clarity, Feasibility):** X
 **Mean (all eight):** X.X
@@ -103,13 +109,14 @@ Risk 2: [description] - Severity: [High / Medium / Low]
 **Task:** Evaluate whether delivered outputs match the promises of the final research plan. Check propositions, comparative statics direction, and empirical coherence with theory. Simulate a full referee report.
 
 **Inputs:**
-- `context/research_plan_final.md`
-- `context/threat_map_final.md`
+- `context/planning/research_plan_final.md`
+- `context/literature/threat_map_final.md`
 - `context/model_equations.md` — if available
 - `context/research_context.md`
+- `context/model_verifier_report.md` — if available, read for verification status and any unresolved issues
 - Any `paper/sections/*.tex` files produced so far
 
-**Instructions:** Read `skills/self-critique/SKILL.md` for the evaluation workflow.
+**Instructions:** Read `context/evaluation_criteria.md` first — it defines the rubric and scoring logic. Then follow the output schema in Mode 1 above, adapted for output evaluation (omit Loop Recommendation; expand Referee Simulation into a full referee report).
 
 **Outputs:**
 - `context/evaluator_feedback.md` — full simulated referee report and summary of key issues

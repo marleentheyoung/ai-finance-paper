@@ -49,14 +49,14 @@ Each phase uses a defined set of agents, each agent has bounded responsibilities
 │  Literature Guardian [Mode 1 — Quick Scan]               │
 │  Skill: literature-review-light (web search)             │
 │  Input:  context/research_context.md                     │
-│  Outputs: context/threat_map_v1.md         (archive)     │
-│           context/threat_map.md            (loop copy)   │
-│           context/literature_constraints.md (initial)    │
+│  Outputs: context/literature/threat_map_v1.md         (archive)     │
+│           context/literature/threat_map.md            (loop copy)   │
+│           context/literature/constraints.md (initial)    │
 │         │                                                │
 │         ▼                                                │
 │  Research Director [Mode 1 — Initial Plan]               │
 │  Inputs: research_context.md + threat_map_v1.md          │
-│  Output: context/research_plan.md                        │
+│  Output: context/planning/research_plan.md                        │
 └──────────────────────────┬───────────────────────────────┘
                            │
                            ▼
@@ -88,7 +88,7 @@ Each phase uses a defined set of agents, each agent has bounded responsibilities
 │                         ▼                                │
 │  ┌───────────────────────────────────────────────────┐   │
 │  │  Research Evaluator [Mode 1 — Plan Eval]          │   │
-│  │  Skill: self-critique                              │   │
+│  │                                                      │   │
 │  │  Inputs:  research_plan.md, threat_map.md         │   │
 │  │           research_context.md                     │   │
 │  │           evaluation_criteria.md                  │   │
@@ -114,16 +114,16 @@ Each phase uses a defined set of agents, each agent has bounded responsibilities
 │                     ▼                                    │
 │  Step 2: Literature Guardian M3 (Deep Review)  ─────┐   │
 │  Outputs: threat_map_final.md, literature_review.md  │   │
-│                     │                            parallel │
-│                     ▼                                │   │
+│                     │                          can be │   │
+│                     ▼                         parallel│   │
 │  Step 3: Theory Builder M1 (Derive results)    ─────┘   │
 │  Outputs: model_equations.md                             │
 │                     │                                    │
 │                     ▼                                    │
 │  ┌──────────────────────────────────────────────────┐    │
-│  │  Step 4: VERIFY-FIX LOOP (max 2 rounds)         │    │
+│  │  Step 4: VERIFY-FIX LOOP (max 1 fix round)      │    │
 │  │                                                  │    │
-│  │  Model Verifier ──► verification_report.md       │    │
+│  │  Model Verifier ──► model_verifier_report.md       │    │
 │  │       │                                          │    │
 │  │  PASS? ──► YES ──► proceed to Step 5             │    │
 │  │       │                                          │    │
@@ -133,7 +133,7 @@ Each phase uses a defined set of agents, each agent has bounded responsibilities
 │  │  ──► fixes model_equations.md in place           │    │
 │  │  ──► re-run Model Verifier                       │    │
 │  │                                                  │    │
-│  │  After 2 failed rounds ──► escalate to human     │    │
+│  │  After 1 failed fix ──► escalate to human         │    │
 │  └──────────────────────────────────────────────────┘    │
 │                     │                                    │
 │                     ▼                                    │
@@ -210,7 +210,7 @@ Each step maps to a single agent invocation. Run them in this order.
 Use the Agent tool with subagent_type "theory-lens":
   Read all paper/sections/*.tex (model sections and conclusion),
   context/model_equations.md (in chunks), and
-  context/verification_report.md. Produce context/self_reviews/review_theory.md.
+  context/model_verifier_report.md. Produce context/self_reviews/review_theory.md.
   Today's date is [DATE].
 
 Use the Agent tool with subagent_type "presentation-lens":
@@ -219,7 +219,7 @@ Use the Agent tool with subagent_type "presentation-lens":
   Today's date is [DATE].
 
 Use the Agent tool with subagent_type "framing-lens":
-  Read context/threat_map_final.md, context/literature_review.md,
+  Read context/literature/threat_map_final.md, context/literature/review.md,
   paper/sections/introduction.tex, paper/sections/literature.tex,
   paper/sections/conclusion.tex, and paper/references.bib.
   Produce context/self_reviews/review_framing.md.
@@ -296,18 +296,18 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 |------|-------|--------|-------------------|-----------------------|
 | 1 | Research Director M3 | Consolidate plan; produce novelty claims | `research_plan_final.md`, `paper_structure.md`, `task_queue.md`, `novelty_claims.md` | None |
 | 2 | Literature Guardian M3 | Deep review; verify novelty claims | `threat_map_final.md`, `literature_review.md`, `literature_notes.md` | Step 1 |
-| 3 | Theory Builder M1 | Derive formal results (can run parallel with Step 2) | `model_equations.md` | Step 1 |
-| 4a | Model Verifier | Verify propositions, run computational checks | `verification_report.md` | Step 3 |
-| 4b | Theory Builder M2 | Fix critical issues if any (max 2 rounds back to 4a) | `model_equations.md` (edited) | Step 4a (if issues found) |
+| 3 | Theory Builder M1 | Derive formal results (can run in parallel with Step 2) | `model_equations.md` | Step 1 |
+| 4a | Model Verifier | Verify propositions, run computational checks | `model_verifier_report.md` | Step 3 |
+| 4b | Theory Builder M2 | Fix critical issues if any (max 1 fix round back to 4a) | `model_equations.md` (edited) | Step 4a (if issues found) |
 | 5 | Research Evaluator M2 | Full quality assessment on completed outputs | `evaluator_feedback.md` | Steps 2, 4 |
 | 6a | Paper Writer Pass 1 | Structure draft: all content into LaTeX | `paper/sections/*.tex` | Steps 2, 4, 5 |
 | 6b | Paper Writer Pass 2 | Clarity edit: simplify prose | `paper/sections/*.tex` (edited) | Step 6a |
 | 6c | Paper Writer Pass 3 | Flow and voice: transitions, narrative arc | `paper/sections/*.tex` (edited) | Step 6b |
 | 6d | Paper Writer Pass 4 | Technical audit: verify equations, citations, cross-refs | `paper/sections/*.tex` (edited), `technical_audit.md` | Step 6c |
 
-**Steps 2 and 3 run in parallel** (Literature Guardian and Theory Builder write to different files).
+**Steps 2 and 3 can run in parallel** (they write to different files) but are run sequentially in the default pipeline.
 
-**Step 4 verify-fix loop:** Model Verifier checks `model_equations.md`. If critical issues are found, Theory Builder M2 fixes them and the Verifier re-checks. Maximum 2 rounds. After 2 failed rounds, escalate to human.
+**Step 4 verify-fix loop:** Model Verifier checks `model_equations.md`. If critical issues are found, Theory Builder M2 fixes them and the Verifier re-checks. Maximum 1 fix round (verify → fix → re-verify → escalate if still failing).
 
 **Step 6 four-pass sequence:** Each pass reads the output of the previous pass. Passes are never combined or run in parallel.
 
@@ -337,7 +337,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 | Property | Detail |
 |----------|--------|
 | Role | Novelty risk analyst and literature mapper |
-| Modes | 3 (Quick Scan → Targeted → Deep Review) |
+| Modes | 4 (Quick Scan → Targeted → Deep Review → Post-Review Gap Search) |
 | Skills | `literature-review-light`, `literature-review-targeted`, `literature-review-deep` |
 | Does NOT | Design the research plan, score plans, write paper sections, produce LaTeX |
 
@@ -347,7 +347,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 |------|------|-------|--------|
 | 1 — Quick Scan | Project start | `research_context.md` | `threat_map_v1.md`, `threat_map.md` (copy), `literature_constraints.md` (initial), `search_log.md` (initial) |
 | 2 — Targeted | After Director M2 each iteration | Director's revised `research_plan.md`, `threat_map.md`, `research_context.md`, `literature_constraints.md`, `search_log.md` | `threat_map.md` (updated), `literature_constraints.md` (updated), `search_log.md` (appended) |
-| 3 — Deep Review | Post-loop Step 2, after Director M3 | `research_context.md`, `threat_map.md`, `literature_notes.md`, `novelty_claims.md`, `search_log.md` | `threat_map_final.md`, `literature_notes.md`, `literature_constraints.md`, `literature_review.md`, `search_log.md` (appended) |
+| 3 — Deep Review | Post-loop Step 2, after Director M3 | `research_context.md`, `threat_map.md`, `literature_notes.md`, `novelty_claims.md`, `research_plan_final.md`, `search_log.md` | `threat_map_final.md`, `literature_notes.md`, `literature_constraints.md`, `literature_review.md`, `search_log.md` (appended) |
 
 ---
 
@@ -356,7 +356,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 | Property | Detail |
 |----------|--------|
 | Role | Principal investigator — strategic planning and task decomposition |
-| Modes | 3 (Initial Plan → Revision → Final Program) |
+| Modes | 4 (Initial Plan → Revision → Final Program → Improvement Synthesis) |
 | Does NOT | Search literature, derive models, verify math, write paper sections, score plans |
 
 **Mode summary:**
@@ -381,10 +381,10 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 |----------|--------|
 | Role | Skeptical co-author and quality evaluator — scores plans and outputs |
 | Modes | 2 (Plan Evaluation → Output Evaluation) |
-| Skill | `self-critique` |
+| Skill | — |
 | Does NOT | Revise plans, search literature, build models, write the paper |
 
-**Scoring rubric (Mode 1) — 1-5 integer scale, 7 criteria:**
+**Scoring rubric (Mode 1) — 1-5 integer scale, 8 criteria:**
 
 | Criterion | Role in formula |
 |-----------|----------------|
@@ -395,8 +395,9 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 | Expected Contribution | Mean component |
 | Testability | Mean component |
 | Scope Calibration | Mean component |
+| Expository Economy | Mean component |
 
-`overall_score = min(novelty, mechanism_clarity, feasibility) × 0.6 + mean(all_seven) × 0.4`
+`overall_score = min(novelty, mechanism_clarity, feasibility) × 0.6 + mean(all_eight) × 0.4`
 
 **Hard failures (force REJECT):** Novelty ≤ 2, Mechanism Clarity ≤ 2, or Theoretical Feasibility ≤ 2.
 
@@ -405,7 +406,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 | Mode | When | Input | Output |
 |------|------|-------|--------|
 | 1 — Plan Eval | After Guardian M2 each iteration | `research_plan.md`, `threat_map.md`, `research_context.md`, `evaluation_criteria.md` | `evaluator_feedback.md`, `loop_state.md` |
-| 2 — Output Eval | Post-loop Step 5 (after Model Verifier) | `research_plan_final.md`, `threat_map_final.md`, `model_equations.md`, `verification_report.md` | `evaluator_feedback.md` |
+| 2 — Output Eval | Post-loop Step 5 (after Model Verifier) | `research_plan_final.md`, `threat_map_final.md`, `model_equations.md`, `model_verifier_report.md`, `research_context.md` | `evaluator_feedback.md` |
 
 ---
 
@@ -414,7 +415,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 | Property | Detail |
 |----------|--------|
 | Role | Formal model development and equilibrium derivation |
-| Modes | 2 (Initial Derivation → Verification Fix) |
+| Modes | 3 (Initial Derivation → Verification Fix → Equation Improvement) |
 | Skill | `economic-model-builder` |
 | Phase | Post-loop Step 3 (M1) and Step 4b (M2, if verification issues found) |
 | Outputs | `model_equations.md` — **formal content only; no `.tex` files** |
@@ -425,7 +426,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 | Mode | When | Input | Output |
 |------|------|-------|--------|
 | 1 — Initial Derivation | Post-loop Step 3 | `research_plan_final.md`, `task_queue.md`, `research_context.md`, `model_equations.md` (if prior work exists) | `model_equations.md` |
-| 2 — Verification Fix | After Model Verifier flags critical issues | `verification_report.md`, `model_equations.md`, `research_context.md` | `model_equations.md` (edited in place, changelog appended) |
+| 2 — Verification Fix | After Model Verifier flags critical issues | `model_verifier_report.md`, `model_equations.md`, `research_context.md` | `model_equations.md` (edited in place, changelog appended) |
 
 **Mode 2 rules:** Fix only what the verifier flagged. Do not rederive passing propositions. Do not add new results. Do not restructure the document. Append a changelog.
 
@@ -454,8 +455,8 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 |----------|--------|
 | Role | Mathematical auditor — verifies derivation integrity, proposition correctness, and scope compliance |
 | Phase | Post-loop Step 4 (after Theory Builder; before Evaluator M2 and Paper Writer) |
-| Inputs | `model_equations.md`, `research_plan_final.md`, `research_context.md` |
-| Outputs | `verification_report.md`, `code/verification/*.py` (SymPy scripts) |
+| Inputs | `model_equations.md`, `research_plan_final.md`, `research_context.md`, `task_queue.md` |
+| Outputs | `model_verifier_report.md`, `code/verification/*.py` (SymPy scripts) |
 | Does NOT | Derive new results; revise the plan; write prose; fix errors (that is Theory Builder M2's job) |
 
 **Verification workflow:**
@@ -475,7 +476,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; the Director revises
 | Property | Detail |
 |----------|--------|
 | Role | Converts all research outputs into publication-quality LaTeX manuscript |
-| Modes | 4 sequential passes (Structure → Clarity → Flow → Technical Audit) |
+| Modes | 5 (Structure → Clarity → Flow → Technical Audit → Improvement) |
 | Skill | `academic-writing` |
 | Phase | Post-loop Step 6 (final step) |
 | Inputs | `paper_structure.md`, `literature_review.md`, `model_equations.md`, `threat_map_final.md`, `evaluator_feedback.md`, `paper/figures/`, `paper/tables/` |
@@ -515,7 +516,7 @@ conclusion.tex      → policy implications; future work
 | Role | Author's theory self-critique — equation density, notation, proof quality |
 | Phase | QA Loop Step 1a (parallel with Presentation and Framing Lenses) |
 | Color | Purple |
-| Inputs | `paper/sections/*.tex` (model through conclusion), `model_equations.md`, `verification_report.md` |
+| Inputs | `paper/sections/*.tex` (model through conclusion), `model_equations.md`, `model_verifier_report.md` |
 | Outputs | `context/self_reviews/review_theory.md` |
 | Does NOT | Fix issues; re-derive math; edit `.tex` files |
 
@@ -541,7 +542,7 @@ conclusion.tex      → policy implications; future work
 | Role | Author's framing self-critique — differentiator accuracy, positioning, citation coverage |
 | Phase | QA Loop Step 1c (parallel with Theory and Presentation Lenses) |
 | Color | Green |
-| Inputs | `context/threat_map_final.md`, `context/literature_review.md`, introduction, literature, conclusion sections, `references.bib` |
+| Inputs | `context/literature/threat_map_final.md`, `context/literature/review.md`, introduction, literature, conclusion sections, `references.bib` |
 | Outputs | `context/self_reviews/review_framing.md` |
 | Does NOT | Fix issues; search for new papers; edit `.tex` files |
 
@@ -565,21 +566,21 @@ conclusion.tex      → policy implications; future work
 | `threat_map.md` | Lit. Guardian M1 (copy), M2 (updates) | Dir. M2, Guardian M2, Evaluator M1 | Accumulated threat map with changelogs |
 | `threat_map_final.md` | Lit. Guardian M3 | Evaluator M2, Paper Writer | Definitive, clean threat map |
 | `literature_notes.md` | Lit. Guardian M3 | Paper Writer | Structured paper summaries |
-| `literature_constraints.md` | Lit. Guardian M1/M2/M3 | Lit. Guardian M2, Research Director | What the literature has and has not addressed |
+| `literature_constraints.md` | Lit. Guardian M1/M2/M3 | Lit. Guardian M2, Lit. Guardian M3, Research Director | What the literature has and has not addressed |
 | `literature_review.md` | Lit. Guardian M3 | Paper Writer | Prose literature review for LaTeX conversion |
 | `research_plan.md` | Research Director M1/M2 | All agents in loop | Current research plan with changelog |
 | `research_plan_final.md` | Research Director M3 | Theory Builder, Evaluator M2, Paper Writer | Definitive research plan |
 | `task_queue.md` | Research Director M3 (once) | Theory Builder, Empirical Agent | Executable task queue with dependencies |
 | `paper_structure.md` | Research Director M3 | Paper Writer | Section-by-section paper map |
 | `novelty_claims.md` | Research Director M3 | Lit. Guardian M3 | Contributions list for verification |
-| `evaluator_feedback.md` | Evaluator M1/M2 | Research Director M2 | Current iteration's scored critique and revision directives |
+| `evaluator_feedback.md` | Evaluator M1/M2 | Research Director M2, Research Director M3 | Current iteration's scored critique and revision directives |
 | `archives/evaluator_feedback_i{N}.md` | Pipeline (archived copy) | Research Director M2 | Archived evaluator feedback from iteration N; prevents amnesia across loop iterations |
 | `search_log.md` | Lit. Guardian M1/M2/M3 | Lit. Guardian M2/M3 | Persistent search query log to prevent duplicate literature searches |
 | `phase_state.md` | Pipeline shell script | All agents | Current pipeline phase, step, and timestamp for agent orientation |
-| `loop_state.md` | Evaluator M1 | Loop controller | Iteration counter, score (1-5), threshold (4.0) |
-| `evaluation_criteria.md` | Human (permanent) | Evaluator M1 | 7-criterion scoring rubric |
+| `loop_state.md` | Evaluator M1 | Loop controller | Iteration counter, score (1-5), threshold (4.0), decision (ACCEPT/REVISE/REJECT) |
+| `evaluation_criteria.md` | Human (permanent) | Evaluator M1 | 8-criterion scoring rubric |
 | `model_equations.md` | Theory Builder M1/M2 | Model Verifier, Evaluator M2, Paper Writer | Formal derivations and propositions |
-| `verification_report.md` | Model Verifier | Theory Builder M2, Evaluator M2 | Verification results, computational output, verdicts |
+| `model_verifier_report.md` | Model Verifier | Theory Builder M2, Evaluator M2 | Verification results, computational output, verdicts |
 | `technical_audit.md` | Paper Writer Pass 4 | Human | Final manuscript consistency check |
 | `self_reviews/review_theory.md` | Theory Lens | Research Director M4 | Theory and rigor self-review |
 | `self_reviews/review_presentation.md` | Presentation Lens | Research Director M4 | Presentation and layout self-review |
@@ -594,7 +595,7 @@ conclusion.tex      → policy implications; future work
 |-------|-------|--------|-------|
 | Literature Guardian | 4 (Quick Scan, Targeted, Deep, Post-Review) | `lit-review-light`, `lit-review-targeted`, `lit-review-deep` | 1, 2, 3, 4 |
 | Research Director | 4 (Initial, Revision, Final, Improvement Synthesis) | — | 1, 2, 3, 4 |
-| Research Evaluator | 2 (Plan Eval, Output Eval) | `self-critique` | 2, 3 |
+| Research Evaluator | 2 (Plan Eval, Output Eval) | — | 2, 3 |
 | Theory Builder | 3 (Initial, Verification Fix, Equation Improvement) | `economic-model-builder` | 3, 4 |
 | Model Verifier | 1 (Verify) | — | 3 |
 | Paper Writer | 5 (Structure, Clarity, Flow, Technical, Improvement) | `academic-writing` | 3, 4 |
@@ -613,7 +614,7 @@ conclusion.tex      → policy implications; future work
 | `literature-review-light` | Lit. Guardian M1 | Fast threat identification | Yes |
 | `literature-review-targeted` | Lit. Guardian M2 | Per-iteration check of new claims | Yes |
 | `literature-review-deep` | Lit. Guardian M3 | Exhaustive final review | Yes |
-| `self-critique` | Evaluator M1 + M2 | Structured self-critique for draft quality | No |
+| `self-critique` | QA Loop self-review lenses (generic template) | Structured self-critique for draft quality | No |
 | `economic-model-builder` | Theory Builder | Multi-step model derivation workflow | No |
 | `academic-writing` | Paper Writer | LaTeX conversion, style rules, citation conventions | No |
 | `empirical-design` | Empirical Agent | Dataset assembly and regressions *(stub)* | No |
@@ -626,6 +627,7 @@ conclusion.tex      → policy implications; future work
 loop_state.md tracks:
   iteration:     current iteration number (starts at 0)
   current_score: evaluator's overall_score (1-5 scale)
+  decision:      ACCEPT, REVISE, or REJECT
   threshold:     4.0
   history:       table of all past scores
 
@@ -656,15 +658,15 @@ On EXIT → proceed to Phase 3
 
 | Item | Status |
 |------|--------|
-| `literature-guardian.md` | Complete (3 modes) |
-| `research-director.md` | Complete (3 modes) |
+| `literature-guardian.md` | Complete (4 modes) |
+| `research-director.md` | Complete (4 modes) |
 | `research-evaluator.md` | Complete (2 modes) |
-| `theory-builder.md` | Complete (2 modes: derivation + verification fix) |
+| `theory-builder.md` | Complete (3 modes: derivation + verification fix + equation improvement) |
 | `model-verifier.md` | Complete (verification workflow) |
-| `paper-writer.md` | Complete (4-pass sequential structure) |
+| `paper-writer.md` | Complete (5 modes: 4-pass sequential structure + improvement) |
 | `empirical-design/SKILL.md` | Stub — deferred |
 | `memory-manager.md` | Stub — not needed for single-session runs |
-| `evaluate-plan/` | Superseded by `self-critique` — delete |
+| `evaluate-plan/` | Superseded — delete |
 
 ---
 
@@ -708,7 +710,7 @@ On EXIT → proceed to Phase 3
                     literature_review.md      model_equations.md
                     threat_map_final.md                  │
                               │                         ▼
-                              │               Model Verifier ──► verification_report.md
+                              │               Model Verifier ──► model_verifier_report.md
                               │                    │
                               │              PASS? ─┬─ NO → Theory Builder M2 → re-verify
                               │                     │

@@ -34,12 +34,12 @@ The human or orchestrator will tell you which mode to run.
 
 **Inputs:**
 - `context/research_context.md`
-- `context/threat_map_v1.md`
-- `context/literature_constraints.md` — what the literature has and has not addressed; use the gap analysis to inform contribution design
+- `context/literature/threat_map_v1.md`
+- `context/literature/constraints.md` — what the literature has and has not addressed; use the gap analysis to inform contribution design
 - `context/human_feedback_phase1.md` — if present, human corrections and additions to the threat map from the Phase 1 checkpoint
 
 **Output:**
-- `context/research_plan.md` — initial research plan using this schema:
+- `context/planning/research_plan.md` — initial research plan using this schema:
 
 ```
 ## Research Question
@@ -75,18 +75,22 @@ What remains uncertain and requires Literature Guardian or Theory Builder input.
 2. Literature Guardian M2 — checks the revision; updates threat map
 3. Research Evaluator M1 — scores the revised plan against the updated threat map
 
-On iteration 1, `evaluator_feedback.md` does not yet exist; revise using the threat map and research context only.
+On iteration 1, `evaluator_feedback.md` does not yet exist. Perform a self-audit of the initial plan:
+- Verify each contribution's differentiator is stated at the mechanism level (not topic level)
+- Check that phase sequencing respects dependencies (individual channels before cross-channel interaction)
+- Tighten any vague mechanism descriptions using the gap analysis in `context/literature/constraints.md`
+- Ensure the plan addresses the "Key risks for the Research Director" section of the threat map
 
 **Inputs:**
-- `context/research_plan.md` — current plan (update in place)
-- `context/threat_map.md` — from previous iteration
+- `context/planning/research_plan.md` — current plan (update in place)
+- `context/literature/threat_map.md` — from previous iteration
 - `context/evaluator_feedback.md` — if present, from previous iteration
 - `context/archives/evaluator_feedback_i*.md` — if present, archived evaluator feedback from prior iterations; read to understand the full history of evaluator concerns
-- `context/literature_constraints.md` — if present, accumulated gap analysis from Literature Guardian
+- `context/literature/constraints.md` — if present, accumulated gap analysis from Literature Guardian
 - `context/research_context.md`
 
 **Output:**
-- `context/research_plan.md` — updated in place with changelog entry
+- `context/planning/research_plan.md` — updated in place with changelog entry
 
 Do **not** produce `task_queue.md` in Mode 2. That is Mode 3 only.
 
@@ -102,16 +106,17 @@ Do **not** produce `task_queue.md` in Mode 2. That is Mode 3 only.
 **When:** After the planning loop exits. Called first in the post-loop sequence.
 
 **Inputs:**
-- `context/research_plan.md` — accumulated plan with changelog
-- `context/threat_map.md` — accumulated from all loop iterations
-- `context/literature_constraints.md` — if present, accumulated gap analysis from all LG iterations; use to inform novelty claims
+- `context/planning/research_plan.md` — accumulated plan with changelog
+- `context/literature/threat_map.md` — accumulated from all loop iterations
+- `context/literature/constraints.md` — if present, accumulated gap analysis from all LG iterations; use to inform novelty claims
 - `context/research_context.md`
+- `context/evaluator_feedback.md` — if present, the evaluator's final assessment; address any unresolved concerns when consolidating the final program
 
 **Outputs:**
-- `context/research_plan_final.md` — final research program
-- `context/paper_structure.md` — section-by-section map for the Paper Writer
-- `context/task_queue.md` — definitive task list (first and only version)
-- `context/novelty_claims.md` — numbered contributions list for the Literature Guardian M3 to verify
+- `context/planning/research_plan_final.md` — final research program
+- `context/planning/paper_structure.md` — section-by-section map for the Paper Writer
+- `context/planning/task_queue.md` — definitive task list (first and only version)
+- `context/planning/novelty_claims.md` — numbered contributions list for the Literature Guardian M3 to verify
 
 Task queue schema:
 ```

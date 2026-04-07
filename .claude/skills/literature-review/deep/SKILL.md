@@ -20,11 +20,11 @@ Calibrate all output to a top-journal standard. Cite by author-year. Reference s
 Read all of these before doing anything else:
 
 1. `context/research_context.md` — the permanent project specification
-2. `context/threat_map.md` — the accumulated threat map from all prior iterations (includes changelogs)
-3. `context/literature_notes.md` — any paper summaries accumulated during the project
-4. `context/research_plan_final.md` — the finalised research plan (if not yet available, use `context/research_plan.md`)
-5. `context/literature_constraints.md` — if present, constraints on what the literature has and has not addressed
-6. `context/search_log.md` — if present, log of all prior searches (read to avoid re-searching)
+2. `context/literature/threat_map.md` — the accumulated threat map from all prior iterations (includes changelogs)
+3. `context/literature/notes.md` — any paper summaries accumulated during the project
+4. `context/planning/research_plan_final.md` — the finalised research plan (if not yet available, use `context/planning/research_plan.md`)
+5. `context/literature/constraints.md` — if present, constraints on what the literature has and has not addressed
+6. `context/literature/search_log.md` — if present, log of all prior searches (read to avoid re-searching)
 
 ---
 
@@ -94,7 +94,7 @@ If a paper cannot be found or its mechanism cannot be determined from available 
 
 ### Step 4 — Write Final Threat Map
 
-Produce `context/threat_map_final.md`. This is a clean, consolidated document — not a copy of the accumulated threat map with changelogs. Write it from scratch using the schema below.
+Produce `context/literature/threat_map_final.md`. This is a clean, consolidated document — not a copy of the accumulated threat map with changelogs. Write it from scratch using the schema below.
 
 Every paper that appeared in any prior version of the threat map must appear here (unless it was determined to be entirely irrelevant). New papers found in Step 2 are added.
 
@@ -183,7 +183,7 @@ Unresolved entries: [number, or "none"]
 
 ### Step 5 — Update Literature Notes
 
-Update `context/literature_notes.md` with structured summaries of all papers in the final threat map that do not already have entries. Use this format for each paper:
+Update `context/literature/notes.md` with structured summaries of all papers in the final threat map that do not already have entries. Use this format for each paper:
 
 ```markdown
 ## [Authors (Year)] — *[Title]*
@@ -201,7 +201,7 @@ Do not rewrite existing entries unless they contain errors. Append new entries a
 
 ### Step 6 — Write Literature Review
 
-Produce `context/literature_review.md` — a structured prose literature review suitable for conversion to LaTeX by the academic-writing skill.
+Produce `context/literature/review.md` — a structured prose literature review suitable for conversion to LaTeX by the academic-writing skill.
 
 This is an analytical document, not a list of paper summaries. It must:
 
@@ -255,10 +255,10 @@ Use the literature strands identified in `research_context.md` to define section
 
 Four files:
 
-1. `context/threat_map_final.md` — clean, consolidated final threat map (new file, does not overwrite the accumulated `threat_map.md`)
-2. `context/literature_notes.md` — updated in place with new paper summaries
-3. `context/literature_review.md` — structured prose literature review for conversion to LaTeX
-4. `context/search_log.md` — append final search queries and papers reviewed this pass
+1. `context/literature/threat_map_final.md` — clean, consolidated final threat map (new file, does not overwrite the accumulated `threat_map.md`)
+2. `context/literature/notes.md` — updated in place with new paper summaries
+3. `context/literature/review.md` — structured prose literature review for conversion to LaTeX
+4. `context/literature/search_log.md` — append final search queries and papers reviewed this pass
 
 This skill does **not** produce `paper/sections/literature.tex`. LaTeX conversion is handled by the academic-writing skill.
 

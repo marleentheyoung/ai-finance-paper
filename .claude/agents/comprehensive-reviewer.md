@@ -32,8 +32,8 @@ The orchestrator specifies the mode when calling this agent. All modes read the 
 **Inputs — read in this order (for all modes):**
 1. All `paper/sections/*.tex` files (introduction, model, mechanism sections, extensions, conclusion, literature, empirics)
 2. `context/model_equations.md` (read in chunks if large)
-3. `context/research_plan_final.md` (if it exists)
-4. `context/threat_map_final.md` (if it exists — used for competitor identification in Mode 1 and Mode 4)
+3. `context/planning/research_plan_final.md` (if it exists)
+4. `context/literature/threat_map_final.md` (if it exists — used for competitor identification in Mode 1 and Mode 4)
 
 If a file does not exist, skip it and note its absence.
 

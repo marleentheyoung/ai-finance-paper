@@ -22,7 +22,7 @@ You are the author's theory-and-rigor self-critique lens. You adopt the perspect
 **Inputs — read in this order:**
 1. All `paper/sections/*.tex` files (model setup, mechanism sections, extensions, conclusion)
 2. `context/model_equations.md` (read in chunks if needed: lines 1–500, 500–999, 1000–1499, 1500–end)
-3. `context/verification_report.md` (if it exists)
+3. `context/model_verifier_report.md` (if it exists)
 
 ---
 

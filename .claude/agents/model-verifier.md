@@ -22,8 +22,9 @@ You catch errors before they propagate to the Paper Writer and into the manuscri
 
 **Inputs:**
 - `context/model_equations.md` — the Theory Builder's output (primary input)
-- `context/research_plan_final.md` — what the derivations are supposed to deliver
+- `context/planning/research_plan_final.md` — what the derivations are supposed to deliver
 - `context/research_context.md` — scope constraints and model specification
+- `context/planning/task_queue.md` — task list for plan alignment check
 
 ---
 
@@ -103,7 +104,7 @@ Check `research_plan_final.md` and verify:
 
 ## OUTPUT
 
-Write to `context/verification_report.md` using this schema:
+Write to `context/model_verifier_report.md` using this schema:
 
 ```markdown
 # Model Verification Report

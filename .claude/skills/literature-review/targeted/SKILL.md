@@ -19,11 +19,12 @@ Calibrate all output to a PhD / top-journal standard. Cite by author-year. Refer
 
 Read all of these before doing anything else:
 
-1. `context/research_plan.md` — the current iteration's plan (check the changelog at the bottom to identify what changed this iteration)
-2. `context/threat_map.md` — the existing threat map (this is the file you will update)
+1. `context/planning/research_plan.md` — the current iteration's plan (check the changelog at the bottom to identify what changed this iteration)
+2. `context/literature/threat_map.md` — the existing threat map (this is the file you will update)
 3. `context/research_context.md` — the permanent project specification
-4. `context/literature_constraints.md` — if present, constraints on what the literature has and has not addressed
-5. `context/search_log.md` — if present, log of prior searches (read to avoid re-searching)
+4. `context/literature/constraints.md` — if present, constraints on what the literature has and has not addressed
+5. `context/literature/search_log.md` — if present, log of prior searches (read to avoid re-searching)
+6. `context/evaluator_feedback.md` — if present, evaluator's literature-related concerns from the previous scoring round
 
 ---
 
@@ -38,6 +39,7 @@ Identify what is new or changed in this iteration of `research_plan.md`. Look fo
 - Changes to the cross-mechanism interaction structure
 - New empirical strategies or identification arguments
 - Contributions that were sharpened in response to prior evaluator feedback
+- Literature positioning or novelty concerns flagged by the evaluator (if `evaluator_feedback.md` exists)
 
 If the plan has a changelog at the bottom, start there. If not, compare the current plan against what the threat map already covers.
 
@@ -68,7 +70,7 @@ Additionally, reassess any existing threat map entries that are affected by the 
 
 ### Step 4 — Write Changelog and Update File
 
-Update `context/threat_map.md` in place. Do not rewrite the entire file. Make only these changes:
+Update `context/literature/threat_map.md` in place. Do not rewrite the entire file. Make only these changes:
 
 1. **Add new papers** to the appropriate channel section, in the correct threat level subsection
 2. **Reclassify existing papers** if the plan revision changes the overlap assessment (move them between HIGH/MODERATE/LOW and note why in the differentiator field)
@@ -104,9 +106,9 @@ Update `context/threat_map.md` in place. Do not rewrite the entire file. Make on
 
 Files updated in place:
 
-1. `context/threat_map.md` — updated with changelog entry for this iteration
-2. `context/literature_constraints.md` — updated if new constraints are discovered
-3. `context/search_log.md` — append new searches and papers reviewed this iteration
+1. `context/literature/threat_map.md` — updated with changelog entry for this iteration
+2. `context/literature/constraints.md` — updated if new constraints are discovered
+3. `context/literature/search_log.md` — append new searches and papers reviewed this iteration
 
 The targeted review does not write literature notes or reviews — those are deep review outputs.
 

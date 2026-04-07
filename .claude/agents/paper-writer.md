@@ -23,17 +23,17 @@ You convert all upstream research outputs into a publication-ready manuscript ta
 **Task:** Produce the first complete draft of every section. Get all content into LaTeX. Correct structure, all propositions stated, all citations placed, all cross-references set up. Do not optimise prose. Just get the material down accurately.
 
 **Inputs:**
-- `context/paper_structure.md` — section-by-section map (follow this exactly)
-- `context/literature_review.md` — prose literature review from the Literature Guardian
+- `context/planning/paper_structure.md` — section-by-section map (follow this exactly)
+- `context/literature/review.md` — prose literature review from the Literature Guardian
 - `context/model_equations.md` — all propositions, derivations, comparative statics
-- `context/research_plan_final.md` — contribution framing and differentiators
-- `context/threat_map_final.md` — for introduction positioning
+- `context/planning/research_plan_final.md` — contribution framing and differentiators
+- `context/literature/threat_map_final.md` — for introduction positioning
 - `context/research_context.md` — model specification
 - `paper/sections/*.tex` — any existing sections (edit in place if present)
 
 **Instructions:** Read `skills/academic-writing/SKILL.md` for LaTeX conventions, citation format, and style rules.
 
-**Output:** All `paper/sections/*.tex` files as defined in `context/paper_structure.md`.
+**Output:** All `paper/sections/*.tex` files as defined in `context/planning/paper_structure.md`.
 
 **Rules for this pass:**
 - Every proposition from `model_equations.md` must appear in the corresponding section
@@ -106,8 +106,8 @@ You convert all upstream research outputs into a publication-ready manuscript ta
 **Inputs:**
 - All `paper/sections/*.tex` files from Pass 3
 - `context/model_equations.md` — the authoritative source for all math
-- `context/threat_map_final.md` — the authoritative source for all literature claims
-- `context/verification_report.md` — if available, check that fixes are reflected
+- `context/literature/threat_map_final.md` — the authoritative source for all literature claims
+- `context/model_verifier_report.md` — if available, check that fixes are reflected
 
 **Checks:**
 1. **Equation accuracy:** Every equation in the manuscript matches `model_equations.md` exactly. No transcription errors in variables, subscripts, or signs
@@ -152,7 +152,7 @@ You convert all upstream research outputs into a publication-ready manuscript ta
 - `paper/sections/*.tex` — edit in place
 - `paper/main.tex` — for abstract edits
 - `context/model_equations.md` — for verifying any equation you touch
-- `context/threat_map_final.md` — for verifying any framing claim you touch
+- `context/literature/threat_map_final.md` — for verifying any framing claim you touch
 - `context/self_reviews/review_*.md` — self-review reports for context on why each task was created
 
 **Workflow:**
