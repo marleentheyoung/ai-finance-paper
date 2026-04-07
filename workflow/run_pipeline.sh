@@ -260,7 +260,7 @@ $LOG_INSTRUCTION" $SKIP_PERMS
         SCORE=$(grep -oP 'current_score:\s*\K[0-9.]+' context/loop_state.md 2>/dev/null || echo "0.0")
         log "  Score: $SCORE (threshold: $THRESHOLD)"
 
-        if (( $(echo "$SCORE >= $THRESHOLD" | bc -l) )); then
+        if python3 -c "import sys; sys.exit(0 if float('${SCORE}') >= float('${THRESHOLD}') else 1)"; then
             log "  Score meets threshold. Exiting loop."
             sed -i "s/^status: .*/status: accepted/" context/loop_state.md
             # Archive the final iteration's feedback

@@ -16,3 +16,15 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     && npm install -g @anthropic-ai/claude-code
+
+# LaTeX (needed for `just render-paper`)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       latexmk \
+       texlive-latex-recommended \
+       texlive-latex-extra \
+       texlive-bibtex-extra \
+       texlive-science \
+       biber \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*

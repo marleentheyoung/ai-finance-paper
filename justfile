@@ -45,10 +45,14 @@ test:
 
 # ── Agent Pipeline ────────────────────────────────────────────────────────────
 
-# Run the agent pipeline (Research Director → Theory → Literature → Empirical → Writer)
-agents:
+# Run the full research pipeline (Phases 1-3). Pass extra flags after --.
+# Examples:
+#   just agents                        # full pipeline from scratch
+#   just agents -- --start-phase 3     # jump to Phase 3
+#   just agents -- --start-iteration 2 # resume loop at iteration 2
+agents *FLAGS:
     @echo "Running agent pipeline..."
-    .venv/bin/python workflow/run_agents.py
+    bash workflow/run_pipeline.sh {{FLAGS}}
 
 # ── Empirical Pipeline ────────────────────────────────────────────────────────
 
