@@ -30,7 +30,7 @@ Step-by-step guide for running the research pipeline interactively in a Claude C
 You are running the research pipeline Phase 1, step 1.
 Read context/research_context.md.
 Use the literature-guardian agent in Mode 1 (Quick Scan).
-Follow the instructions in skills/literature-review-light/SKILL.md exactly.
+Follow the instructions in .claude/skills/literature-review/light/SKILL.md exactly.
 Produce: context/threat_map_v1.md, context/threat_map.md, context/literature_constraints.md, and context/search_log.md.
 The search log must record every search query you ran and every paper you reviewed, so future iterations can avoid duplicate work.
 After completing your task, append a one-line summary to workflow/research-log.md in the format:
@@ -42,6 +42,26 @@ Do not stop until all four files are written.
 
 ---
 
+### Step 1.1b — HUMAN CHECKPOINT: Review the Threat Map
+
+> **This is the most important human checkpoint in the pipeline.** The quality of everything downstream depends on the threat map being accurate and complete.
+
+**Review `context/threat_map_v1.md` and take action:**
+
+1. **Add missing papers.** If you know of papers the scan missed, add them to the threat map in the correct channel section using the paper entry schema. You do not need to fill every field — the Literature Guardian will complete them in later passes.
+
+2. **Correct misclassifications.** If a paper is classified as HIGH but you know its mechanism is different from yours, downgrade it (or vice versa). Add a note explaining why.
+
+3. **Check the aggregate assessment.** Does the "Core contribution status" section match your intuition? If the scan says your core contribution is threatened and you disagree, note why.
+
+4. **Consider updating your research idea.** If the threat map reveals that your core mechanism is already published, you may want to update `context/research_context.md` before proceeding — adjusting the research question, sharpening the mechanism, or adding a differentiating scope constraint.
+
+You can edit the threat map directly or create `context/human_feedback_phase1.md` with your notes. If you create this file, the Research Director will read it alongside the threat map.
+
+**When satisfied**, proceed to Step 1.2.
+
+---
+
 ### Step 1.2 — Research Director: Initial Plan
 
 **What it does:** Creates the initial research plan based on your research idea and the threat map.
@@ -50,9 +70,11 @@ Do not stop until all four files are written.
 
 ```
 You are running the research pipeline Phase 1, step 2.
-Read context/research_context.md and context/threat_map_v1.md.
+Read context/research_context.md, context/threat_map_v1.md, and context/literature_constraints.md.
+If context/human_feedback_phase1.md exists, read it too — it contains human corrections to the threat map.
 Use the research-director agent in Mode 1 (Initial Research Plan).
 Follow the research plan schema defined in the agent file.
+Use the literature constraints (especially the gap analysis) to inform which contributions are most defensible.
 Produce: context/research_plan.md.
 After completing your task, append a one-line summary to workflow/research-log.md in the format:
 - **YYYY-MM-DD HH:MM** [Agent Name] Summary of what was done.
@@ -97,6 +119,7 @@ Replace `{N}` in the prompts below with the current iteration number (1, 2, 3, .
 ```
 You are running the research pipeline Phase 2, iteration {N}, step 1.
 Read context/research_plan.md, context/threat_map.md, context/research_context.md.
+If context/literature_constraints.md exists, read it — this is the accumulated gap analysis from the Literature Guardian.
 If context/evaluator_feedback.md exists, read it — this is the most recent evaluator feedback.
 Also read any prior archived feedback files in context/archives/ (evaluator_feedback_i1.md, evaluator_feedback_i2.md, etc.) to understand the full history of evaluator concerns.
 Use the research-director agent in Mode 2 (Plan Revision).
@@ -119,7 +142,7 @@ You are running the research pipeline Phase 2, iteration {N}, step 2.
 Read context/research_plan.md (just revised by the Director), context/threat_map.md, context/research_context.md, and context/literature_constraints.md.
 If context/search_log.md exists, read it to avoid repeating previous searches.
 Use the literature-guardian agent in Mode 2 (Targeted Check).
-Follow the instructions in skills/literature-review-targeted/SKILL.md exactly.
+Follow the instructions in .claude/skills/literature-review/targeted/SKILL.md exactly.
 Update context/threat_map.md in place with a changelog entry for iteration {N}.
 Update context/literature_constraints.md if new constraints are found.
 Append any new searches and papers reviewed to context/search_log.md.
@@ -131,7 +154,7 @@ After completing your task, append a one-line summary to workflow/research-log.m
 
 ### Step 2.3 — Research Evaluator: Score the Plan (iteration {N})
 
-**What it does:** Scores the plan on 7 criteria. If the overall score >= 4.0, you can exit the loop.
+**What it does:** Scores the plan on 8 criteria. If the overall score >= 4.0, you can exit the loop.
 
 **Files produced:** `context/evaluator_feedback.md`, `context/loop_state.md` (updated)
 
@@ -141,7 +164,7 @@ Read context/research_plan.md, context/threat_map.md, context/research_context.m
 Use the research-evaluator agent in Mode 1 (Plan Evaluation).
 Write context/evaluator_feedback.md from scratch using the evaluation report schema.
 Update context/loop_state.md: set iteration to {N}, update current_score, append to the history table.
-Apply the scoring formula: overall_score = min(novelty, mechanism_clarity, feasibility) * 0.6 + mean(all_seven) * 0.4
+Apply the scoring formula: overall_score = min(novelty, mechanism_clarity, feasibility) * 0.6 + mean(all_eight) * 0.4
 Apply hard failure conditions from context/evaluation_criteria.md.
 After completing your task, append a one-line summary to workflow/research-log.md in the format:
 - **YYYY-MM-DD HH:MM** [Agent Name] Summary of what was done.
@@ -169,7 +192,7 @@ After completing your task, append a one-line summary to workflow/research-log.m
 
 ```
 You are running the research pipeline Phase 3, step 1.
-Read context/research_plan.md, context/threat_map.md, and context/research_context.md.
+Read context/research_plan.md, context/threat_map.md, context/research_context.md, and context/literature_constraints.md.
 Use the research-director agent in Mode 3 (Final Research Program).
 Produce: context/research_plan_final.md, context/paper_structure.md, context/task_queue.md, and context/novelty_claims.md.
 After completing your task, append a one-line summary to workflow/research-log.md in the format:
@@ -190,7 +213,7 @@ Read context/research_context.md, context/threat_map.md, context/novelty_claims.
 If context/literature_notes.md exists, read it too.
 If context/search_log.md exists, read it to see all prior searches and avoid duplication.
 Use the literature-guardian agent in Mode 3 (Deep Review).
-Follow the instructions in skills/literature-review-deep/SKILL.md exactly.
+Follow the instructions in .claude/skills/literature-review/deep/SKILL.md exactly.
 Produce: context/threat_map_final.md, context/literature_notes.md, context/literature_constraints.md, and context/literature_review.md.
 Append final search queries to context/search_log.md.
 Do NOT produce any .tex files.

@@ -23,6 +23,7 @@ Read all of these before doing anything else:
 2. `context/threat_map.md` — the existing threat map (this is the file you will update)
 3. `context/research_context.md` — the permanent project specification
 4. `context/literature_constraints.md` — if present, constraints on what the literature has and has not addressed
+5. `context/search_log.md` — if present, log of prior searches (read to avoid re-searching)
 
 ---
 
@@ -57,14 +58,7 @@ Do not re-search for papers already in the threat map unless the plan revision c
 
 ### Step 3 — Classify and Update
 
-For each new paper found, classify it using the same schema and threat level definitions as the initial threat map:
-
-- **HIGH** — Same formal mechanism with overlapping comparative statics. Contribution may not survive.
-- **MODERATE** — Same economic question or related model structure, but formal mechanism differs. Contribution survives if differentiator is clear.
-- **LOW** — Same broad literature, different mechanism. Positioning only.
-- **NONE** — Foundational. Must cite, not a threat.
-
-When uncertain, classify as MODERATE and flag with `[UNVERIFIED]`.
+For each new paper found, classify it using the threat level definitions and paper entry schema in `.claude/skills/literature-review/shared-schemas.md`.
 
 Additionally, reassess any existing threat map entries that are affected by the plan revision:
 
@@ -108,9 +102,13 @@ Update `context/threat_map.md` in place. Do not rewrite the entire file. Make on
 
 ## Output
 
-Single file, updated in place: `context/threat_map.md`
+Files updated in place:
 
-No other files are produced. The targeted review does not write literature notes or reviews — those are deep review outputs.
+1. `context/threat_map.md` — updated with changelog entry for this iteration
+2. `context/literature_constraints.md` — updated if new constraints are discovered
+3. `context/search_log.md` — append new searches and papers reviewed this iteration
+
+The targeted review does not write literature notes or reviews — those are deep review outputs.
 
 ---
 

@@ -230,7 +230,7 @@ Edit `context/evaluation_criteria.md` to adjust the scoring rubric. The default 
 The pipeline structure is field-agnostic, but the default skills and evaluation criteria are written for formal economics/finance theory. To adapt:
 
 1. Edit `context/evaluation_criteria.md` for your field's standards
-2. Review the skills in `skills/` — the literature search heuristics in `skills/literature-review-light/references/` are finance-specific
+2. Review the skills in `skills/` — the literature search heuristics in `.claude/skills/literature-review/references/` are finance-specific
 3. Adjust `context/research_context.md` scope constraints for your methodology
 
 ### Empirical papers

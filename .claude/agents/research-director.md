@@ -35,6 +35,8 @@ The human or orchestrator will tell you which mode to run.
 **Inputs:**
 - `context/research_context.md`
 - `context/threat_map_v1.md`
+- `context/literature_constraints.md` — what the literature has and has not addressed; use the gap analysis to inform contribution design
+- `context/human_feedback_phase1.md` — if present, human corrections and additions to the threat map from the Phase 1 checkpoint
 
 **Output:**
 - `context/research_plan.md` — initial research plan using this schema:
@@ -54,6 +56,10 @@ Ordered list of research phases with the responsible agent for each.
 
 ## Paper Structure Map
 How each phase maps to a paper section.
+
+## Testable Predictions (if applicable)
+Comparative statics that map to observable outcomes. State "Theory only — no empirical
+component" if the research_context.md Empirical Strategy section says so.
 
 ## Open Questions
 What remains uncertain and requires Literature Guardian or Theory Builder input.
@@ -75,6 +81,8 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; revise using the thr
 - `context/research_plan.md` — current plan (update in place)
 - `context/threat_map.md` — from previous iteration
 - `context/evaluator_feedback.md` — if present, from previous iteration
+- `context/archives/evaluator_feedback_i*.md` — if present, archived evaluator feedback from prior iterations; read to understand the full history of evaluator concerns
+- `context/literature_constraints.md` — if present, accumulated gap analysis from Literature Guardian
 - `context/research_context.md`
 
 **Output:**
@@ -83,7 +91,7 @@ On iteration 1, `evaluator_feedback.md` does not yet exist; revise using the thr
 Do **not** produce `task_queue.md` in Mode 2. That is Mode 3 only.
 
 **Conflict priority rule:** When evaluator feedback and a new literature threat conflict:
-1. Hard failure conditions from `evaluation_criteria.md` take absolute precedence
+1. Hard failure conditions (Novelty ≤ 2, Mechanism Clarity ≤ 2, Feasibility ≤ 2) take absolute precedence
 2. New HIGH threats override evaluator directives to expand that contribution
 3. Evaluator directives apply after MODERATE threats are resolved
 4. Scope constraints from `research_context.md` section 6 override both
@@ -96,6 +104,7 @@ Do **not** produce `task_queue.md` in Mode 2. That is Mode 3 only.
 **Inputs:**
 - `context/research_plan.md` — accumulated plan with changelog
 - `context/threat_map.md` — accumulated from all loop iterations
+- `context/literature_constraints.md` — if present, accumulated gap analysis from all LG iterations; use to inform novelty claims
 - `context/research_context.md`
 
 **Outputs:**

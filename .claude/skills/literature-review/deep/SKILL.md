@@ -24,6 +24,13 @@ Read all of these before doing anything else:
 3. `context/literature_notes.md` — any paper summaries accumulated during the project
 4. `context/research_plan_final.md` — the finalised research plan (if not yet available, use `context/research_plan.md`)
 5. `context/literature_constraints.md` — if present, constraints on what the literature has and has not addressed
+6. `context/search_log.md` — if present, log of all prior searches (read to avoid re-searching)
+
+---
+
+## Shared Definitions
+
+Threat level definitions, paper entry schema, and quality principles shared across all literature review skills are defined in `.claude/skills/literature-review/shared-schemas.md`. Read that file before proceeding. The deep review uses the same definitions with one addition: an `Engagement strategy` field per paper entry (see the threat map schema below).
 
 ---
 
@@ -42,9 +49,11 @@ Produce an internal audit list of what needs to be searched, verified, or reclas
 
 ### Step 2 — Systematic Search
 
+For search strategy guidance (databases, search patterns, false positive patterns), see `.claude/skills/literature-review/references/finance_theory_search_heuristics.md`.
+
 Conduct a comprehensive literature search to fill the gaps identified in Step 1. This is broader than the targeted skill's searches.
 
-Search strategy:
+**Search strategy:**
 
 - Search each channel's mechanism space comprehensively, not just incrementally
 - Search for the cross-mechanism interaction specifically
@@ -52,13 +61,23 @@ Search strategy:
 - Search for survey papers and handbook chapters that might reference work the earlier scans missed
 - For every HIGH or MODERATE threat, fetch the paper's abstract and ideally the introduction or model section to verify mechanism-level overlap
 
-Minimum searches:
+**Citation chaining** (use both techniques for HIGH-threat and key foundational papers):
+
+- **Backward chaining** — read the reference list of each HIGH-threat paper to find predecessors the earlier scans may have missed
+- **Forward chaining** — search "who cited [paper X]" (e.g., Google Scholar "cited by") to find successor papers that build on the same mechanism
+
+**Deep reading for HIGH-threat papers:**
+
+For every paper classified as HIGH threat, do not rely solely on the abstract. Fetch and read the model section (primitives, equilibrium concept, key propositions) to verify that the formal mechanism genuinely overlaps. Reclassify based on the model section, not the abstract alone.
+
+**Minimum searches:**
 
 - 2-3 per channel (matching the channels defined in `research_context.md`)
 - 2-3 for the cross-mechanism interaction
 - 2-3 for the empirical / applied domain
 - 1-2 for any extensions or policy implications described in the research plan
 - 1-2 for any gap identified in the audit
+- 1-2 forward citation searches on the most relevant HIGH-threat papers
 
 This is the last literature pass before the paper is written. Be thorough.
 
@@ -234,11 +253,12 @@ Use the literature strands identified in `research_context.md` to define section
 
 ## Outputs
 
-Three files:
+Four files:
 
 1. `context/threat_map_final.md` — clean, consolidated final threat map (new file, does not overwrite the accumulated `threat_map.md`)
 2. `context/literature_notes.md` — updated in place with new paper summaries
 3. `context/literature_review.md` — structured prose literature review for conversion to LaTeX
+4. `context/search_log.md` — append final search queries and papers reviewed this pass
 
 This skill does **not** produce `paper/sections/literature.tex`. LaTeX conversion is handled by the academic-writing skill.
 

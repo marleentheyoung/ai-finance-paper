@@ -140,7 +140,7 @@ if [[ "$START_PHASE" -le 1 ]]; then
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_context.md.
 Use the literature-guardian agent in Mode 1 (Quick Scan).
-Follow the instructions in skills/literature-review-light/SKILL.md exactly.
+Follow the instructions in .claude/skills/literature-review/light/SKILL.md exactly.
 Produce: context/threat_map_v1.md, context/threat_map.md, context/literature_constraints.md, and context/search_log.md.
 The search log must record every search query you ran and every paper you reviewed, so future iterations can avoid duplicate work.
 $LOG_INSTRUCTION
@@ -151,7 +151,7 @@ Do not stop until all four files are written." $SKIP_PERMS
     log "Running Research Director Mode 1 (Initial Plan)..."
     run_claude "Phase 1 — Research Director M1" -p "You are running the research pipeline Phase 1, step 2.
 Read context/phase_state.md to understand your current position in the pipeline.
-Read context/research_context.md and context/threat_map_v1.md.
+Read context/research_context.md, context/threat_map_v1.md, and context/literature_constraints.md.
 Use the research-director agent in Mode 1 (Initial Research Plan).
 Follow the research plan schema defined in the agent file.
 Produce: context/research_plan.md.
@@ -220,6 +220,7 @@ if [[ "$START_PHASE" -le 2 ]]; then
         run_claude "Phase 2 iter $i — Research Director M2" -p "You are running the research pipeline Phase 2, iteration $i, step 1.
 Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan.md, context/threat_map.md, context/research_context.md.
+If context/literature_constraints.md exists, read it — this is the accumulated gap analysis from the Literature Guardian.
 If context/evaluator_feedback.md exists, read it — this is the most recent evaluator feedback.
 Also read any prior archived feedback files to understand the full history of evaluator concerns: ${FEEDBACK_FILES:-none from prior iterations}.
 Use the research-director agent in Mode 2 (Plan Revision).
@@ -236,7 +237,7 @@ Read context/phase_state.md to understand your current position in the pipeline.
 Read context/research_plan.md (just revised by the Director), context/threat_map.md, context/research_context.md, and context/literature_constraints.md.
 If context/search_log.md exists, read it to avoid repeating previous searches.
 Use the literature-guardian agent in Mode 2 (Targeted Check).
-Follow the instructions in skills/literature-review-targeted/SKILL.md exactly.
+Follow the instructions in .claude/skills/literature-review/targeted/SKILL.md exactly.
 Update context/threat_map.md in place with a changelog entry for iteration $i.
 Update context/literature_constraints.md if new constraints are found.
 Append any new searches and papers reviewed to context/search_log.md.
@@ -252,7 +253,7 @@ Read context/research_plan.md, context/threat_map.md, context/research_context.m
 Use the research-evaluator agent in Mode 1 (Plan Evaluation).
 Write context/evaluator_feedback.md from scratch using the evaluation report schema.
 Update context/loop_state.md: set iteration to $i, update current_score, append to the history table.
-Apply the scoring formula: overall_score = min(novelty, mechanism_clarity, feasibility) * 0.6 + mean(all_seven) * 0.4
+Apply the scoring formula: overall_score = min(novelty, mechanism_clarity, feasibility) * 0.6 + mean(all_eight) * 0.4
 Apply hard failure conditions from context/evaluation_criteria.md.
 $LOG_INSTRUCTION" $SKIP_PERMS
 
@@ -303,7 +304,7 @@ write_phase_state 3 "Step 1" "Research Director M3 — Final Program"
 log "Step 1: Research Director Mode 3 (Final Program)..."
 run_claude "Phase 3 — Research Director M3" -p "You are running the research pipeline Phase 3, step 1.
 Read context/phase_state.md to understand your current position in the pipeline.
-Read context/research_plan.md, context/threat_map.md, and context/research_context.md.
+Read context/research_plan.md, context/threat_map.md, context/research_context.md, and context/literature_constraints.md.
 Use the research-director agent in Mode 3 (Final Research Program).
 Produce: context/research_plan_final.md, context/paper_structure.md, context/task_queue.md, and context/novelty_claims.md.
 $LOG_INSTRUCTION" $SKIP_PERMS
@@ -317,7 +318,7 @@ Read context/research_context.md, context/threat_map.md, context/novelty_claims.
 If context/literature_notes.md exists, read it too.
 If context/search_log.md exists, read it to see all prior searches and avoid duplication.
 Use the literature-guardian agent in Mode 3 (Deep Review).
-Follow the instructions in skills/literature-review-deep/SKILL.md exactly.
+Follow the instructions in .claude/skills/literature-review/deep/SKILL.md exactly.
 Produce: context/threat_map_final.md, context/literature_notes.md, context/literature_constraints.md, and context/literature_review.md.
 Append final search queries to context/search_log.md.
 Do NOT produce any .tex files.

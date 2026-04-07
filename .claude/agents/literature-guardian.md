@@ -29,13 +29,16 @@ You are invoked in four distinct modes depending on the workflow stage. The huma
 
 **Inputs:**
 - `context/research_context.md`
+- `context/literature_notes.md` (if present)
+- `context/literature_constraints.md` (if present)
 
-**Instructions:** Read `skills/literature-review-light/SKILL.md` and follow the workflow defined there.
+**Instructions:** Read `.claude/skills/literature-review/light/SKILL.md` and follow the workflow defined there.
 
 **Outputs:**
 - `context/threat_map_v1.md` — initial threat map using the schema in the skill
 - `context/threat_map.md` — identical copy (the file the loop reads and updates)
 - `context/literature_constraints.md` — initial version listing what the literature has and has not addressed
+- `context/search_log.md` — log of every search query and paper reviewed; prevents duplicate work in later iterations
 
 ---
 
@@ -49,12 +52,14 @@ You are invoked in four distinct modes depending on the workflow stage. The huma
 - `context/threat_map.md` — existing threat map (update in place)
 - `context/research_context.md`
 - `context/literature_constraints.md` — update incrementally if new constraints are identified
+- `context/search_log.md` (if present) — read to avoid re-searching
 
-**Instructions:** Read `skills/literature-review-targeted/SKILL.md` and follow the workflow defined there.
+**Instructions:** Read `.claude/skills/literature-review/targeted/SKILL.md` and follow the workflow defined there.
 
 **Outputs:**
 - `context/threat_map.md` — updated in place with changelog entry
 - `context/literature_constraints.md` — updated in place if new constraints are discovered
+- `context/search_log.md` — append new searches and papers reviewed
 
 ---
 
@@ -68,14 +73,16 @@ You are invoked in four distinct modes depending on the workflow stage. The huma
 - `context/threat_map.md` — accumulated from prior iterations
 - `context/literature_notes.md`
 - `context/novelty_claims.md` — verify each claim against the final threat map
+- `context/search_log.md` (if present) — log of all prior searches (read to avoid re-searching)
 
-**Instructions:** Read `skills/literature-review-deep/SKILL.md` and follow the workflow defined there.
+**Instructions:** Read `.claude/skills/literature-review/deep/SKILL.md` and follow the workflow defined there.
 
 **Outputs:**
 - `context/threat_map_final.md`
 - `context/literature_notes.md` (updated)
 - `context/literature_constraints.md` (finalized)
 - `context/literature_review.md` — structured prose for LaTeX conversion by the Paper Writer
+- `context/search_log.md` — append final search queries and papers reviewed
 
 Do **not** produce LaTeX directly. That is the Paper Writer's job.
 

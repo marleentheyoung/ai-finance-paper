@@ -1,6 +1,6 @@
 ---
 name: literature-review-light
-description: Conducts a rapid literature scan to identify novelty threats for a formal theory paper, working entirely from provided context files — no web search. Use when starting a new research project and needing an initial threat map before the planning loop begins. Also use when asked to do a "quick scan", "initial literature check", "threat map", or "novelty scan" for a research idea. Do NOT use for deep or exhaustive literature reviews (use literature-review-deep instead) or for targeted checks of a specific research plan iteration (use literature-review-targeted instead).
+description: Conducts a rapid literature scan to identify novelty threats for a formal theory paper, working primarily from provided context files with targeted web search to fill gaps. Use when starting a new research project and needing an initial threat map before the planning loop begins. Also use when asked to do a "quick scan", "initial literature check", "threat map", or "novelty scan" for a research idea. Do NOT use for deep or exhaustive literature reviews (use literature-review-deep instead) or for targeted checks of a specific research plan iteration (use literature-review-targeted instead).
 ---
 
 # Literature Review — Light (Quick Scan)
@@ -43,6 +43,8 @@ For each mechanism, note the foundational papers already listed in `research_con
 
 ### Step 2 — Extract and Supplement Papers
 
+For search strategy guidance (databases, search patterns, false positive patterns), see `.claude/skills/literature-review/references/finance_theory_search_heuristics.md`.
+
 First, identify all papers already referenced across the context files.
 
 Sources to mine:
@@ -67,14 +69,7 @@ For every paper identified (including those already in `research_context.md`), d
 2. **Threat level**: one of HIGH, MODERATE, LOW, or NONE
 3. **The precise differentiator**: what the paper does NOT do that the current project does
 
-Threat level definitions:
-
-- **HIGH** — The paper models the same formal mechanism with overlapping comparative statics. The proposed contribution may not survive.
-- **MODERATE** — The paper addresses the same economic question or uses a related model structure, but the formal mechanism differs. The contribution survives if the differentiator is clearly stated.
-- **LOW** — The paper is in the same broad literature but does not model the specific mechanism. Useful for positioning, not a threat.
-- **NONE** — Foundational paper that the project builds on. Not a threat but must be cited and engaged.
-
-When uncertain, classify as MODERATE and flag with `[UNVERIFIED]`.
+Threat level definitions and paper entry schema are defined in `.claude/skills/literature-review/shared-schemas.md`. Read that file for the canonical definitions of HIGH, MODERATE, LOW, and NONE, and the required fields per paper entry.
 
 ### Step 4 — Assess Aggregate Novelty Risk
 
@@ -89,7 +84,7 @@ After classifying all papers, make a brief overall assessment:
 
 ## Output
 
-Produce three files:
+Produce four files:
 
 **1. `context/threat_map_v1.md`** — the versioned initial threat map (permanent record of the starting state)
 
@@ -197,6 +192,24 @@ Coverage gaps: [mechanism areas with no papers on record]
 
 ### Papers requiring deeper investigation
 [List any papers classified as MODERATE or HIGH where the abstract was insufficient to make a definitive assessment. These will be checked in the targeted review.]
+```
+
+**4. `context/search_log.md`** — a log of every search query run and every paper reviewed, so future iterations can avoid duplicate work. Use this schema:
+
+```markdown
+# Search Log
+
+## Quick Scan — [YYYY-MM-DD]
+
+### Searches performed
+| # | Query / source | Papers found | Notes |
+|---|---------------|-------------|-------|
+| 1 | [search query or "mined from research_context.md"] | [n] | [brief note] |
+
+### Papers reviewed
+| Author-Year | Title | Source | Classified as | Channel |
+|-------------|-------|--------|--------------|---------|
+| [Author (Year)] | [Title] | [how found] | [threat level] | [channel] |
 ```
 
 ---
