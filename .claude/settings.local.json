@@ -1,0 +1,51 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(tree:*)",
+      "Bash(echo:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(mkdir:*)",
+      "Bash(python:*)",
+      "Bash(just:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "WebSearch",
+      "WebFetch(domain:scholar.google.com)",
+      "WebFetch(domain:ssrn.com)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:nber.org)",
+      "WebFetch(domain:papers.ssrn.com)",
+      "Bash(pip install:*)",
+      "Bash(bash -n /workspaces/ai-finance-paper/workflow/run_pipeline.sh && echo \"SYNTAX OK\")",
+      "Bash(for f:*)",
+      "Bash(.venv/bin/pytest tests/ -v 2>&1)",
+      "Bash(git config:*)",
+      "Bash(ls:*)",
+      "Bash(git -C /Users/marleendejonge/Projects/HumanxAI/ai-finance-paper ls-files)",
+      "Bash(docker run:*)",
+      "Bash(find /workspaces/ai-finance-paper/archive -type f -name \"*threat_map*\" -o -name \"*literature*\" -o -name \"*search_log*\" 2>/dev/null | head -20)",
+      "Bash(find /workspaces/ai-finance-paper -name \"SKILL.md\" -o -name \"*.skill\" 2>/dev/null | head -20)",
+      "Bash(mv .claude/skills/literature-review-common/threat_classification.md .claude/skills/literature-review/shared-schemas.md && mv .claude/skills/literature-review-light/references/finance_theory_search_heuristics.md .claude/skills/literature-review/references/ && mv .claude/skills/literature-review-light/references/threat_map_template.md .claude/skills/literature-review/references/ && mv .claude/skills/literature-review-light/SKILL.md .claude/skills/literature-review/light/ && mv .claude/skills/literature-review-targeted/SKILL.md .claude/skills/literature-review/targeted/ && mv .claude/skills/literature-review-deep/SKILL.md .claude/skills/literature-review/deep/)",
+      "Bash(rmdir .claude/skills/literature-review-common && rmdir .claude/skills/literature-review-light/references && rmdir .claude/skills/literature-review-light && rmdir .claude/skills/literature-review-targeted && rmdir .claude/skills/literature-review-deep)",
+      "Bash(echo \"=== context/ \\(current\\) ===\" && ls -1 /workspaces/ai-finance-paper/context/ 2>/dev/null; echo \"=== workflow/ ===\" && ls -1 /workspaces/ai-finance-paper/workflow/ 2>/dev/null; echo \"=== .claude/skills/literature-review/ ===\" && find /workspaces/ai-finance-paper/.claude/skills/literature-review/ -type f -name \"*.md\" | sort)",
+      "Bash(find .claude/agents/ .claude/skills/ workflow/ context/ -type f \\\\\\( -name \"*.md\" -o -name \"*.sh\" \\\\\\) -print0 | xargs -0 sed -i \\\\\n  -e 's|context/literature_review_post_review\\\\.md|context/literature/review_post_review.md|g' \\\\\n  -e 's|context/literature_constraints\\\\.md|context/literature/constraints.md|g' \\\\\n  -e 's|context/literature_review\\\\.md|context/literature/review.md|g' \\\\\n  -e 's|context/literature_notes\\\\.md|context/literature/notes.md|g' \\\\\n  -e 's|context/threat_map_final\\\\.md|context/literature/threat_map_final.md|g' \\\\\n  -e 's|context/threat_map_v1\\\\.md|context/literature/threat_map_v1.md|g' \\\\\n  -e 's|context/threat_map\\\\.md|context/literature/threat_map.md|g' \\\\\n  -e 's|context/research_plan_final\\\\.md|context/planning/research_plan_final.md|g' \\\\\n  -e 's|context/research_plan\\\\.md|context/planning/research_plan.md|g' \\\\\n  -e 's|context/search_log\\\\.md|context/literature/search_log.md|g' \\\\\n  -e 's|context/paper_structure\\\\.md|context/planning/paper_structure.md|g' \\\\\n  -e 's|context/task_queue\\\\.md|context/planning/task_queue.md|g' \\\\\n  -e 's|context/novelty_claims\\\\.md|context/planning/novelty_claims.md|g' && echo \"Bulk rename complete\")",
+      "Bash(bash -n workflow/run_pipeline.sh && echo \"Shell syntax OK\")",
+      "Bash(find /workspaces/ai-finance-paper -type f -not -path '*/\\\\.venv/*' -not -path '*/\\\\.git/*' -not -path '*/archive/*' -name \"*.bib\" -o -name \"*.cls\" -o -name \"*.sty\" 2>/dev/null | head -10)"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(rm -rf:*)",
+      "Bash(apt-get:*)",
+      "Bash(curl:*)",
+      "Bash(wget:*)"
+    ]
+  }
+}
