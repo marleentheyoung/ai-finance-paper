@@ -47,15 +47,7 @@ If you have a Claude Pro or Max subscription, Claude Code authenticates through 
    claude
    ```
 3. On first launch, Claude Code will open a browser window to authenticate with your Claude account. Follow the prompts to log in.
-4. Once authenticated, you can run pipeline steps interactively. For example:
-   ```
-   # Inside the Claude Code session, paste prompts from run_pipeline.sh,
-   # or ask Claude directly:
-   > Read context/research_context.md, then run as the Literature Guardian
-   >   in Mode 1 (Quick Scan) following skills/literature-review-light/SKILL.md.
-   >   Produce threat_map_v1.md, threat_map.md, literature_constraints.md,
-   >   and search_log.md in context/.
-   ```
+4. Once authenticated, follow the [Interactive Runbook](workflow/interactive_runbook.md) — it has the exact prompt to paste for every step across all four phases.
 5. You can also run Phase 4 (QA) this way, which requires interactive subagent dispatch — see [PIPELINE_MAP.md](PIPELINE_MAP.md#phase-4--pipeline-commands).
 
 > **Tip:** You can run the automated pipeline script with a subscription too — Claude Code's `claude -p` headless mode works with subscription auth. Just run `./workflow/run_pipeline.sh` as described in Option B. The only difference is rate limits may throttle long runs, whereas API keys have no rate limit (only cost).
@@ -184,7 +176,7 @@ The pipeline runs autonomously. Progress is logged to the terminal and to `workf
 claude
 ```
 
-Then paste individual step prompts from `workflow/run_pipeline.sh`, or describe what you want in natural language. This is useful for iterating on a single phase or debugging.
+Then follow the [Interactive Runbook](workflow/interactive_runbook.md), which has the exact prompt to paste for every step. This is useful for iterating on individual phases, inspecting intermediate outputs, or debugging.
 
 ### 6. Compile the paper
 
