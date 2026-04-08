@@ -63,10 +63,10 @@ This creates a Python virtual environment, installs all packages, and sets up pr
 
 ### 3. Authenticate Claude Code
 
-Choose based on your setup:
+You need either a **Claude Pro/Max subscription** or an **Anthropic API key**. You don't need to configure this in advance — the pipeline scripts ask you on launch. To prepare:
 
-- **Subscription:** Run `claude` in the devcontainer terminal and follow the browser login prompt.
-- **API key:** Export `ANTHROPIC_API_KEY` in your host shell profile (e.g. `~/.zshrc`), then **open VS Code from that terminal** with `code .` so it inherits the variable. The devcontainer passes it through automatically. You can also set it in the `.env` file, but this is less secure — Claude Code can read project files, so the key would be visible in agent context. Prefer the shell profile approach.
+- **Subscription:** Run `claude` in the devcontainer terminal and follow the browser login prompt to log in once.
+- **API key:** Export `ANTHROPIC_API_KEY` in your host shell profile (e.g. `~/.zshrc`), then **open VS Code from that terminal** with `code .` so it inherits the variable. The devcontainer passes it through automatically.
 
 ### 4. Choose your workflow
 
@@ -171,14 +171,15 @@ Make sure the [Dev Containers extension](https://marketplace.visualstudio.com/it
 - Make sure you're inside the devcontainer (the terminal prompt should show the container)
 - If you see permission errors, run: `sudo chown -R vscode:vscode /home/vscode`
 
-### Pipeline fails with "ANTHROPIC_API_KEY not set"
+### Pipeline fails with "ANTHROPIC_API_KEY is not set"
 
-If using an API key:
-- Export it in your host shell profile **before** opening the devcontainer, or
-- Set it in the `.env` file inside the project root
+This means you chose "API key" auth when the pipeline prompted you, but no key is in the environment. Either:
+- Export `ANTHROPIC_API_KEY` in your host shell profile **before** opening the devcontainer, or
+- Re-run the pipeline and choose "subscription" auth instead (this uses your browser login and doesn't need an API key)
 
-If using a Claude subscription:
-- Run `claude` interactively first to complete the browser login flow. Once authenticated, `claude -p` (headless mode) will use your subscription credentials automatically.
+### Pipeline fails silently or returns auth errors
+
+If you have both a subscription and a stale API key set, the API key takes precedence and may fail. Re-run the pipeline and choose "subscription" — this unsets the API key so Claude Code uses your browser login instead.
 
 ### Pipeline stops at Model Verifier with "FAIL"
 

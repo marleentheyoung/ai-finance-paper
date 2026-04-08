@@ -23,6 +23,9 @@
 #     --pause-on-reject     Stop the pipeline if the evaluator returns REJECT (score < 3.0).
 #                           Archives feedback and writes phase_state for human review.
 #                           Resume with --start-iteration N+1.
+#     --auth subscription   Use Claude subscription auth (unsets ANTHROPIC_API_KEY).
+#     --auth api            Use API key auth (fails if ANTHROPIC_API_KEY is not set).
+#                           If omitted, the script prompts interactively.
 #     --skip-permissions    Pass --dangerously-skip-permissions to every claude call.
 #                           Enabled by default; use --no-skip-permissions to disable.
 #
@@ -40,6 +43,7 @@ START_ITERATION=1   # first loop iteration to run (1 = normal start)
 START_PHASE=1       # first phase to run (1, 2, or 3)
 SKIP_PERMS="--dangerously-skip-permissions"
 PAUSE_ON_REJECT=false  # if true, stop the pipeline when evaluator returns REJECT
+AUTH_MODE=""           # subscription | api | "" (prompt interactively)
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -58,6 +62,14 @@ while [[ $# -gt 0 ]]; do
             if [[ "$START_PHASE" -eq 3 ]]; then START_ITERATION=$((MAX_ITERATIONS + 1)); fi
             shift 2
             ;;
+        --auth)
+            AUTH_MODE="${2:?--auth requires a value (subscription or api)}"
+            if [[ "$AUTH_MODE" != "subscription" && "$AUTH_MODE" != "api" ]]; then
+                echo "Invalid --auth value: $AUTH_MODE (must be 'subscription' or 'api')" >&2
+                exit 1
+            fi
+            shift 2
+            ;;
         --no-skip-permissions)
             SKIP_PERMS=""
             shift
@@ -68,7 +80,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         *)
             echo "Unknown flag: $1" >&2
-            echo "Usage: $0 [--start-iteration N] [--start-phase N] [--pause-on-reject] [--no-skip-permissions]" >&2
+            echo "Usage: $0 [--auth subscription|api] [--start-iteration N] [--start-phase N] [--pause-on-reject] [--no-skip-permissions]" >&2
             exit 1
             ;;
     esac
@@ -134,6 +146,51 @@ run_claude() {
     claude "$@"
     log_research "Pipeline" "Completed: $task_label"
 }
+
+# ── Auth mode selection ───────────────────────────────────────────────────
+
+if [[ -z "$AUTH_MODE" ]]; then
+    echo ""
+    echo "How do you want to authenticate Claude Code?"
+    echo ""
+    echo "  1) Claude subscription (Pro/Max — browser login)"
+    echo "  2) Anthropic API key"
+    echo ""
+    read -rp "Choose [1/2]: " auth_choice
+    case "$auth_choice" in
+        1) AUTH_MODE="subscription" ;;
+        2) AUTH_MODE="api" ;;
+        *)
+            echo "Invalid choice. Please enter 1 or 2." >&2
+            exit 1
+            ;;
+    esac
+fi
+
+case "$AUTH_MODE" in
+    subscription)
+        if [[ -n "${ANTHROPIC_API_KEY:-}" ]]; then
+            log "Unsetting ANTHROPIC_API_KEY so Claude Code uses subscription auth."
+        fi
+        unset ANTHROPIC_API_KEY
+        log "Auth: subscription (browser login)"
+        ;;
+    api)
+        if [[ -z "${ANTHROPIC_API_KEY:-}" ]]; then
+            echo ""
+            echo "ERROR: ANTHROPIC_API_KEY is not set."
+            echo ""
+            echo "Set it in your host shell profile before opening the devcontainer:"
+            echo "  export ANTHROPIC_API_KEY=\"sk-ant-your-key-here\""
+            echo ""
+            echo "Or set it in the .env file in the project root (less secure)."
+            exit 1
+        fi
+        log "Auth: API key (ANTHROPIC_API_KEY is set)"
+        ;;
+esac
+
+echo ""
 
 log "Pipeline starting — phase: $START_PHASE, first loop iteration: $START_ITERATION"
 
